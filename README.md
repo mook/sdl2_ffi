@@ -1,6 +1,11 @@
-# Sdl2Ffi
+# sdl2_ffi
 
-TODO: Write a gem description
+This is a simple interface to SDL2 for Ruby using FFI.  This effort has barely started.
+
+## Dependencies
+
+* Obviously, ruby
+* SDL2 Runtime (Development files are not needed.)
 
 ## Installation
 
@@ -18,7 +23,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The interface is intended to be modular and follows (roughly) SDL's header files.
 
 ## Contributing
 
@@ -27,3 +32,5 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+I specifically need help writing the minitest code.  
