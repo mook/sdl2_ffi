@@ -1,5 +1,6 @@
-require "sdl2_ffi/version"
+require 'sdl2'
+require 'ffi'
 
-module Sdl2Ffi
-  # Your code goes here...
-end
+# Alias the module, in case of confusion?
+SDL2_FFI = SDL2 
+Sdl2_Ffi = SDL2
