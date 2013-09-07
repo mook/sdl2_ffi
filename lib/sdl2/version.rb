@@ -1,3 +1,4 @@
+require 'sdl2'
 module Sdl2Ffi
   GEM_VERSION = "0.0.1"
   

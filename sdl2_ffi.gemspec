@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'sdl2_ffi/version'
+require 'sdl2/gem_version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'sdl2_ffi'
-  spec.version       = Sdl2Ffi::VERSION
+  spec.version       = SDL2::GEM_VERSION
   spec.authors       = ['BadQuanta']
   spec.email         = ['BadQuanta@Gmail.com']
   spec.description   = %q{Foreign Function Interface to SDL2 in Ruby }
