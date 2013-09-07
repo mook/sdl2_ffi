@@ -1,10 +1,6 @@
 require 'sdl2'
 
 module SDL2
-  # TODO: Should we use this here?
-  class FloatStruct < FFI::Struct
-    layout :float, :value      
-  end
   
   attach_function :gl_bind_texture, :SDL_GL_BindTexture, [Texture.by_ref, FloatStruct.by_ref, FloatStruct.by_ref], :int
   
@@ -53,9 +49,7 @@ module SDL2
     gl_extension_supported(extension) == :true
   end
   
-  class IntStruct < FFI::Struct
-    layout :int, :value
-  end
+  
   
   enum :gl_attr, [
     :red_size,
