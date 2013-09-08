@@ -1,5 +1,5 @@
 require 'ffi'
-require 'sdl2/init'
+
 module SDL2
   extend FFI::Library
 
@@ -16,14 +16,16 @@ module SDL2
   # Simple Type Structures to interface 'typed-pointers'
   # TODO: Research if this is the best way to handle 'typed-pointers'
   class FloatStruct < FFI::Struct
-    layout :float, :value      
+    layout :value, :float       
   end
   
   class IntStruct < FFI::Struct
-    layout :int, :value
+    layout :value, :int
   end
   
   class UInt16Struct < FFI::Struct
-    layout :uint16, :value
+    layout :value, :uint16
   end
+  
+  
 end

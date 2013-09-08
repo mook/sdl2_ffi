@@ -1,4 +1,5 @@
 require 'sdl2'
+
 module SDL2
 
   attach_function :clear_error, :SDL_ClearError, [], :void
