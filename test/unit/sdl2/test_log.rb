@@ -1,13 +1,17 @@
 require_relative '../../test_helper'
 
+require 'sdl2/init'
 require 'sdl2/log'
 
+
 describe SDL2 do
- 
-  OUTPUT_CALLBACK = Proc.new do |ptr, category, priority, msg|
-    @@last_output = msg
+  before do
+    SDL2.init(SDL2::INIT_EVERYTHING)
   end
   
+  after do
+    SDL2.quit()
+  end
   it 'has the log API' do    
     [
       :log, :log_critical, :log_debug, :log_error, :log_get_output_function,
@@ -35,32 +39,27 @@ describe SDL2 do
     SDL2::Log.warn(:input, 'Test %f', :float, 88.21212)
     
     SDL2.log_verbose(:input, 'Test %d', :int, 8)
-    SDL2::Log.verbose(:test, 'Test %f', :float, 1234.5)      
+    SDL2::Log.verbose(:test, 'Test %f', :float, 1234.5)
+        
   end
-  
-  it 'lets you get the output function and data pointer' do
-  
-    skip
-    callback_ptr = FFI::MemoryPointer.new FFI::Function, 1
-    data = FFI::MemoryPointer.new :pointer, 1 
-    SDL2.log_get_output_function(callback_ptr, data)
-    callback = FFI::Function.new(:void, [:pointer, :int, :int, :string], callback_ptr)
-    callback.call(data, 1, 1, "Hello There!")
-  
-    
-  end
-  
-  TestFunc = Proc.new do ||
-    puts "Test Function Called!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-  end
-  
-  TEST_DATA = FFI::Pointer.new :string, 1
-  
-  
-  it 'lets you set the output function and data pointer' do
-    SDL2.log_set_output_function(TestFunc, TEST_DATA)
-  end
-  
+#  
+#  it 'lets you get the output function and data pointer' do
+#  
+#    
+#  end
+#  @@called = false
+#  TestFunc = Proc.new do ||
+#    puts "Test Function Called!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+#    @@called = true
+#  end
+#  
+#  TEST_DATA = FFI::Pointer.new :string, 1
+#  
+#  
+#  it 'lets you set the output function and data pointer' do
+#    SDL2.log_set_output_function(TestFunc, TEST_DATA)
+#  end
+#  
   it 'lets you set the log priority' do
     [
       :application, :error, :assert, :system,
