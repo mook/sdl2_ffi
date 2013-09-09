@@ -28,6 +28,14 @@ module SDL2
     def self.verbose(category, msg, *args)
       SDL2.log_verbose(category, msg, *args)
     end
+    
+    def self.set_priority(category, priority)
+      SDL2.log_set_priority(category, priority)
+    end
+    
+    def self.get_priority(category)
+      SDL2.log_get_priority(category)
+    end
   end
 
   enum :log_priority, [:verbose, 1, :debug, :info, :warn, :error, :critical]
