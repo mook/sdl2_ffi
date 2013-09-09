@@ -1,6 +1,6 @@
 require 'sdl2'
-module Sdl2Ffi
-  GEM_VERSION = "0.0.1"
+
+module SDL2  
   
   class Version < FFI::Struct
     layout :major, :uint8,
@@ -24,7 +24,7 @@ module Sdl2Ffi
     end
   end
   
-  attach_function :SDL_GetRevision, [], :string
-  attach_function :SDL_GetRevisionNumber, [], :int
-  attach_function :SDL_GetVersion, [Version.by_ref], :void
+  attach_function :get_revision, :SDL_GetRevision, [], :string
+  attach_function :get_revision_number, :SDL_GetRevisionNumber, [], :int
+  attach_function :get_version, :SDL_GetVersion, [Version.by_ref], :void
 end
