@@ -1,10 +1,12 @@
 require 'ffi'
+require 'sdl2/sdl_module'
 
 module SDL2
   extend FFI::Library
+    
 
   # TODO: Review default/hard-coded load paths?
-  ffi_lib ['libSDL2','/usr/local/lib/libSDL2.so']
+  ffi_lib SDL_MODULE
 
   # SDL_Bool
   enum :bool, [:false, 0, :true, 1]
