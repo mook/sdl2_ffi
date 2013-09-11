@@ -1,6 +1,6 @@
 require_relative '../../test_helper'
 
-require 'sdl2/video'
+require 'sdl2/video' # Window is a part of the Video API
 
 describe SDL2::Window do
   

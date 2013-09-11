@@ -72,8 +72,8 @@ module SDL2
   attach_function :fill_rect, :SDL_FillRect, [Surface.by_ref, Rect.by_ref, :uint32], :int
   attach_function :fill_rects, :SDL_FillRects, [Surface.by_ref, Rect.by_ref, :count, :uint32], :int
   attach_function :upper_blit, :SDL_UpperBlit, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int
-  alias_method :blit_surface, :upper_blit # TODO: Review if this is what line 447 means.
-  alias_class_method :blit_surface, :upper_blit
+  #alias_method :blit_surface, :upper_blit # TODO: Review if this is what line 447 means.
+  #alias_class_method :blit_surface, :upper_blit
   attach_function :lower_blit, :SDL_LowerBlit, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int
   attach_function :soft_stretch, :SDL_SoftStretch, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int
   attach_function :upper_blit_scaled, :SDL_UpperBlitScaled, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int

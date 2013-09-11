@@ -19,6 +19,6 @@ describe SDL2 do
       :get_rgba,
     ].each do |function|
       assert_respond_to SDL2, function
-    end
+    end  
   end
 end

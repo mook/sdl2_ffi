@@ -6,7 +6,7 @@ require 'sdl2/surface'
 
 #require 'sdl2/renderer'
 #require 'sdl2/texture'
-require 'sdl2/sys_wm_info'
+require 'sdl2/syswm/info'
 
 #
 module SDL2
