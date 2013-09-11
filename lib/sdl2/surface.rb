@@ -1,4 +1,5 @@
 require 'sdl2'
+require 'sdl2/rect'
 require 'sdl2/pixel_format'
 
 module SDL2

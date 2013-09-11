@@ -1,11 +1,11 @@
 require 'sdl2'
 require 'sdl2/rect'
-require 'sdl2/video/window'
-require 'sdl2/video/renderer'
-require 'sdl2/video/texture'
-require 'sdl2/video/gl_context'
-require 'sdl2/video/glattr'
-require 'sdl2/video/display_mode'
+require 'sdl2/window'
+require 'sdl2/renderer'
+require 'sdl2/texture'
+require 'sdl2/gl_context'
+require 'sdl2/glattr'
+require 'sdl2/display'
 require 'sdl2/surface'
 require 'sdl2/sys_wm_info'
 # 
@@ -37,12 +37,12 @@ module SDL2
   attach_function :gl_swap_window, :SDL_GL_SwapWindow, [Window.by_ref], :void
   attach_function :gl_unbind_texture, :SDL_GL_UnbindTexture, [Texture.by_ref], :int
   attach_function :gl_unload_library, :SDL_GL_UnloadLibrary, [], :void
-  attach_function :get_closest_display_mode, :SDL_GetClosestDisplayMode,  [:display_index, DisplayMode.by_ref, DisplayMode.by_ref], DisplayMode.by_ref
-  attach_function :get_current_display_mode, :SDL_GetCurrentDisplayMode, [:int, DisplayMode.by_ref], :int
+  attach_function :get_closest_display_mode, :SDL_GetClosestDisplayMode,  [:display_index, Display::Mode.by_ref, Display::Mode.by_ref], Display::Mode.by_ref
+  attach_function :get_current_display_mode, :SDL_GetCurrentDisplayMode, [:int, Display::Mode.by_ref], :int
   attach_function :get_current_video_driver, :SDL_GetCurrentVideoDriver, [], :string
-  attach_function :get_desktop_display_mode, :SDL_GetDesktopDisplayMode, [:int, DisplayMode.by_ref], :int
+  attach_function :get_desktop_display_mode, :SDL_GetDesktopDisplayMode, [:int, Display::Mode.by_ref], :int
   attach_function :get_display_bounds, :SDL_GetDisplayBounds, [:int, Rect.by_ref], :int
-  attach_function :get_display_mode, :SDL_GetDisplayMode, [:int, :int, DisplayMode.by_ref], :int
+  attach_function :get_display_mode, :SDL_GetDisplayMode, [:int, :int, Display::Mode.by_ref], :int
   attach_function :get_num_display_modes, :SDL_GetNumDisplayModes, [:int], :int
   attach_function :get_num_video_displays, :SDL_GetNumVideoDisplays, [], :int
   attach_function :get_num_video_drivers, :SDL_GetNumVideoDrivers, [], :int
@@ -50,7 +50,7 @@ module SDL2
   attach_function :get_window_brightness, :SDL_GetWindowBrightness, [Window.by_ref], :float
   attach_function :get_window_data, :SDL_GetWindowData, [Window.by_ref, :string], :pointer
   attach_function :get_window_display_index, :SDL_GetWindowDisplayIndex, [Window.by_ref], :int
-  attach_function :get_window_display_mode, :SDL_GetWindowDisplayMode, [Window.by_ref, DisplayMode.by_ref], :int
+  attach_function :get_window_display_mode, :SDL_GetWindowDisplayMode, [Window.by_ref, Display::Mode.by_ref], :int
   attach_function :get_window_flags, :SDL_GetWindowFlags, [Window.by_ref], :uint32
   attach_function :get_window_from_id, :SDL_GetWindowFromID, [:uint32], Window.by_ref
   attach_function :get_window_gamma_ramp, :SDL_GetWindowGammaRamp, [Window.by_ref, UInt16Struct.by_ref, UInt16Struct.by_ref, UInt16Struct.by_ref], :int

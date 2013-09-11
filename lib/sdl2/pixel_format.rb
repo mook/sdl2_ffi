@@ -19,6 +19,8 @@ module SDL2
       :a_loss, :uint8,
       :refcount, :int,
       :next, PixelFormat.by_ref
+      
+      
   end
   
 end
