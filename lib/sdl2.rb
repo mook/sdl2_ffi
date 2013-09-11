@@ -75,6 +75,8 @@ module SDL2
     layout :value, :blend_mode
   end
   
+  typedef :uint32, :pixel_format
+  
   # Simple typedef to represent array sizes.
   typedef :int, :count
   

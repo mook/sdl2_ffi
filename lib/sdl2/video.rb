@@ -11,7 +11,7 @@ require 'sdl2/sys_wm_info'
 #
 module SDL2
   typedef :int, :display_index
-  typedef :uint32, :pixel_format
+  
 
   enum :window_flags, [
     :fullscreen, Window::FULLSCREEN,

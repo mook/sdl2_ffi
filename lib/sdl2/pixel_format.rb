@@ -2,9 +2,9 @@ require 'sdl2'
 require 'sdl2/palette'
 
 module SDL2
-  
+  #SDL_pixels.h:272~293
   class PixelFormat < FFI::Struct
-    layout :format, :uint32,
+    layout :format, :pixel_format,
       :palette, Palette.by_ref,
       :bits_per_pixel, :uint8,
       :bytes_per_pixel, :uint8,
@@ -20,7 +20,9 @@ module SDL2
       :refcount, :int,
       :next, PixelFormat.by_ref
       
-      
+    def self.release(pointer)
+      SDL2.free_format(pointer)
+    end
   end
   
 end
