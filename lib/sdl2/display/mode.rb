@@ -3,6 +3,7 @@ require 'sdl2'
 module SDL2
   
   class Display
+    # Converted from 'SDL_video.h':53
     class Mode < Struct
       layout :format, :uint32,
         :w, :int,

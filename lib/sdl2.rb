@@ -3,7 +3,6 @@ require 'sdl2/sdl_module'
 
 module SDL2
   extend FFI::Library
-
   
   class Struct < FFI::Struct
     def initialize(*args, &block)
@@ -56,5 +55,27 @@ module SDL2
     layout :value, :uint16
   end
   
+  class UInt32Struct < FFI::Struct
+    layout :value, :uint32
+  end
+  
+  class UInt8Struct < FFI::Struct
+    layout :value, :uint8
+  end
+  
+  # TODO: Review if this is the best place to put it. 
+  # BlendMode is defined in a header file that is always included, so I'm defineing again here.
+  enum :blend_mode, [
+      :none, 0x00000000,     
+      :blend, 0x00000001,    
+      :add, 0x00000002,      
+      :mod, 0x00000004 
+    ]
+  class BlendModeStruct < FFI::Struct
+    layout :value, :blend_mode
+  end
+  
+  # Simple typedef to represent array sizes.
+  typedef :int, :count
   
 end

@@ -9,83 +9,84 @@ require 'sdl2/video'
 # What the Ruby version of the SDL_video.h API should look like
 #
 VIDEO_API = [
-  :create_window,
-  :create_window_and_renderer,
-  :create_window_from,
-  :destroy_window,
-  :disable_screen_saver,
-  :enable_screen_saver,
-  :gl_bind_texture,
-  :gl_create_context,
-  :gl_delete_context,
-  :gl_extension_supported,
-  :gl_get_attribute,
-  :gl_get_proc_address,
-  :gl_get_swap_interval,
-  :gl_load_library,
-  :gl_make_current,
-  :gl_set_attribute,
-  :gl_set_swap_interval,
-  :gl_swap_window,
-  :gl_unbind_texture,
-  :gl_unload_library,
-  :get_closest_display_mode,
-  :get_current_display_mode,
-  :get_current_video_driver,
-  :get_desktop_display_mode,
-  :get_display_bounds,
-  :get_display_mode,
-  :get_num_display_modes,
-  :get_num_video_displays,
   :get_num_video_drivers,
   :get_video_driver,
-  :get_window_brightness,
-  :get_window_data,
+  :video_init,
+  :video_quit,
+  :get_current_video_driver,
+  :get_num_video_displays,
+  :get_display_name,
+  :get_display_bounds,
+  :get_num_display_modes,
+  :get_display_mode,
+  :get_desktop_display_mode,
+  :get_current_display_mode,
+  :get_closest_display_mode,
   :get_window_display_index,
+  :set_window_display_mode,
   :get_window_display_mode,
-  :get_window_flags,
-  :get_window_from_id,
-  :get_window_gamma_ramp,
-  :get_window_grab,
-  :get_window_id,
-  :get_window_maximum_size,
-  :get_window_minimum_size,
   :get_window_pixel_format,
-  :get_window_position,
-  :get_window_size,
-  :get_window_surface,
+  :create_window,
+  :create_window_from,
+  :get_window_from_id,
+  :get_window_id,
+  :get_window_flags,
   :get_window_title,
-  :get_window_wm_info,
+  :set_window_title,
+  :set_window_icon,
+  :set_window_data,
+  :get_window_data,
+  :set_window_position,
+  :get_window_position,
+  :set_window_size,
+  :get_window_size,
+  :set_window_maximum_size,
+  :get_window_maximum_size,
+  :set_window_minimum_size,
+  :get_window_minimum_size,
+  :set_window_bordered,
+  :show_window,
   :hide_window,
-  :is_screen_saver_enabled,
+  :raise_window,
   :maximize_window,
   :minimize_window,
-  :raise_window,
   :restore_window,
-  :set_window_brightness,
-  :set_window_data,
-  :set_window_display_mode,
   :set_window_fullscreen,
-  :set_window_gamma_ramp,
-  :set_window_grab,
-  :set_window_icon,
-  :set_window_maximum_size,
-  :set_window_minimum_size,
-  :set_window_position,
-  :set_window_size,
-  :set_window_title,
-  :show_window,
+  :get_window_surface,
   :update_window_surface,
   :update_window_surface_rects,
-  :video_init,
-  :video_quit
+  :get_window_grab,
+  :set_window_grab,
+  :get_window_brightness,
+  :set_window_brightness,
+  :get_window_gamma_ramp,
+  :set_window_gamma_ramp,
+  :destroy_window,
+  :is_screen_saver_enabled,
+  :disable_screen_saver,
+  :enable_screen_saver,
+  :gl_load_library,
+  :gl_get_proc_address,
+  :gl_unload_library,
+  :gl_extension_supported,
+  :gl_set_attribute,
+  :gl_get_attribute,
+  :gl_create_context,
+  :gl_make_current,
+  :gl_get_current_window,
+  :gl_get_current_context,
+  :gl_set_swap_interval,
+  :gl_get_swap_interval,
+  :gl_delete_context,
+  :gl_swap_window
+
 ]
 
 describe SDL2 do
   before do
     assert(SDL2.init(SDL2::INIT_VIDEO) == 0, 'Video initialized.')
   end
- 
+
   after do
     SDL2.quit()
   end
@@ -143,7 +144,7 @@ describe SDL2 do
     SDL2::Display::Mode.new do |wanted|
 
       wanted.format = 0 #SDL2::PIXELFORMAT_RGBA8888 #TODO: Import PIXELFORMAT
-# constants?
+      # constants?
       wanted.w = 640
       wanted.h = 480
       wanted.refresh_rate = 60
@@ -151,19 +152,19 @@ describe SDL2 do
 
       closest_display_mode_found = SDL2::Display.first.closest_display_mode!(wanted)
     end # This should automatically dispose of the display_mode struct we created
-# as wanted
+    # as wanted
     assert_kind_of SDL2::Display::Mode, closest_display_mode_found
 
   end
-
-  describe SDL2::GLContext do
-
-    it 'can create gl_context' do
-      window = SDL2::Window.create!()
-      context = SDL2::GLContext.create!(window)
-      assert_kind_of SDL2::GLContext, context
-    end
-
-  end
+  #TODO: Redo GLContext testing
+  #describe SDL2::GLContext do
+  #
+  #    it 'can create gl_context' do
+  #      window = SDL2::Window.create!()
+  #      context = SDL2::GLContext.create!(window)
+  #      assert_kind_of SDL2::GLContext, context
+  #    end
+  #
+  #  end
 
 end

@@ -1,4 +1,5 @@
 require 'sdl2'
+require 'sdl2/display/modes'
 require 'sdl2/display/mode'
 
 module SDL2
@@ -6,42 +7,16 @@ module SDL2
   # Abstract representation of what SDL calls a "Display"
   class Display
 
-    class Modes
-
-      def initialize(for_display)
-        @for_display = for_display
-      end
-
-      def count
-        SDL2.get_num_display_modes(@for_display.id)
-      end
-
-      # TODO: Probably leaks memory.. WeakRef cache?
-      def [](index)
-        if (idx = index.to_i) < count
-          dm_buffer = SDL2::Display::Mode.new
-          if SDL2.get_display_mode(@for_display.id, idx, dm_buffer) == 0
-            return dm_buffer
-          else
-            dm_buffer.pointer.free
-          end
-        else
-          return nil
-        end
-      end
-
-      def first
-        self[0]
-      end
-
-    end
-
-    attr_reader :id
-    attr_reader :modes
-
+    attr_reader :id   
+       
     def initialize(display_id)
       @id = display_id.to_i # It should be an integer.
-      @modes = Modes.new(self)
+      
+    end
+
+        
+    def modes
+      @modes ||= Modes.new(self)
     end
 
     def self.[](display_id)

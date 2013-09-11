@@ -1,6 +1,8 @@
+require 'sdl2'
+require 'sdl2/renderer_info'
 module SDL2
   
-  class Renderer < FFI::Struct
+  class Renderer < Struct
     layout :blank, :uint8 # Ignore Structure?
     SOFTWARE       = 0x00000001         
     ACCELERATED    = 0x00000002      
@@ -28,23 +30,7 @@ module SDL2
     end
     
   end    
-  
-  enum :renderer_flags, [
-      :software, Renderer::SOFTWARE,
-      :accelerated, Renderer::ACCELERATED,
-      :present_vsync, Renderer::PRESENTVSYNC,
-      :target_texture, Renderer::TARGETTEXTURE
-    ]
-  
-    
-  class RendererInfo < FFI::Struct              
-    layout :name, :string,
-      :flags, :uint32,
-      :num_texture_formats, :uint32,
-      :texture_formats, [:uint32, 16],
-      :max_texture_width, :int,
-      :max_texture_height, :int
-  end
+   
   
   #TODO: Move this to the right spot.
 #  attach_function :create_renderer, :SDL_CreateRenderer, [Window.by_ref, :int, :render_flags], Render.auto_ptr

@@ -1,4 +1,4 @@
-require 'sdl'
+require 'sdl2'
 
 module SDL2
   class Point < FFI::Struct
