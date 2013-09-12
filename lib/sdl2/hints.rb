@@ -39,9 +39,9 @@ module SDL2
     end
   end
 
-  attach_function :clear_hints, :SDL_ClearHints, [], :void
-  attach_function :get_hint, :SDL_GetHint, [:string], :string
-  attach_function :set_hint, :SDL_SetHint, [:string, :string], :bool
-  attach_function :set_hint_with_priority, :SDL_SetHintWithPriority, [:string, :string, :hint_priority], :bool
+  api :SDL_ClearHints, [], :void
+  api :SDL_GetHint, [:string], :string
+  api :SDL_SetHint, [:string, :string], :bool
+  api :SDL_SetHintWithPriority, [:string, :string, :hint_priority], :bool
 
 end

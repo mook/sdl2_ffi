@@ -24,7 +24,7 @@ module SDL2
     end
   end
   
-  attach_function :get_revision, :SDL_GetRevision, [], :string
-  attach_function :get_revision_number, :SDL_GetRevisionNumber, [], :int
-  attach_function :get_version, :SDL_GetVersion, [Version.by_ref], :void
+  api :SDL_GetRevision, [], :string
+  api :SDL_GetRevisionNumber, [], :int
+  api :SDL_GetVersion, [Version.by_ref], :void
 end

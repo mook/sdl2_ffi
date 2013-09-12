@@ -1,5 +1,6 @@
 require 'sdl2'
 require 'sdl2/error'
+
 module SDL2
   # SDL Constants, for OR'ing them
   INIT_TIMER          = 0x00000001
@@ -27,27 +28,27 @@ module SDL2
     :everything, INIT_EVERYTHING
   ]
 
-  attach_function :init, :SDL_Init, [:init_flag], :int
+  api :SDL_Init, [:init_flag], :int
 
   def self.init!(flags)
     error_code = init(flags)
     if (error_code != 0)
       throw get_error()
-    end    
+    end
   end
-  
-  attach_function :init_sub_system, :SDL_InitSubSystem, [:init_flag], :int  
-   
+
+  api :SDL_InitSubSystem, [:init_flag], :int
+
   def init_sub_system!(flags)
     error_code = init_sub_system(flags)
     if (error_code != 0)
       throw get_error
     end
   end
-  
-  attach_function :was_init, :SDL_WasInit, [:init_flag], :uint32
-  
-  attach_function :quit, :SDL_Quit, [], :void
-    
-  attach_function :quit_sub_system, :SDL_QuitSubSystem, [:init_flag], :void
+
+  api :SDL_WasInit, [:init_flag], :uint32
+
+  api :SDL_Quit, [], :void
+
+  api :SDL_QuitSubSystem, [:init_flag], :void
 end

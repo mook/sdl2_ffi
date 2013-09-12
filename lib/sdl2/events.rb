@@ -73,12 +73,12 @@ module SDL2
   COMMON_EVENT_LAYOUT = [:type, :uint32, :timestamp, :uint32]
   
   class CommonEvent < Struct
-    layout COMMON_EVENT_LAYOUT
+    layout *COMMON_EVENT_LAYOUT
     
   end
   
   class WindowEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :windowID, :uint32,
       :event, :uint8,
       :padding1, :uint8,
@@ -90,7 +90,7 @@ module SDL2
   end
   
   class KeyboardEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :windowID, :uint32,
       :state, :uint8,
       :repeat, :uint8,
@@ -102,7 +102,7 @@ module SDL2
   
   class TextEditingEvent < Struct
     TEXT_SIZE = 32 # Line 188
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :windowID, :uint32,
       :char, [:char, TEXT_SIZE],
       :start, :int32,
@@ -112,14 +112,14 @@ module SDL2
   
   class TextInputEvent < Struct
     TEXT_SIZE = 32 # Line 203
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :windowID, :uint32,
       :char, [:char, TEXT_SIZE]      
     ]
   end
   
   class MouseMotionEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :windowID, :uint32,
       :which, :uint32,
       :state, :uint32,
@@ -131,7 +131,7 @@ module SDL2
   end
   
   class MouseButtonEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :windowID, :uint32,
       :which, :uint32,
       :button, :uint8,
@@ -144,7 +144,7 @@ module SDL2
   end
    
   class MouseWheelEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :windowID, :uint32,
       :which, :uint32,
       :x, :int32,
@@ -153,8 +153,8 @@ module SDL2
   end
   
   class JoyAxisEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
-      :which, :joystickID,
+    layout *COMMON_EVENT_LAYOUT + [
+      :which, :joystick_id,
       :axis, :uint8,
       :padding1, :uint8,
       :padding2, :uint8,
@@ -165,8 +165,8 @@ module SDL2
   end
   
   class JoyBallEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
-      :which, :joystickID,
+    layout *COMMON_EVENT_LAYOUT + [
+      :which, :joystick_id,
       :ball, :uint8,
       :padding1, :uint8,
       :padding2, :uint8,
@@ -177,8 +177,8 @@ module SDL2
   end
   
   class JoyHatEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
-      :which, :joystickID,
+    layout *COMMON_EVENT_LAYOUT + [
+      :which, :joystick_id,
       :hat, :uint8,
       :value, :uint8,
       :padding1, :uint8,
@@ -187,8 +187,8 @@ module SDL2
   end
   
   class JoyButtonEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
-      :which, :joystickID,
+    layout *COMMON_EVENT_LAYOUT + [
+      :which, :joystick_id,
       :button, :uint8,
       :state, :uint8,
       :padding1, :uint8,
@@ -197,14 +197,14 @@ module SDL2
   end
   
   class JoyDeviceEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
-      :which, :joystickID
+    layout *COMMON_EVENT_LAYOUT + [
+      :which, :joystick_id
     ]    
   end
   
-  class ControllerAxisEvent < Stuct
-    layout COMMON_EVENT_LAYOUT + [
-      :which, :joystickID,
+  class ControllerAxisEvent < Struct
+    layout *COMMON_EVENT_LAYOUT + [
+      :which, :joystick_id,
       :axis, :uint8,
       :padding1, :uint8,
       :padding2, :uint8,
@@ -215,8 +215,8 @@ module SDL2
   end
   
   class ControllerButtonEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
-      :which, :joystickID,
+    layout *COMMON_EVENT_LAYOUT + [
+      :which, :joystick_id,
       :button, :uint8,
       :state, :uint8,
       :padding1, :uint8,
@@ -225,13 +225,13 @@ module SDL2
   end
   
   class ControllerDeviceEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
-      :which, :joystickID
+    layout *COMMON_EVENT_LAYOUT + [
+      :which, :joystick_id
     ]
   end
   
   class TouchFingerEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :touchId, :touch_id,
       :fingerId, :finger_id,
       :x, :float,
@@ -243,7 +243,7 @@ module SDL2
   end
   
   class MultiGestureEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :touchId, :touch_id,
       :dTheta, :float,
       :dDist, :float,
@@ -255,7 +255,7 @@ module SDL2
   end
   
   class DollarGestureEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :touchId, :touch_id,
       :gestureId, :gesture_id,
       :numFingers, :uint32,
@@ -266,22 +266,22 @@ module SDL2
   end
   
   class DropEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :file, :string
     ]    
   end
   
   class QuitEvent < Struct
-    layout COMMON_EVENT_LAYOUT
+    layout *COMMON_EVENT_LAYOUT
   end
   
   class OSEvent < Struct
-    layout COMMON_EVENT_LAYOUT
+    layout *COMMON_EVENT_LAYOUT
   end
   
   
   class UserEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :windowID, :uint32,
       :code, :int32,
       :data1, :pointer,
@@ -290,7 +290,7 @@ module SDL2
   end
 
   class SysWMEvent < Struct
-    layout COMMON_EVENT_LAYOUT + [
+    layout *COMMON_EVENT_LAYOUT + [
       :msg, SDL2::SysWM::Msg.by_ref
     ]
   end  
@@ -339,7 +339,7 @@ module SDL2
   end
   
   attach_function :set_event_filter, :SDL_SetEventFilter, [:event_filter, :pointer], :void
-  attach_function :get_event_filter, :SDL_GetEventFilter, [:pointer, :pointer], bool
+  attach_function :get_event_filter, :SDL_GetEventFilter, [:pointer, :pointer], :bool
   attach_function :add_event_watch, :SDL_AddEventWatch, [:event_filter, :pointer], :void
   attach_function :del_event_watch, :SDL_DelEventWatch, [:event_filter, :pointer], :void
   attach_function :filter_events, :SDL_FilterEvents, [:event_filter, :pointer], :void

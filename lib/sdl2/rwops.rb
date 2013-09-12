@@ -103,25 +103,25 @@ module SDL2
     
   end
   
-  attach_function :rw_from_file, :SDL_RWFromFile, [:string, :string], RWops.auto_ptr
-  attach_function :rw_from_fp, :SDL_RWFromFP, [:pointer, :bool], RWops.auto_ptr
-  attach_function :rw_from_mem, :SDL_RWFromMem, [:pointer, :count], RWops.auto_ptr
-  attach_function :rw_from_const_mem, :SDL_RWFromConstMem, [:pointer, :count], RWops.auto_ptr
-  attach_function :alloc_rw, :SDL_AllocRW, [], RWops.auto_ptr
-  attach_function :free_rw, :SDL_FreeRW, [RWops.by_ref], :void
-  attach_function :read_u8, :SDL_ReadU8, [RWops.by_ref], :uint8
-  attach_function :read_le16, :SDL_ReadLE16, [RWops.by_ref], :uint16
-  attach_function :read_be16, :SDL_ReadBE16, [RWops.by_ref], :uint16
-  attach_function :read_le32, :SDL_ReadLE32, [RWops.by_ref], :uint32
-  attach_function :read_be32, :SDL_ReadBE32, [RWops.by_ref], :uint32
-  attach_function :read_le64, :SDL_ReadLE64, [RWops.by_ref], :uint64
-  attach_function :read_be64, :SDL_ReadBE64, [RWops.by_ref], :uint64
+  api :SDL_RWFromFile, [:string, :string], RWops.auto_ptr
+  api :SDL_RWFromFP, [:pointer, :bool], RWops.auto_ptr
+  api :SDL_RWFromMem, [:pointer, :count], RWops.auto_ptr
+  api :SDL_RWFromConstMem, [:pointer, :count], RWops.auto_ptr
+  api :SDL_AllocRW, [], RWops.auto_ptr
+  api :SDL_FreeRW, [RWops.by_ref], :void
+  api :SDL_ReadU8, [RWops.by_ref], :uint8
+  api :SDL_ReadLE16, [RWops.by_ref], :uint16
+  api :SDL_ReadBE16, [RWops.by_ref], :uint16
+  api :SDL_ReadLE32, [RWops.by_ref], :uint32
+  api :SDL_ReadBE32, [RWops.by_ref], :uint32
+  api :SDL_ReadLE64, [RWops.by_ref], :uint64
+  api :SDL_ReadBE64, [RWops.by_ref], :uint64
   
-  attach_function :write_u8, :SDL_WriteU8, [RWops.by_ref, :uint8], :size_t
-  attach_function :write_le16, :SDL_WriteLE16, [RWops.by_ref, :uint16], :size_t
-  attach_function :write_be16, :SDL_WriteBE16, [RWops.by_ref, :uint16], :size_t
-  attach_function :write_le32, :SDL_WriteLE32, [RWops.by_ref, :uint32], :size_t
-  attach_function :write_be32, :SDL_WriteBE32, [RWops.by_ref, :uint32], :size_t
-  attach_function :write_le64, :SDL_WriteLE64, [RWops.by_ref, :uint64], :size_t
-  attach_function :write_be64, :SDL_WriteBE64, [RWops.by_ref, :uint64], :size_t
+  api :SDL_WriteU8, [RWops.by_ref, :uint8], :size_t
+  api :SDL_WriteLE16, [RWops.by_ref, :uint16], :size_t
+  api :SDL_WriteBE16, [RWops.by_ref, :uint16], :size_t
+  api :SDL_WriteLE32, [RWops.by_ref, :uint32], :size_t
+  api :SDL_WriteBE32, [RWops.by_ref, :uint32], :size_t
+  api :SDL_WriteLE64, [RWops.by_ref, :uint64], :size_t
+  api :SDL_WriteBE64, [RWops.by_ref, :uint64], :size_t
 end

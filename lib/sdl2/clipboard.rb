@@ -21,7 +21,7 @@ module SDL2
     end
   end
 
-  attach_function :set_clipboard_text, :SDL_SetClipboardText, [:string], :int
-  attach_function :get_clipboard_text, :SDL_GetClipboardText, [], :string
-  attach_function :has_clipboard_text, :SDL_HasClipboardText, [], :bool
+  api :SDL_SetClipboardText, [:string], :int
+  api :SDL_GetClipboardText, [], :string
+  api :SDL_HasClipboardText, [], :bool
 end
