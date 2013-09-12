@@ -1,6 +1,8 @@
 # sdl2_ffi
 
-This is a simple interface to SDL2 for Ruby using FFI.  This effort has barely started.
+This is a simple interface to SDL2 for Ruby using FFI.  It also supports SDL_image and SDL_ttf.
+Most of the procedural API has been linked with a few large exceptions like SDL_opengl.
+The "Object Oriented" part of this interface has barely started.
 
 # How to start:
 
@@ -17,6 +19,8 @@ with this rubygem, you would instead:
 The SDL2 module is defined and it is where the raw SDL API is loaded and linked.  The Raw API can be called like so:
 
     SDL2.init(SDL2::INIT_EVERYTHING)
+    
+
     
 ### Gotchas:
 
