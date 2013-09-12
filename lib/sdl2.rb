@@ -4,6 +4,7 @@ require 'active_support/inflector'
 
 module SDL2
   extend FFI::Library
+  ffi_lib SDL_MODULE
 
     
   # This converts the SDL Function Prototype name "SDL_XxxYyyyyZzz" to ruby's
@@ -11,9 +12,9 @@ module SDL2
   def self.api(func_name, args, type)
     camelCaseName = func_name.to_s.gsub('SDL_','')
     methodName = ActiveSupport::Inflector.underscore(camelCaseName).to_sym
-    print "Linking #{func_name} -> #{methodName}...."
+
     self.attach_function methodName, func_name, args, type
-    puts "OK!"
+
     return methodName
   end
 
@@ -40,9 +41,6 @@ module SDL2
       end
     end
   end
-
-  # TODO: Review default/hard-coded load paths?
-  ffi_lib SDL_MODULE
 
   # SDL_Bool
   enum :bool, [:false, 0, :true, 1]

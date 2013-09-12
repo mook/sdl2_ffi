@@ -7,6 +7,10 @@ module SDL2
       :minor, :uint8,
       :patch, :uint8
       
+    def self.release(pointer)
+      pointer.free
+    end
+      
     def major
       self[:major]
     end
@@ -22,6 +26,8 @@ module SDL2
     def to_s
       "SDL v#{major}.#{minor}.#{patch}"
     end
+    
+    
   end
   
   api :SDL_GetRevision, [], :string
