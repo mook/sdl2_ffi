@@ -4,6 +4,10 @@ This is a simple interface to SDL2 for Ruby using FFI.  It also supports SDL_ima
 Most of the procedural API has been linked with a few large exceptions like SDL_opengl.
 The "Object Oriented" part of this interface has barely started.
 
+# Documentation/API Reference:
+
+The documentation is embedded within the code.  Generate the RDoc 
+
 # How to start:
 
 The GEM is organized to the same structure as the SDL header files.  Where in C/C++ you would need to:

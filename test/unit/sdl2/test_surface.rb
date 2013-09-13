@@ -78,8 +78,9 @@ describe SDL2::Surface do
     surface = SDL2::Surface.create_rgb(0, 100, 100, 4)
     surface_palette = surface.palette
     assert_kind_of SDL2::Palette, surface_palette
-    my_palette = SDL2::Palette.create(32)
-    my_palette.
+    my_palette = SDL2::Palette.create(16)
+    
+    
     surface.palette = my_palette
     
     assert_equal my_palette, surface.palette

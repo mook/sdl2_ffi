@@ -3,7 +3,7 @@ require 'sdl2'
 module SDL2
 
   #SDL_pixels.h:261~267
-  class Palette < FFI::Struct
+  class Palette < Struct
     layout :ncolors, :int,
     :colors, :pointer,
     :version, :uint32,
@@ -65,11 +65,9 @@ module SDL2
         raise "ncolors must be specified" if ncolors.nil?
         # Then we can just continue using it as is below.
       end# if
-      binding.pry
+      
       SDL2.set_palette_colors(self, colors, firstcolor, ncolors)
-      
-      
-      
+            
     end
   end
 end

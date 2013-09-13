@@ -9,8 +9,8 @@ describe SDL2 do
     assert true # if we got this far without exceptions.
   end
   
-  it 'has FloatStruct for float typed pointers' do
-    assert defined?(SDL2::FloatStruct)
+  it 'has FloatPointer for float typed pointers' do
+    assert defined?(SDL2::FloatPointer)
   end
     
 end

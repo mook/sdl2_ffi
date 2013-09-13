@@ -50,7 +50,7 @@ module SDL2
   api :SDL_RenderSetClipRect, [Renderer.by_ref, Rect.by_ref], :int
   api :SDL_RenderGetClipRect, [Renderer.by_ref, Rect.by_ref], :int
   api :SDL_RenderSetScale, [Renderer.by_ref, :float, :float], :int
-  api :SDL_RenderGetScale, [Renderer.by_ref, FloatStruct.by_ref, FloatStruct.by_ref], :int
+  api :SDL_RenderGetScale, [Renderer.by_ref, FloatPointer.by_ref, FloatPointer.by_ref], :int
   api :SDL_SetRenderDrawColor, [Renderer.by_ref, :uint8, :uint8, :uint8, :uint8], :int
   api :SDL_GetRenderDrawColor, [Renderer.by_ref, UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref], :int
   api :SDL_SetRenderDrawBlendMode, [Renderer.by_ref, :blend_mode], :int
@@ -70,7 +70,7 @@ module SDL2
   api :SDL_RenderPresent, [Renderer.by_ref], :void
   api :SDL_DestroyTexture, [Texture.by_ref], :void
   api :SDL_DestroyRenderer, [Renderer.by_ref], :void
-  api :SDL_GL_BindTexture, [Texture.by_ref, FloatStruct.by_ref, FloatStruct.by_ref], :int
+  api :SDL_GL_BindTexture, [Texture.by_ref, FloatPointer.by_ref, FloatPointer.by_ref], :int
   api :SDL_GL_UnbindTexture, [Texture.by_ref], :int
   
 
