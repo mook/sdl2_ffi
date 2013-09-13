@@ -2,20 +2,68 @@ require 'ffi'
 require 'sdl2/sdl_module'
 require 'active_support/inflector'
 
+# libSDL2's interface
 module SDL2
   extend FFI::Library
   ffi_lib SDL_MODULE
 
-    
+  TRUE_WHEN_ZERO = Proc.new do |result|
+    result == 0
+  end
+
+  TRUE_WHEN_NOT_NULL = Proc.new do |result|
+    (!result.null?)
+  end
+
   # This converts the SDL Function Prototype name "SDL_XxxYyyyyZzz" to ruby's
   # "xxx_yyyy_zzz" convetion
-  def self.api(func_name, args, type)
+  def self.api(func_name, args, type, options = {})
+
+    options = {
+      :error => false,
+      :filter => TRUE_WHEN_ZERO
+    }.merge(options)
+
     camelCaseName = func_name.to_s.gsub('SDL_','')
     methodName = ActiveSupport::Inflector.underscore(camelCaseName).to_sym
 
     self.attach_function methodName, func_name, args, type
 
+    if options[:error]
+      returns_error(methodName, options[:filter])
+    end
+
+    if type == :bool
+      boolean?(methodName)
+    end
+
     return methodName
+  end
+
+  def self.metaclass
+
+    class << self; self; end
+  end
+
+  # This constructs an alternative function with the same name but with an ! at
+  # the end.
+  # This version will throw an error if the return code != 0
+  def self.returns_error(methodName, filter)
+    metaclass.instance_eval do
+      define_method "#{methodName}!".to_sym do |*args|
+        result = self.send(methodName, *args)
+        raise_error_unless filter.call(result)
+        result
+      end
+    end
+  end
+
+  def self.boolean?(methodName)
+    metaclass.instance_eval do
+      define_method("#{methodName}?".to_sym) do |*args|
+        self.send(methodName, *args) == :true
+      end
+    end
   end
 
   class Struct < FFI::Struct
@@ -27,6 +75,10 @@ module SDL2
         yield self
         self.class.release(self.pointer)
       end
+    end
+
+    def self.release(pointer)
+      pointer.free
     end
   end
 
@@ -40,38 +92,43 @@ module SDL2
         self.class.release(self.pointer)
       end
     end
+
   end
 
   # SDL_Bool
   enum :bool, [:false, 0, :true, 1]
-
-  def self.throw_error_unless(condition)
-    throw get_error() unless condition
+    
+  def self.raise_error
+    raise "SDL Error: #{SDL2.get_error()}"
   end
 
-  def self.throw_error_if(condition)
-    throw get_error() if condition
+  def self.raise_error_unless(condition)
+    raise_error unless condition
+  end
+
+  def self.raise_error_if(condition)
+    raise_error if condition
   end
 
   # Simple Type Structures to interface 'typed-pointers'
   # TODO: Research if this is the best way to handle 'typed-pointers'
-  class FloatStruct < FFI::Struct
+  class FloatStruct < ManagedStruct
     layout :value, :float
   end
 
-  class IntStruct < FFI::Struct
+  class IntStruct < Struct
     layout :value, :int
   end
 
-  class UInt16Struct < FFI::Struct
+  class UInt16Struct < Struct
     layout :value, :uint16
   end
 
-  class UInt32Struct < FFI::Struct
+  class UInt32Struct < Struct
     layout :value, :uint32
   end
 
-  class UInt8Struct < FFI::Struct
+  class UInt8Struct < Struct
     layout :value, :uint8
   end
 
@@ -85,7 +142,7 @@ module SDL2
     :mod, 0x00000004
   ]
 
-  class BlendModeStruct < FFI::Struct
+  class BlendModeStruct < Struct
     layout :value, :blend_mode
   end
 
