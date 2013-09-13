@@ -41,7 +41,6 @@ module SDL2
   end
 
   def self.metaclass
-
     class << self; self; end
   end
 
@@ -64,6 +63,17 @@ module SDL2
         self.send(methodName, *args) == :true
       end
     end
+  end
+  
+  def self.fourcc(*args)
+    bit_cnt = 0
+    result = 0
+    args.each do |arg|
+      arg = arg.codepoints[0] if arg.kind_of? String
+      result = result | (arg << bit_cnt)
+      bit_cnt += 8
+    end
+    return result
   end
 
   class Struct < FFI::Struct
