@@ -28,16 +28,16 @@ module SDL2
     :everything, INIT_EVERYTHING
   ]
 
-  api :SDL_Init, [:init_flag], :int
+  api :SDL_Init, [:init_flag], :int, {error: true}
 
-  def self.init!(flags)
-    error_code = init(flags)
-    if (error_code != 0)
-      throw get_error()
-    end
-  end
+  #def self.init!(flags)
+  #  error_code = init(flags)
+  #  if (error_code != 0)
+  #    throw get_error()
+  #  end
+  #end
 
-  api :SDL_InitSubSystem, [:init_flag], :int
+  api :SDL_InitSubSystem, [:init_flag], :int, {error: true}
 
   def init_sub_system!(flags)
     error_code = init_sub_system(flags)

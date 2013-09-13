@@ -33,7 +33,7 @@ module SDL2
 
     def self.count!
       total = count
-      SDL2.throw_error_if total < 0
+      SDL2.raise_error_if total < 0
       return total
     end
 
@@ -48,7 +48,7 @@ module SDL2
 
     def closest_display_mode!(wanted)
       found = closest_display_mode(wanted)
-      SDL2.throw_error_if(found.nil?)
+      SDL2.raise_error_if(found.nil?)
       return found
     end
 
@@ -64,7 +64,7 @@ module SDL2
 
     def bounds!
       rect = bounds()
-      SDL2.throw_error_if rect.nil?
+      SDL2.raise_error_if rect.nil?
       return rect
     end
 

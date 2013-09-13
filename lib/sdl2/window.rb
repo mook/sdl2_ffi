@@ -198,7 +198,7 @@ module SDL2
     end
     
     def update_surface!()      
-      SDL2.throw_error_unless update_surface == 0
+      SDL2.raise_error_unless update_surface == 0
       return 0
     end
 
