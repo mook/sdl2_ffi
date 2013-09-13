@@ -40,6 +40,48 @@ describe SDL2 do
     ].each do |function|
       assert_respond_to SDL2, function
     end
+  end  
+end
 
+describe SDL2::Surface do
+  
+  it 'rejects invalid pixel formats' do 
+    assert_raises RuntimeError do
+      # Try to create a 64bit depth image
+      SDL2::Surface.create_rgb(0, 100, 100, 64)
+    end
+  end
+  
+  it 'can be created with valid arguments' do
+    surfaces = 
+      [
+        SDL2::Surface.create_rgb(0, 100, 100, 4),
+        SDL2::Surface.create_rgb(0, 100, 100, 8),
+        SDL2::Surface.create_rgb(0,100,100,16)
+      ]
+    surfaces.each do |surface|
+      refute surface.null?
+      assert_kind_of SDL2::Surface, surface
+    end
+    assert_equal 4, surfaces[0].format.bits_per_pixel
+    assert_equal 8, surfaces[1].format.bits_per_pixel
+    assert_equal 16, surfaces[2].format.bits_per_pixel
+  end
+  
+  it 'can be freed' do
+    surface = SDL2::Surface.create_rgb(0, 100, 100, 4)
+    surface.free
+    skip("Don't know how to test this")
+  end
+  
+  it 'can get and set the palette' do
+    surface = SDL2::Surface.create_rgb(0, 100, 100, 4)
+    surface_palette = surface.palette
+    assert_kind_of SDL2::Palette, surface_palette
+    my_palette = SDL2::Palette.create(32)
+    my_palette.
+    surface.palette = my_palette
+    
+    assert_equal my_palette, surface.palette
   end
 end

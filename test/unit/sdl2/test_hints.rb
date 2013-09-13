@@ -5,9 +5,9 @@ require 'sdl2/hints'
 describe SDL2 do
   
   it 'has hints' do
-    assert SDL2.respond_to? :clear_hints
-    assert SDL2.respond_to? :get_hint
-    assert SDL2.respond_to? :set_hint
+    assert_respond_to SDL2, :clear_hints
+    assert_respond_to SDL2, :get_hint
+    assert_respond_to SDL2, :set_hint
     
     assert_equal 'constant', defined?(SDL2::HINT_FRAMEBUFFER_ACCELERATION)
     assert_equal 'constant', defined?(SDL2::HINT_IDLE_TIMER_DISABLED)
