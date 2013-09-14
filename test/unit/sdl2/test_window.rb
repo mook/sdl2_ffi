@@ -6,7 +6,7 @@ require 'sdl2/video'
 describe SDL2::Window do
 
   before do
-    @window = SDL2::Window.create!
+    @window = SDL2::Window.create
   end
 
   after do
@@ -14,7 +14,7 @@ describe SDL2::Window do
   end
 
   it 'can be created' do
-    window =  SDL2::Window.create!('My Title', 10, 20, 300, 400)
+    window =  SDL2::Window.create('My Title', 10, 20, 300, 400)
     assert_kind_of SDL2::Window, window
     SDL2.destroy_window(window)
   end
@@ -25,7 +25,7 @@ describe SDL2::Window do
   end
 
   it 'has a current_size' do
-    window = SDL2::Window.create!('Title', 10, 20, 300, 400)
+    window = SDL2::Window.create('Title', 10, 20, 300, 400)
     assert_equal [300, 400], window.current_size
     window.current_size = [640, 480]
     assert_equal [640, 480], window.current_size

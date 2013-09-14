@@ -3,7 +3,7 @@ require 'sdl2/rwops'
 require 'sdl2/pixels'
 require 'sdl2/rect'
 require 'sdl2/palette'
-require 'yinum'
+
 
 #require 'sdl2/pixel_format'
 
@@ -166,6 +166,7 @@ module SDL2
   api :SDL_FillRects, [Surface.by_ref, Rect.by_ref, :count, :uint32], :int, {error: true}
   api :SDL_UpperBlit, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int, {error: true}
 
+  # using upper_blit
   def self.blit_surface(src, srcrect, dst, dstrect)
     upper_blit(src, srcrect, dst, dstrect)
   end
@@ -174,6 +175,7 @@ module SDL2
   api :SDL_SoftStretch, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int
   api :SDL_UpperBlitScaled, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int
 
+  # using upper_blit_scaled
   def self.blit_scaled(src, srcrect, dst, dstrect)
     upper_blit_scaled(src, srcrect, dst, dstrect)
   end

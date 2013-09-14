@@ -1,17 +1,20 @@
 require 'sdl2'
-require 'yinum'
+require 'sdl2/rwops'
+
 
 module SDL2
 
   typedef :uint16, :audio_format
 
   module Audio
-    Mask = Enum.new(:AudioMask, {
-      BITSIZE: (0xFF),
-      DATATYPE: (1<<8),
-      ENDIAN: (1<<12),
-      SIGNED: (1<<15)
-    })
+    module MASK
+      include EnumerableConstants
+      
+      BITSIZE= (0xFF)
+      DATATYPE= (1<<8)
+      ENDIAN= (1<<12)
+      SIGNED= (1<<15)
+    end
 
     def self.bitsize(x)
       x & Mask.BITSIZE

@@ -7,78 +7,84 @@ require 'sdl2/joystick'
 require 'sdl2/gamecontroller'
 require 'sdl2/gesture'
 require 'sdl2/touch'
+require 'sdl2/syswm/msg'
 
 module SDL2
-  
+
   RELEASED = 0
   PRESSED = 1
-  
-  enum :event_type, [
-    :firstEvent, 0,
-      
-    :quit, 0x100,
-    :app_terminating,
-    :app_lowMemory,
-    :app_willEnterBackground,
-    :app_didEnterBackground,
-    :app_willEnterForeground,
-    :app_didEnterForeground,
-    
-    :windowEvent, 0x200,
-    :syswmEvent,
-    
-    :keyDown, 0x300,
-    :keyUp,
-    :textEditing,
-    :textInput,
-    
-    :mouseMotion, 0x400,
-    :mouseButtonDown,
-    :mouseButtonUp, 
-    :mouseWheel,
-    
-    :joyAxisMotion, 0x600,
-    :joyBallMotion,
-    :joyHatMotion,
-    :joyButtonDown,
-    :joyButtonUp,
-    :joyDeviceAdded,
-    :joyDeviceRemoved,
-    
-    :controllerAxisMotion, 0x650,
-    :controllerButtonDown, 
-    :controllerButtonUp,
-    :controllerDeviceAdded,
-    :controllerDeviceRemoved,
-    :controllerDeviceRemapped,
-    
-    :fingerDown, 0x700,
-    :fingerUp, 
-    :fingerMotion,
-    
-    :dollarGesture, 0x800,
-    :dollarRecord, 
-    :dollarMultigesture,
-    
-    :clipboardUpdate, 0x900,
-      
-    :dropFile, 0x1000,
-      
-    :userEvent, 0x8000,
-      
-    :lastEvent, 0xFFFF
-    
-    ]
-  
-  COMMON_EVENT_LAYOUT = [:type, :uint32, :timestamp, :uint32]
-  
-  class CommonEvent < Struct
-    layout *COMMON_EVENT_LAYOUT
-    
+
+  # The types of events that can be delivered
+  module EVENTTYPE
+    include EnumerableConstants
+    FIRSTEVENT     = 0
+
+    QUIT           = 0x100
+
+    APP_TERMINATING = next_const_value
+    APP_LOWMEMORY = next_const_value
+    APP_WILLENTERBACKGROUND = next_const_value
+    APP_DIDENTERBACKGROUND = next_const_value
+    APP_WILLENTERFOREGROUND = next_const_value
+    APP_DIDENTERFOREGROUND = next_const_value
+
+    WINDOWEVENT    = 0x200
+    SYSWMEVENT = next_const_value
+
+    KEYDOWN        = 0x300
+    KEYUP = next_const_value
+    TEXTEDITING = next_const_value
+    TEXTINPUT = next_const_value
+
+    MOUSEMOTION    = 0x400
+    MOUSEBUTTONDOWN = next_const_value
+    MOUSEBUTTONUP = next_const_value
+    MOUSEWHEEL = next_const_value
+
+    JOYAXISMOTION  = 0x600
+    JOYBALLMOTION = next_const_value
+    JOYHATMOTION = next_const_value
+    JOYBUTTONDOWN = next_const_value
+    JOYBUTTONUP = next_const_value
+    JOYDEVICEADDED = next_const_value
+    JOYDEVICEREMOVED = next_const_value
+
+    CONTROLLERAXISMOTION  = 0x650
+    CONTROLLERBUTTONDOWN = next_const_value
+    CONTROLLERBUTTONUP = next_const_value
+    CONTROLLERDEVICEADDED = next_const_value
+    CONTROLLERDEVICEREMOVED = next_const_value
+    CONTROLLERDEVICEREMAPPED = next_const_value
+
+    FINGERDOWN      = 0x700
+    FINGERUP = next_const_value
+    FINGERMOTION = next_const_value
+
+    DOLLARGESTURE   = 0x800
+    DOLLARRECORD = next_const_value
+    MULTIGESTURE = next_const_value
+
+    CLIPBOARDUPDATE = 0x900
+
+    DROPFILE        = 0x1000
+
+    USEREVENT    = 0x8000
+
+    LASTEVENT    = 0xFFFF
   end
-  
+
+  enum :event_type, *EVENTTYPE.by_name
+
+  # Fields shared by every event
+  class CommonEvent < Struct
+    LAYOUT = [:type, :uint32, :timestamp, :uint32]
+    layout *LAYOUT
+
+  end
+
+  # Window state change event data (event.window.*)
   class WindowEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :windowID, :uint32,
       :event, :uint8,
       :padding1, :uint8,
@@ -88,9 +94,10 @@ module SDL2
       :data2, :int32
     ]
   end
-  
+
+  # Keyboard button event structure (event.key.*)
   class KeyboardEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :windowID, :uint32,
       :state, :uint8,
       :repeat, :uint8,
@@ -99,27 +106,30 @@ module SDL2
       :keysym, Keysym
     ]
   end
-  
+
+  # Keyboard text editing event structure (event.edit.*)
   class TextEditingEvent < Struct
     TEXT_SIZE = 32 # Line 188
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :windowID, :uint32,
       :char, [:char, TEXT_SIZE],
       :start, :int32,
       :length, :int32
     ]
   end
-  
+
+  # Keyboard text input event structure (event.text.*)
   class TextInputEvent < Struct
     TEXT_SIZE = 32 # Line 203
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :windowID, :uint32,
-      :char, [:char, TEXT_SIZE]      
+      :char, [:char, TEXT_SIZE]
     ]
   end
-  
+
+  # Mouse motion event structure (event.motion.*)
   class MouseMotionEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :windowID, :uint32,
       :which, :uint32,
       :state, :uint32,
@@ -129,9 +139,10 @@ module SDL2
       :yrel, :int32
     ]
   end
-  
+
+  # Mouse button event structure (event.button.*)
   class MouseButtonEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :windowID, :uint32,
       :which, :uint32,
       :button, :uint8,
@@ -142,18 +153,20 @@ module SDL2
       :y, :int32
     ]
   end
-   
+
+  # Mouse wheel event structure (event.wheel.*)
   class MouseWheelEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :windowID, :uint32,
       :which, :uint32,
       :x, :int32,
       :y, :int32
-    ]  
+    ]
   end
-  
+
+  # Joystick axis motion event structure (event.jaxis.*)
   class JoyAxisEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :which, :joystick_id,
       :axis, :uint8,
       :padding1, :uint8,
@@ -163,9 +176,10 @@ module SDL2
       :padding4, :uint16
     ]
   end
-  
+
+  # Joystick trackball motion event structure (event.jball.*)
   class JoyBallEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :which, :joystick_id,
       :ball, :uint8,
       :padding1, :uint8,
@@ -175,19 +189,21 @@ module SDL2
       :yrel, :int16
     ]
   end
-  
+
+  # Joystick hat position change event structure (event.jhat.*)
   class JoyHatEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :which, :joystick_id,
       :hat, :uint8,
       :value, :uint8,
       :padding1, :uint8,
       :padding2, :uint8
-    ]    
+    ]
   end
-  
+
+  # Joystick button event structure (event.jbutton.*)
   class JoyButtonEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :which, :joystick_id,
       :button, :uint8,
       :state, :uint8,
@@ -195,15 +211,17 @@ module SDL2
       :padding2, :uint8
     ]
   end
-  
+
+  # Joystick device event structure (event.jdevice.*)
   class JoyDeviceEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :which, :joystick_id
-    ]    
+    ]
   end
-  
+
+  # Game controller axis motion event structure (event.caxis.*)
   class ControllerAxisEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :which, :joystick_id,
       :axis, :uint8,
       :padding1, :uint8,
@@ -213,25 +231,28 @@ module SDL2
       :padding4, :uint16
     ]
   end
-  
+
+  # Game controller button event structure (event.cbutton.*)
   class ControllerButtonEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :which, :joystick_id,
       :button, :uint8,
       :state, :uint8,
       :padding1, :uint8,
       :padding2, :uint8
-    ]    
+    ]
   end
-  
+
+  # Controller device event structure (event.cdevice.*)
   class ControllerDeviceEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :which, :joystick_id
     ]
   end
-  
+
+  # Touch finger event structure (event.tfinger.*)
   class TouchFingerEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :touchId, :touch_id,
       :fingerId, :finger_id,
       :x, :float,
@@ -241,9 +262,10 @@ module SDL2
       :pressure, :float
     ]
   end
-  
+
+  # Multiple Finger Gesture Event (event.mgesture.*)
   class MultiGestureEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :touchId, :touch_id,
       :dTheta, :float,
       :dDist, :float,
@@ -253,35 +275,43 @@ module SDL2
       :padding, :uint16
     ]
   end
-  
+
+  # Dollar Gesture Event (event.dgesture.*)
   class DollarGestureEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :touchId, :touch_id,
       :gestureId, :gesture_id,
       :numFingers, :uint32,
       :error, :float,
       :x, :float,
       :y, :float
-    ]    
+    ]
   end
-  
+
+  # @brief An event used to request a file open by the system (event.drop.*)
+  #        This event is disabled by default, you can enable it with
+  # SDL_EventState()
+  # @note If you enable this event, you must free the filename in the event.
+  #
   class DropEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :file, :string
-    ]    
+    ]
   end
-  
+
+  # The "quit requested" event
   class QuitEvent < Struct
-    layout *COMMON_EVENT_LAYOUT
+    layout *CommonEvent::LAYOUT
   end
-  
+
+  # OS Specific event
   class OSEvent < Struct
-    layout *COMMON_EVENT_LAYOUT
+    layout *CommonEvent::LAYOUT
   end
-  
-  
+
+  # A user-defined event type (event.user.*)
   class UserEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :windowID, :uint32,
       :code, :int32,
       :data1, :pointer,
@@ -289,70 +319,100 @@ module SDL2
     ]
   end
 
+  #  @brief A video driver dependent system event (event.syswm.*)
+  #         This event is disabled by default, you can enable it with
+  # SDL_EventState()
+  #
+  #  @note If you want to use this event, you should include SDL_syswm.h.
   class SysWMEvent < Struct
-    layout *COMMON_EVENT_LAYOUT + [
+    layout *CommonEvent::LAYOUT + [
       :msg, SDL2::SysWM::Msg.by_ref
     ]
-  end  
-  
+  end
+
+  # General event UNION (structure)
+  # Remember that this is a union, all other structures not related to #type are
+  # garbage
   class Event < FFI::Union
     layout :type, :uint32,
-      :common, CommonEvent,
-      :window, WindowEvent,
-      :key, KeyboardEvent,
-      :edit, TextEditingEvent,
-      :text, TextInputEvent,
-      :motion, MouseMotionEvent,
-      :button, MouseButtonEvent,
-      :wheel, MouseWheelEvent,
-      :jaxis, JoyAxisEvent,
-      :jball, JoyBallEvent,
-      :jbutton, JoyButtonEvent,
-      :jdevice, JoyDeviceEvent,
-      :caxis, ControllerAxisEvent,
-      :cbutton, ControllerButtonEvent,
-      :cdevice, ControllerDeviceEvent,
-      :quit, QuitEvent,
-      :user, UserEvent,
-      :syswm, SysWMEvent,
-      :tfinger, TouchFingerEvent,
-      :mgesture, MultiGestureEvent,
-      :drop, DropEvent,
-      :padding, [:uint8, 56] # From SDL_events.h:529
+    :common, CommonEvent,
+    :window, WindowEvent,
+    :key, KeyboardEvent,
+    :edit, TextEditingEvent,
+    :text, TextInputEvent,
+    :motion, MouseMotionEvent,
+    :button, MouseButtonEvent,
+    :wheel, MouseWheelEvent,
+    :jaxis, JoyAxisEvent,
+    :jball, JoyBallEvent,
+    :jbutton, JoyButtonEvent,
+    :jdevice, JoyDeviceEvent,
+    :caxis, ControllerAxisEvent,
+    :cbutton, ControllerButtonEvent,
+    :cdevice, ControllerDeviceEvent,
+    :quit, QuitEvent,
+    :user, UserEvent,
+    :syswm, SysWMEvent,
+    :tfinger, TouchFingerEvent,
+    :mgesture, MultiGestureEvent,
+    :drop, DropEvent,
+    :padding, [:uint8, 56] # From SDL_events.h:529
   end
-  
-  enum :eventaction, [:add, :peek, :get]
-    
-  attach_function :peep_events, :SDL_PeepEvents, [Event.by_ref, :count, :eventaction, :uint32, :uint32], :int
-  attach_function :has_event, :SDL_HasEvent, [:uint32], :bool
-  attach_function :has_events, :SDL_HasEvents, [:uint32, :uint32], :bool
-  attach_function :flush_event, :SDL_FlushEvent, [:uint32], :void
-  attach_function :flush_events, :SDL_FlushEvents, [:uint32, :uint32], :void
-  attach_function :poll_event, :SDL_PollEvent, [Event.by_ref], :int
-  attach_function :wait_event, :SDL_WaitEvent, [Event.by_ref], :int
-  attach_function :wait_event_timeout, :SDL_WaitEventTimeout, [Event.by_ref, :count], :int
-  attach_function :push_event, :SDL_PushEvent, [Event.by_ref, :count], :int
-  
+
+  module EVENTACTION
+    include EnumerableConstants
+    ADD = next_const_value
+    PEEK = next_const_value
+    GET = next_const_value
+  end
+
+  enum :eventaction, *EVENTACTION.by_name
+
+  ##
+  #
+  api :SDL_PeepEvents, [Event.by_ref, :count, :eventaction, :uint32, :uint32], :int
+  api :SDL_HasEvent, [:uint32], :bool
+  api :SDL_HasEvents, [:uint32, :uint32], :bool
+  api :SDL_FlushEvent, [:uint32], :void
+  api :SDL_FlushEvents, [:uint32, :uint32], :void
+  api :SDL_PollEvent, [Event.by_ref], :int
+  api :SDL_WaitEvent, [Event.by_ref], :int
+  api :SDL_WaitEventTimeout, [Event.by_ref, :count], :int
+  api :SDL_PushEvent, [Event.by_ref, :count], :int
+
+  ##
+  # callback event_filter #=> Proc.new do |pointer, event|; return int; end
   callback :event_filter, [:pointer, Event.by_ref], :int
+
+  # This simple structure is used for getting the event filter
   class EventFilterStruct < Struct
     layout :callback, :event_filter
   end
-  
-  attach_function :set_event_filter, :SDL_SetEventFilter, [:event_filter, :pointer], :void
-  attach_function :get_event_filter, :SDL_GetEventFilter, [:pointer, :pointer], :bool
-  attach_function :add_event_watch, :SDL_AddEventWatch, [:event_filter, :pointer], :void
-  attach_function :del_event_watch, :SDL_DelEventWatch, [:event_filter, :pointer], :void
-  attach_function :filter_events, :SDL_FilterEvents, [:event_filter, :pointer], :void
-  
-  QUERY = -1
-  IGNORE = 0
-  DISABLE = 0
-  ENABLE = 1
-  
-  attach_function :event_state, :SDL_EventState, [:uint32, :int], :uint8
-  def get_event_state(type)
-    event_state(type, QUERY)
+
+  api :SDL_SetEventFilter, [:event_filter, :pointer], :void
+  api :SDL_GetEventFilter, [:pointer, :pointer], :bool
+  api :SDL_AddEventWatch, [:event_filter, :pointer], :void
+  api :SDL_DelEventWatch, [:event_filter, :pointer], :void
+  api :SDL_FilterEvents, [:event_filter, :pointer], :void
+
+  # Enumeration of event_state query
+  module EVENTSTATE
+    include EnumerableConstants
+    QUERY = -1
+    IGNORE = 0
+    DISABLE = 0
+    ENABLE = 1
   end
   
-  attach_function :register_events, :SDL_RegisterEvents, [:count], :uint32  
+  enum :event_state, *EVENTSTATE.by_name
+
+  ##
+  # 
+  api :SDL_EventState, [:uint32, :event_state], :uint8
+
+  def get_event_state(type)
+    event_state(type, EVENTSTATE::QUERY)
+  end
+
+  api :SDL_RegisterEvents, [:count], :uint32
 end

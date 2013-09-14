@@ -2,6 +2,7 @@ require 'sdl2'
 
 module SDL2
 
+  # Joystick structure used to internally identify a joystick
   class Joystick < Struct
 
     # TODO: Review if the Joystick layout should be hidden.
@@ -13,6 +14,7 @@ module SDL2
 
   end
 
+  # A structure that encodes the stable unique id for a joystick device
   class JoystickGUID < Struct
     layout :data, [:uint8, 16] #line 69
   end
@@ -38,18 +40,19 @@ module SDL2
   api :SDL_JoystickEventState, [:int], :int
   api :SDL_JoystickGetAxis, [Joystick.by_ref, :int], :int16
 
-  HAT_HASH = {
-    :CENTERED => 0x00,
-    :UP => 0x01,
-    :RIGHT =>  0x02,
-    :DOWN => 0x04,
-    :LEFT => 0x08
-  }
-  HAT_HASH[:RIGHTUP]=(HAT_HASH[:RIGHT]|HAT_HASH[:UP])
-  HAT_HASH[:RIGHTDOWN]=   (HAT_HASH[:RIGHT]|HAT_HASH[:DOWN])
-  HAT_HASH[:LEFTUP]=      (HAT_HASH[:LEFT]|HAT_HASH[:UP])
-  HAT_HASH[:LEFTDOWN]=    (HAT_HASH[:LEFT]|HAT_HASH[:DOWN])
-  Hat = Enum.new(:JOYSTICK_HAT, HAT_HASH)
+  # Hat positions
+  module HAT
+    include EnumerableConstants
+    CENTERED = 0x00
+    UP = 0x01
+    RIGHT =  0x02
+    DOWN = 0x04
+    LEFT = 0x08
+    RIGHTUP = RIGHT | UP
+    RIGHTDOWN = RIGHT | DOWN
+    LEFTUP = LEFT | UP
+    LEFTDOWN = LEFT | DOWN
+  end
 
   api :SDL_JoystickGetHat, [Joystick.by_ref, :int], :uint8
   api :SDL_JoystickGetBall, [Joystick.by_ref, :int, IntStruct.by_ref, IntStruct.by_ref], :int

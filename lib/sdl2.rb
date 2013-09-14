@@ -2,10 +2,15 @@ require 'ffi'
 require 'sdl2/sdl_module'
 require 'active_support/inflector'
 
-# libSDL2's interface
+require 'enumerable_constants'
+
+# libSDL2's prototypes are attached directly to this module.
+# 
 module SDL2
   extend FFI::Library
   ffi_lib SDL_MODULE
+ 
+  
 
   [:int, :uint8, :int8, :uint16, :int16, :uint32, :int32, :uint64, :int64, :float, :double].each do |type|
     typedef :pointer, "p_#{type}".to_sym
@@ -117,6 +122,11 @@ module SDL2
 
     # A human-readable representation of the struct and it's values.
     def inspect
+      return 'nul' if pointer.null?
+      binding.pry
+      #binding.pry
+      #return self.to_s      
+      
       report = "struct #{self.class.to_s}{"
       report += self.class.members.collect do |field|
         "#{field}->#{self[field].inspect}"

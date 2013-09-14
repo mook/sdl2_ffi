@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   
   spec.add_dependency 'ffi'
-  spec.add_dependency 'yinum'
+  #spec.add_dependency 'yinum'
   spec.add_dependency 'activesupport'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
@@ -28,4 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'guard'
   spec.add_development_dependency 'guard-minitest'
+  spec.add_development_dependency 'yard'
+  
+  
 end

@@ -1,5 +1,5 @@
 require 'sdl2'
-require 'yinum'
+
 
 module SDL2
 
@@ -32,22 +32,27 @@ module SDL2
     def self.button(num)
       1 << (num-1)
     end
-
-    Button = Enum.new(:MOUSE_BUTTONS, {
-      :LEFT => 1,
-      :MIDDLE => 2,
-      :RIGHT => 3,
-      :X1 => 4,
-      :X2 => 5
-    })
-
-    ButtonMask = Enum.new(:MOUSE_BUTTON_MASK, {
-      :LEFT => button(Button.LEFT),
-      :MIDDLE => button(Button.MIDDLE),
-      :RIGHT => button(Button.RIGHT),
-      :X1 => button(Button.X1),
-      :X2 => button(Button.X2)
-    })
+    
+    module BUTTON
+      include EnumerableConstants
+      LEFT = next_const_value
+      MIDDLE  = next_const_value
+      RIGHT  = next_const_value
+      X1  = next_const_value
+      X2  = next_const_value
+    end
+    
+    module BUTTONMASK
+      def self.for_enum button_enum 
+        1 << (button_enum-1)
+      end
+      include EnumerableConstants
+      LEFT = for_enum(BUTTON::LEFT)
+      MIDDLE = for_enum(BUTTON::MIDDLE)
+      RIGHT = for_enum(BUTTON::RIGHT)
+      X1 = for_enum(BUTTON::X1)
+      X2 = for_enum(BUTTON::X2)
+    end
 
   end
 

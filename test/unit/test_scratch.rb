@@ -4,9 +4,9 @@ require 'sdl2'
 require 'sdl2/video'
 require 'sdl2/image'
 
-class TestScratch < MiniTest::Unit::TestCase
+class TestScratch < MiniTest::Test
   def test_a_game
-    window = SDL2::Window.create!("My Window", 0, 0, 300, 300)
+    window = SDL2::Window.create("My Window", 0, 0, 300, 300)
     win_surface = window.surface
     
     

@@ -8,80 +8,91 @@ require 'sdl2/surface'
 #require 'sdl2/texture'
 require 'sdl2/syswm/info'
 
-#
 module SDL2
   typedef :int, :display_index
-  
 
-  enum :window_flags, [
-    :fullscreen, Window::FULLSCREEN,
-    :opengl, Window::OPENGL,
-    :shown, Window::SHOWN,
-    :hidden, Window::HIDDEN,
-    :borderless, Window::BORDERLESS,
-    :minimized, Window::MINIMIZED,
-    :maximized, Window::MAXIMIZED,
-    :input_grabbed, Window::INPUT_GRABBED,
-    :input_focus, Window::INPUT_FOCUS,
-    :mouse_focus, Window::MOUSE_FOCUS,
-    :fullscreen_desktop, Window::FULLSCREEN_DESKTOP,
-    :foreign, Window::FOREIGN
-  ]
+  enum :window_flags, *WINDOW.by_name
   # TODO: SDL_video.h lines 113~129
 
+  # Translation of SDL_WindowEventID enumeration
+  module WINDOWEVENT
+    include EnumerableConstants
+    NONE          = next_const_value
+    SHOWN         = next_const_value
+    HIDDEN        = next_const_value
+    EXPOSED       = next_const_value
+    MOVED         = next_const_value
+    RESIZED       = next_const_value
+    SIZE_CHANGED  = next_const_value
+    MINIMIZED     = next_const_value
+    MAXIMIZED     = next_const_value
+    RESTORED      = next_const_value
+    ENTER         = next_const_value
+    LEAVE         = next_const_value
+    FOCUS_GAINED  = next_const_value
+    FOCUS_LOST    = next_const_value
+    CLOSE         = next_const_value
+  end
+
   # line: 134~155
-  enum :window_event_id, [
-    :none,
-    :shown,
-    :hidden,
-    :exposed,
-    :moved,
-    :resized,
-    :size_changed,
-    :minimized,
-    :maximized,
-    :restored,
-    :enter,
-    :leave,
-    :focus_gained,
-    :focus_lost,
-    :close
-  ]
+  enum :window_event_id, *WINDOWEVENT.by_name
   # line 160
   typedef :pointer, :gl_context
+
+  # OpenGL configuration attributes
+  module GLattr
+    include EnumerableConstants
+    RED_SIZE			     = next_const_value
+    GREEN_SIZE			   = next_const_value
+    BLUE_SIZE			     = next_const_value
+    ALPHA_SIZE			   = next_const_value
+    BUFFER_SIZE			   = next_const_value
+    DOUBLEBUFFER			 = next_const_value
+    DEPTH_SIZE			   = next_const_value
+    STENCIL_SIZE			 = next_const_value
+    ACCUM_RED_SIZE		 = next_const_value
+    ACCUM_GREEN_SIZE	 = next_const_value
+    ACCUM_BLUE_SIZE		 = next_const_value
+    ACCUM_ALPHA_SIZE	 = next_const_value
+    STEREO			       = next_const_value
+    MULTISAMPLEBUFFERS = next_const_value
+    MULTISAMPLESAMPLES = next_const_value
+    ACCELERATED_VISUAL = next_const_value
+    RETAINED_BACKING	 = next_const_value
+    CONTEXT_MAJOR_VERSION	= next_const_value
+    CONTEXT_MINOR_VERSION	= next_const_value
+    CONTEXT_EGL = next_const_value
+    CONTEXT_FLAGS = next_const_value
+    CONTEXT_PROFILE_MASK			= next_const_value
+    SHARE_WITH_CURRENT_CONTEXT = next_const_value
+  end
+  
   # lines 165~190
-  enum :gl_attr, [
-    :red_size,
-    :green_size,
-    :blue_size,
-    :alpha_size,
-    :buffer_size,
-    :doublebuffer,
-    :depth_size,
-    :stencil_size,
-    :accum_red_size,
-    :accum_green_size,
-    :accum_blue_size,
-    :accum_alpha_size,
-    :stereo,
-    :multisamplebuffers,
-    :multisamplesamples,
-    :accelerated_visual,
-    :retained_backing,
-    :context_major_version,
-    :context_minor_version,
-    :context_egl,
-    :context_flags,
-    :context_profile_mask,
-    :share_with_current_context
-  ]
-  # lines 192~197
-  enum :gl_profile, [:core, 0x0001, :compatibility, 0x0002, :es, 0x0004]
+  enum :gl_attr, *GLattr.by_name
+  
+  # OpenGL Profile Values
+  module GLprofile
+    include EnumerableConstants
+    CORE = 0x0001
+    COMPATIBILITY = 0x0002
+    ES = 0x0004
+  end
+  enum :gl_profile, *GLprofile.by_name
+  
+  # OpenGL Context Values
+  module GLcontextFlag
+    include EnumerableConstants
+    DEBUG = 0x001
+    FORWARD_COMPATIBLE = 0x0002
+    ROBUST_ACCESS = 0x0004
+    RESET_ISOLATION = 0x0008
+  end
   # lines 199~205
-  enum :gl_context_flag, [:debug, 0x0001, :forward_compatible, 0x0002, :robust_access, 0x0004, :reset_isolation, 0x0008]
+  enum :gl_context_flag, *GLcontextFlag.by_name
 
   # This interface represents SDL_video.h function prototypes, lines 208~
-  api :SDL_GetNumVideoDrivers, [], :int
+  
+  api :SDL_GetNumVideoDrivers, [], :int  
   api :SDL_GetVideoDriver, [:int], :string
   api :SDL_VideoInit, [:string], :int
   api :SDL_VideoQuit, [], :void
@@ -98,7 +109,7 @@ module SDL2
   api :SDL_SetWindowDisplayMode, [Window.by_ref, :uint32], :int
   api :SDL_GetWindowDisplayMode, [Window.by_ref, Display::Mode.by_ref], :int
   api :SDL_GetWindowPixelFormat, [Window.by_ref], :uint32
-  api :SDL_CreateWindow, [:string, :int, :int, :int, :int, :uint32], Window.auto_ptr
+  api :SDL_CreateWindow, [:string, :int, :int, :int, :int, :uint32], Window.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
   api :SDL_CreateWindowFrom, [:pointer], Window.auto_ptr
   api :SDL_GetWindowFromID, [:uint32], Window.by_ref
   api :SDL_GetWindowID, [Window.by_ref], :uint32
@@ -125,8 +136,8 @@ module SDL2
   api :SDL_RestoreWindow, [Window.by_ref], :void
   api :SDL_SetWindowFullscreen, [Window.by_ref, :uint32], :int
   api :SDL_GetWindowSurface, [Window.by_ref], Surface.by_ref
-  api :SDL_UpdateWindowSurface, [Window.by_ref], :int
-  api :SDL_UpdateWindowSurfaceRects, [Window.by_ref, Rect.by_ref, :int], :int
+  api :SDL_UpdateWindowSurface, [Window.by_ref], :int, {error: true}
+  api :SDL_UpdateWindowSurfaceRects, [Window.by_ref, Rect.by_ref, :int], :int, {error: true}
   api :SDL_GetWindowGrab, [Window.by_ref], :bool
   api :SDL_SetWindowGrab, [Window.by_ref, :bool], :void
   api :SDL_GetWindowBrightness, [Window.by_ref], :float
@@ -134,16 +145,16 @@ module SDL2
   api :SDL_GetWindowGammaRamp, [Window.by_ref, UInt16Struct.by_ref, UInt16Struct.by_ref, UInt16Struct.by_ref], :int
   api :SDL_SetWindowGammaRamp, [Window.by_ref, UInt16Struct.by_ref, UInt16Struct.by_ref, UInt16Struct.by_ref], :int
   api :SDL_DestroyWindow, [Window.by_ref], :void
-  api :SDL_IsScreenSaverEnabled, [], :bool    
+  api :SDL_IsScreenSaverEnabled, [], :bool
   api :SDL_DisableScreenSaver, [], :void
-  api :SDL_EnableScreenSaver, [], :void    
+  api :SDL_EnableScreenSaver, [], :void
   api :SDL_GL_LoadLibrary, [:string], :int
   api :SDL_GL_GetProcAddress, [:string], :pointer
   api :SDL_GL_UnloadLibrary, [], :void
   api :SDL_GL_ExtensionSupported, [:string], :bool
   api :SDL_GL_SetAttribute, [:gl_attr, IntStruct], :int
-  api :SDL_GL_GetAttribute, [:gl_attr, IntStruct.by_ref], :int  
-  api :SDL_GL_CreateContext, [Window.by_ref], :gl_context  
+  api :SDL_GL_GetAttribute, [:gl_attr, IntStruct.by_ref], :int
+  api :SDL_GL_CreateContext, [Window.by_ref], :gl_context
   api :SDL_GL_MakeCurrent, [Window.by_ref, :gl_context], :int
   api :SDL_GL_GetCurrentWindow, [], Window.by_ref
   api :SDL_GL_GetCurrentContext, [], :gl_context

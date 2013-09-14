@@ -1,11 +1,13 @@
 require 'sdl2'
 require 'sdl2/version'
+require 'sdl2/rwops'
+require 'sdl2/color'
 require 'sdl2/ttf/sdl_ttf_module'
 require 'active_support/inflector'
-require 'yinum'
+
 
 module SDL2
-  
+  # The SDL_ttf interface.  API prototypes are linked to this module.
   module TTF
     
     extend FFI::Library
@@ -16,7 +18,7 @@ module SDL2
       methodName = ActiveSupport::Inflector.underscore(camelCaseName).to_sym
       self.attach_function methodName, func_name, args, type
       return methodName
-    end
+    end      
     
     api :TTF_Linked_Version, [], Version.auto_ptr
     
@@ -39,30 +41,32 @@ module SDL2
     api :TTF_OpenFontRW, [RWops.by_ref, :int, :int], Font.auto_ptr
     api :TTF_OpenFontIndexRW, [RWops.by_ref, :int, :int, :long], Font.auto_ptr
     
-    STYLE = Enum.new(:STYLE, {
-      NORMAL: 0x00,
-      BOLD: 0x01,
-      ITALIC: 0x02,
-      UNDERLINE: 0x04,
-      STRIKETHROUGH: 0x08
-    })
+    module STYLE
+      include EnumerableConstants
+      NORMAL = 0x00
+      BOLD = 0x01
+      ITALIC = 0x02
+      UNDERLINE = 0x04
+      STRIKETHROUGH = 0x08
+    end
     
-    enum :font_style, STYLE.by_name
+    enum :font_style, *STYLE.by_name
     
     api :TTF_GetFontStyle, [Font.by_ref], :int
     api :TTF_SetFontStyle, [Font.by_ref, :int], :void
     api :TTF_GetFontOutline, [Font.by_ref], :int
     api :TTF_SetFontOutline, [Font.by_ref, :int], :void
     
-    HINTING = Enum.new(:HINTING, {
-      NORMAL: 0,
-      LIGHT: 1,
-      MONO: 2,
-      NONE: 3
-    })
-    enum :hinting, HINTING.by_name
+    module HINTING 
+      include EnumerableConstants
+      NORMAL = 0
+      LIGHT = 1
+      MONO = 2
+      NONE = 3
+    end
+    enum :hinting, *HINTING.by_name
    
-    api :TTF_GetFontHinting, [Font.by_ref], :int
+    api :TTF_GetFontHinting, [Font.by_ref], :hinting
     api :TTF_SetFontHinting, [Font.by_ref, :int], :void
     
     api :TTF_FontHeight, [Font.by_ref], :int

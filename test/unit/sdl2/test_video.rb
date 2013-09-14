@@ -84,7 +84,7 @@ VIDEO_API = [
 
 describe SDL2 do
   before do
-    assert(SDL2.init(SDL2::INIT_VIDEO) == 0, 'Video initialized.')
+    assert(SDL2.init(SDL2::INIT::VIDEO) == 0, 'Video initialized.')
   end
 
   after do

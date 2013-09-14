@@ -2,12 +2,19 @@ require 'sdl2'
 require 'sdl2/renderer_info'
 module SDL2
   
-  class Renderer < Struct
-    layout :blank, :uint8 # Ignore Structure?
+  module RENDERER
+    include EnumerableConstants
+    
     SOFTWARE       = 0x00000001         
     ACCELERATED    = 0x00000002      
     PRESENTVSYNC   = 0x00000004     
     TARGETTEXTURE  = 0x00000008
+  end
+  
+  class Renderer < Struct
+    include RENDERER
+    
+    layout :blank, :uint8 # Ignore Structure?    
     
     def self.create(window, driver_idx, flags)
       create_render(window, driver_idx, flags)

@@ -2,30 +2,34 @@ require 'sdl2'
 require 'sdl2/error'
 
 module SDL2
-  # SDL Constants, for OR'ing them
-  INIT_TIMER          = 0x00000001
-  INIT_AUDIO          = 0x00000010
-  INIT_VIDEO          = 0x00000020
-  INIT_JOYSTICK       = 0x00000200
-  INIT_HAPTIC         = 0x00001000
-  INIT_GAMECONTROLLER = 0x00002000
-  INIT_EVENTS         = 0x00004000
-  INIT_NOPARACHUTE    = 0x00100000
-  INIT_EVERYTHING     = INIT_TIMER | INIT_AUDIO | INIT_VIDEO |
-  INIT_EVENTS | INIT_JOYSTICK | INIT_HAPTIC |
-  INIT_GAMECONTROLLER
+
+  # Enumeration of valid initialization flags.
+  module INIT
+    include EnumerableConstants
+
+    TIMER          = 0x00000001
+    AUDIO          = 0x00000010
+    VIDEO          = 0x00000020
+    JOYSTICK       = 0x00000200
+    HAPTIC         = 0x00001000
+    GAMECONTROLLER = 0x00002000
+    EVENTS         = 0x00004000
+    NOPARACHUTE    = 0x00100000
+    EVERYTHING     = TIMER | AUDIO | VIDEO | EVENTS | JOYSTICK | HAPTIC | GAMECONTROLLER
+
+  end
 
   enum :init_flag, [
     :nothing, 0,
-    :timer, INIT_TIMER,
-    :audio, INIT_AUDIO,
-    :video, INIT_VIDEO,
-    :joystick, INIT_JOYSTICK,
-    :haptic, INIT_HAPTIC,
-    :game_controller, INIT_GAMECONTROLLER,
-    :events, INIT_EVENTS,
-    :no_parachute, INIT_NOPARACHUTE,
-    :everything, INIT_EVERYTHING
+    :timer, INIT::TIMER,
+    :audio, INIT::AUDIO,
+    :video, INIT::VIDEO,
+    :joystick, INIT::JOYSTICK,
+    :haptic, INIT::HAPTIC,
+    :game_controller, INIT::GAMECONTROLLER,
+    :events, INIT::EVENTS,
+    :no_parachute, INIT::NOPARACHUTE,
+    :everything, INIT::EVERYTHING
   ]
 
   api :SDL_Init, [:init_flag], :int, {error: true}

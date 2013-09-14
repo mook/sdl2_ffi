@@ -6,7 +6,7 @@ require 'sdl2/log'
 
 describe SDL2 do
   before do
-    SDL2.init(SDL2::INIT_EVERYTHING)
+    SDL2.init(SDL2::INIT::EVERYTHING)
   end
   
   after do

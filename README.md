@@ -2,8 +2,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/sdl2_ffi.png)](http://badge.fury.io/rb/sdl2_ffi)
 
-
-
 This is a simple interface to SDL2 for Ruby using FFI.  It also supports SDL_image and SDL_ttf.
 Most of the procedural API has been linked with a few large exceptions like SDL_opengl.
 The "Object Oriented" part of this interface has barely started.

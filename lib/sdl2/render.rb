@@ -5,21 +5,37 @@ require 'sdl2/texture'
 require 'sdl2/point'
 
 module SDL2
-  # lines 64~73
-  enum :renderer_flags, [
-    :software, Renderer::SOFTWARE,
-    :accelerated, Renderer::ACCELERATED,
-    :present_vsync, Renderer::PRESENTVSYNC,
-    :target_texture, Renderer::TARGETTEXTURE
-  ]
-  # lines 91~96
-  enum :texture_access, [:static, :streaming, :target]
-  # lines 101~106
-  enum :texture_modulate, [:none, 0x00000000, :color, 0x00000001, :alpha, 0x00000002]
-  # lines 111~116
-  enum :renderer_flip, [:none, 0x00000000, :horizontal, 0x00000001, :vertical, 0x00000002]
+  enum :renderer_flags, *RENDERER.by_name
+  
+  # The access pattern allowed for a texture
+  module TEXTUREACCESS
+    include EnumerableConstants
+    STATIC = next_const_value
+    STREAMING = next_const_value
+    TARGET = next_const_value
+  end
+  enum :texture_access, *TEXTUREACCESS.by_name  
+       
+  # The texture channel modulation used in #render_copy 
+  module TEXTUREMODULATE
+    include EnumerableConstants
+    NONE = 0x00000000     
+    COLOR = 0x00000001    
+    ALPHA = 0x00000002     
+  end    
+  enum :texture_modulate, *TEXTUREMODULATE.by_name
+  
+  # Constants for #render_copy_ex
+  module FLIP
+    include EnumerableConstants
+    NONE = 0x00000000
+    HORIZONTAL = 0x00000001
+    VERTICAL = 0x00000002  
+  end
+  enum :renderer_flip, *FLIP.by_name
     
   typedef :int, :render_driver_index
+  
   api :SDL_GetNumRenderDrivers, [], :int
   api :SDL_GetRenderDriverInfo, [:render_driver_index, RendererInfo.by_ref], :int
   api :SDL_CreateWindowAndRenderer, [:int, :int, :window_flags, Window.by_ref, Renderer.by_ref], :int
