@@ -33,6 +33,8 @@ module SDL2
     result == 0
   end
   
+  TRUE_WHEN_ONE = Proc.new{|result| result == 1}
+  
   TRUE_WHEN_NOT_ZERO = Proc.new do |result|
     result != 0
   end

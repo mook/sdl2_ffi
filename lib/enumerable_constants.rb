@@ -54,6 +54,15 @@ module EnumerableConstants
         return result
       end
       
+      # Return the defined constants in a hash keyed by value.
+      def self.by_value
+        result = {}
+        self.constants.each do |constant|
+          result[self.const_get(constant)] = constant          
+        end
+        return result
+      end
+      
       # This routine returns a flattened array of alternating symbols and values.
       # The symbols are the CONSTANT names and values are the values defined by that constant.
       def self.flatten_consts

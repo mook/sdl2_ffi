@@ -333,7 +333,7 @@ module SDL2
   # General event UNION (structure)
   # Remember that this is a union, all other structures not related to #type are
   # garbage
-  class Event < FFI::Union
+  class Event < Union
     layout :type, :uint32,
     :common, CommonEvent,
     :window, WindowEvent,
@@ -357,6 +357,28 @@ module SDL2
     :mgesture, MultiGestureEvent,
     :drop, DropEvent,
     :padding, [:uint8, 56] # From SDL_events.h:529
+      
+    member_readers *members
+      
+    # Polls for currently pending events
+    # @returns SDL2::Event or nil if there are no events.
+    def self.poll()
+      tmp_event = SDL2::Event.new
+      unless SDL2.poll_event?(tmp_event)
+        tmp_event.free
+        tmp_event = nil
+      end
+      return tmp_event # May be nil if SDL2.poll_event fails.
+    end
+   
+    
+    # Converts SDL's type integer into a EVENTTYPE symbol
+    # Returns :UNKOWN on failure.
+    def type_symbol
+      sym = EVENTTYPE.by_value[self.type]
+      sym.nil? ? :UNKOWN : sym
+    end    
+      
   end
 
   module EVENTACTION
@@ -376,6 +398,7 @@ module SDL2
   api :SDL_FlushEvent, [:uint32], :void
   api :SDL_FlushEvents, [:uint32, :uint32], :void
   api :SDL_PollEvent, [Event.by_ref], :int
+  boolean? :poll_event, TRUE_WHEN_ONE
   api :SDL_WaitEvent, [Event.by_ref], :int
   api :SDL_WaitEventTimeout, [Event.by_ref, :count], :int
   api :SDL_PushEvent, [Event.by_ref, :count], :int

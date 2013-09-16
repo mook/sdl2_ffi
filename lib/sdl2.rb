@@ -2,16 +2,45 @@ require 'sdl2/sdl_module'
 require 'active_support/inflector'
 require 'enumerable_constants'
 require 'sdl2/stdinc'
+
 # libSDL2's prototypes are attached directly to this module.
 #
 module SDL2
   extend FFI::Library
   extend Library
-  ffi_lib SDL_MODULE  
+  ffi_lib SDL_MODULE
+
+  module StructHelper
+
+    # Define a set of member readers
+    # Ex1: `member_readers [:one, :two, :three]`
+    # Ex2: `member_readers *members`
+    def member_readers(*members_to_define)
+      #self.class_eval do
+      members_to_define.each do |member|
+        define_method member do
+          self[member]
+        end
+      end
+      #end
+    end
+
+    # Define a set of member writers
+    # Ex1: `member_writers [:one, :two, :three]`
+    # Ex2: `member_writers *members`
+    def member_writers(*members_to_define)
+      members_to_define.each do |member|
+        define_method "#{member}=".to_sym do |value|
+          self[member]= value
+        end
+      end
+    end
+
+  end
 
   # FFI::Struct class with some useful additions.
   class Struct < FFI::Struct
-
+    extend StructHelper
     # Allows creation and use within block, automatically freeing pointer after block.
     def initialize(*args, &block)
       super(*args)
@@ -25,30 +54,6 @@ module SDL2
     # A default release scheme is defined, but should be redefined where appropriate.
     def self.release(pointer)
       pointer.free
-    end
-
-    # Define a set of member readers
-    # Ex1: `member_readers [:one, :two, :three]`
-    # Ex2: `member_readers *members`
-    def self.member_readers(*members_to_define)
-      #self.class_eval do
-      members_to_define.each do |member|
-        define_method member do
-          [member]
-        end
-      end
-      #end
-    end
-
-    # Define a set of member writers
-  	# Ex1: `member_writers [:one, :two, :three]`
-	  # Ex2: `member_writers *members`
-    def self.member_writers(*members_to_define)
-      members_to_define.each do |member|
-        define_method "#{member}=".to_sym do |value|
-          self[member]= value
-        end
-      end
     end
 
     # A human-readable representation of the struct and it's values.
@@ -77,7 +82,8 @@ module SDL2
 
   # FFI::ManagedStruct possibly with useful additions.
   class ManagedStruct < FFI::ManagedStruct
-
+    extend StructHelper
+    
     # Allows create and use the struct within a block.
     def initialize(*args, &block)
       super(*args)
@@ -88,7 +94,9 @@ module SDL2
 
   end
 
-  
+  class Union < FFI::Union
+    extend StructHelper
+  end
 
   class TypedPointer < Struct
 
@@ -126,7 +134,7 @@ module SDL2
   class UInt8Struct < TypedPointer
     type :uint8
   end
-  
+
   # TODO: Review if this is the best place to put it.
   # BlendMode is defined in a header file that is always included, so I'm
   # defineing again here.
@@ -147,7 +155,6 @@ module SDL2
   typedef :int, :count
 
 end
-
 
 require 'sdl2/init'
 
