@@ -5,15 +5,15 @@ module SDL2
   module Clipboard
 
     def self.has
-      SDL2.has_clipboard_text()
+      SDL2.has_clipboard_text
     end
 
     def self.has?
-      SDL2.has_clipboard_text == :true
+      SDL2.has_clipboard_text?
     end
 
     def self.get
-      SDL2.get_clipboard_text()
+      SDL2.get_clipboard_text
     end
 
     def self.set(text)
