@@ -29,23 +29,31 @@ module SDL2
     
   class Hint
     include HINT
+    # Get the named Hint's value.
+    # @returns String, the value.
     def self.[](name)
       SDL2.get_hint(name)
     end
     
-    # Sets the named Hint to Value.  Returns new value on success or existing value on failure
+    # Sets the named Hint to Value.  
+    # @returns String, the actual value. 
+    # @raises RuntimeError
     def self.[]=(name, value)
-      return SDL2.set_hint(name, value) == :true ? value : self[name]
+      SDL2.set_hint!(name, value)
+      self[name]
     end
     
+    # Sets the named Hint to Value, with a hint_priority.  
+    # @returns String, the actual value. 
     def self.set_with_priority(name, value, hint_priority)
-      return SDL2.set_hint_with_priority(name, value, hint_priority) == :true ? value : self[name]
+      SDL2.set_hint_with_priority(name, value, hint_priority) 
+      self[name]
     end
   end
 
   api :SDL_ClearHints, [], :void
   api :SDL_GetHint, [:string], :string
-  api :SDL_SetHint, [:string, :string], :bool
+  api :SDL_SetHint, [:string, :string], :bool, {error: true}
   api :SDL_SetHintWithPriority, [:string, :string, :hint_priority], :bool
 
 end
