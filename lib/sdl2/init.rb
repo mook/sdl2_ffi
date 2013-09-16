@@ -18,28 +18,12 @@ module SDL2
     EVERYTHING     = TIMER | AUDIO | VIDEO | EVENTS | JOYSTICK | HAPTIC | GAMECONTROLLER
 
   end
-
-  enum :init_flag, [
-    :nothing, 0,
-    :timer, INIT::TIMER,
-    :audio, INIT::AUDIO,
-    :video, INIT::VIDEO,
-    :joystick, INIT::JOYSTICK,
-    :haptic, INIT::HAPTIC,
-    :game_controller, INIT::GAMECONTROLLER,
-    :events, INIT::EVENTS,
-    :no_parachute, INIT::NOPARACHUTE,
-    :everything, INIT::EVERYTHING
-  ]
+  
+  enum :init_flag, INIT.flatten_consts
+  
 
   api :SDL_Init, [:init_flag], :int, {error: true}
 
-  #def self.init!(flags)
-  #  error_code = init(flags)
-  #  if (error_code != 0)
-  #    throw get_error()
-  #  end
-  #end
 
   api :SDL_InitSubSystem, [:init_flag], :int, {error: true}
 
@@ -51,6 +35,8 @@ module SDL2
   end
 
   api :SDL_WasInit, [:init_flag], :uint32
+    
+  boolean? :was_init, TRUE_WHEN_NOT_ZERO
 
   api :SDL_Quit, [], :void
 
