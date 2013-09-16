@@ -50,7 +50,7 @@ module SDL2
       STRIKETHROUGH = 0x08
     end
     
-    enum :font_style, *STYLE.by_name
+    enum :font_style, STYLE.flatten_consts
     
     api :TTF_GetFontStyle, [Font.by_ref], :int
     api :TTF_SetFontStyle, [Font.by_ref, :int], :void
@@ -64,7 +64,7 @@ module SDL2
       MONO = 2
       NONE = 3
     end
-    enum :hinting, *HINTING.by_name
+    enum :hinting, HINTING.flatten_consts
    
     api :TTF_GetFontHinting, [Font.by_ref], :hinting
     api :TTF_SetFontHinting, [Font.by_ref, :int], :void
