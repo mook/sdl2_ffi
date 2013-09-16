@@ -9,19 +9,20 @@ module SDL2
     layout :x, :int, :y, :int, :w, :int, :h, :int
 
     def empty
-      return ((!self.null?) || (self[:w] <= 0) || (self[:h] <= 0)) ? :true : :false
+      return ((!self.null?) || (self[:w] <= 0) || (self[:h] <= 0))
     end
 
-    def empty?
-      empty == :true
-    end
+    alias_method :empty?, :empty
 
-    def equals(other)
-      if self.null or other.null?
-        return (self.null? and other.null?) ? :true : :false
+    def equals(other)    
+      return false if other.nil?
+      return false unless other.kind_of? Rect
+      
+      if self.null? or other.null? # Either null?
+        return (self.null? and other.null?) # Equal if both are null!      
       else
-        [:x, :y, :w, :h].each do |field|
-          return :false unless self[field] == other[field]
+        members.each do |field| # Compare our fields.
+          return false unless self[field] == other[field]
         end
       end
       return true # if we made it this far
