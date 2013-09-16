@@ -2,42 +2,45 @@
 
 [![Gem Version](https://badge.fury.io/rb/sdl2_ffi.png)](http://badge.fury.io/rb/sdl2_ffi)
 
-This is a simple interface to SDL2 for Ruby using FFI.  It also supports SDL_image and SDL_ttf.
-Most of the procedural API has been linked with a few large exceptions like SDL_opengl.
+This is a simple interface to SDL2 for Ruby using FFI.  
+It also supports SDL_image and SDL_ttf.
+While a lot of the SDLlib, SDL_image, and SDL_ttf are linked, not all prototypes
+have been tested.  Large sections, such as "SDL_opengl<x>.h" have not been translated
+at all.
+
 The "Object Oriented" part of this interface has barely started.
 
 # Documentation/API Reference:
 
-The documentation is embedded within the code.  Generate the RDoc 
+For the latest released gem, [rubydoc.info](http://rubydoc.info/) has the
+[automatically generated documentation](http://rubydoc.info/gems/sdl2_ffi/frames).
 
+Otherwise, you can use RDoc to generate current source documentation.
+ 
 # How to start:
 
 The GEM is organized to the same structure as the SDL header files.  Where in C/C++ you would need to:
 
-    include 'SDL.h'
-    include 'SDL_video.h'
+    include 'SDL'
+    include 'SDL_image'
+    include 'SDL_ttf'
     
 with this rubygem, you would instead:
 
     require 'sdl2'
-    require 'sdl2/video'
+    require 'sdl2/image'
+    require 'sdl2/ttf'
     
 The SDL2 module is defined and it is where the raw SDL API is loaded and linked.  The Raw API can be called like so:
 
-    SDL2.init(SDL2::INIT_EVERYTHING)
+    SDL2.init!(:EVERYTHING)
+	SDL2.was_init?(:EVERYTHING)
     
+## More Examples:
 
-    
-### Gotchas:
+As a means of validating functionality, I am in the process of translating
+existing SDL Examples into Minitest [functional tests](https://github.com/BadQuanta/sdl2_ffi/tree/master/test/functional/examples).  
 
-* Remember that SDL uses the 'SDL_Bool' enum instead of actual ruby Boolean, so instead of 'true' and 'false', you get ':true' and ':false'
-  * Whenever SDL returns an SDL_Bool in the RAW API, I will always endevour to ensure there is a xxx? equivalent helper that converts the response to Ruby Booleans.
-
-## Updates
-
-### Imported APIs
-
-I'm working my way through the SDL API header files.  I am attempting to make this GEM as modular as the SDL header files themselves so that the developer can load only the enum, typedefs and link to only the functionality needed.
 
 ## Dependencies
 
@@ -69,6 +72,15 @@ Run the tests with rake:
 Verbose options are nice:
 
     $ rake test TESTOPTS="--verbose"
+
+   
+### Testing Under *nix & X11
+
+If you are testing under some kind of unix system with X11 and have Xnest available,
+I'd recommend starting up Xnest and changing your testing terminal DISPLAY value
+so that the tests do not throw around a bunch of Windows on your scren.
+
+
     
 ### I need your help!
 
