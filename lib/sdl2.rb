@@ -1,30 +1,13 @@
 require 'ffi'
 require 'sdl2/sdl_module'
 require 'active_support/inflector'
-
 require 'enumerable_constants'
 
 # libSDL2's prototypes are attached directly to this module.
-# 
+#
 module SDL2
   extend FFI::Library
   ffi_lib SDL_MODULE
- 
-  
-
-  [:int, :uint8, :int8, :uint16, :int16, :uint32, :int32, :uint64, :int64, :float, :double].each do |type|
-    typedef :pointer, "p_#{type}".to_sym
-  end
-
-  #Filter Proc, True when arg equals zero
-  TRUE_WHEN_ZERO = Proc.new do |result|
-    result == 0
-  end
-
-  # Filter Proc, True when arg not null?
-  TRUE_WHEN_NOT_NULL = Proc.new do |result|
-    (!result.null?)
-  end
 
   # This converts the SDL Function Prototype name "SDL_XxxYyyyyZzz" to ruby's
   # "xxx_yyyy_zzz" convetion
@@ -32,7 +15,7 @@ module SDL2
 
     options = {
       :error => false,
-      :filter => TRUE_WHEN_ZERO
+      :filter => type == :bool ? TRUE_WHEN_TRUE : TRUE_WHEN_ZERO
     }.merge(options)
 
     camelCaseName = func_name.to_s.gsub('SDL_','')
@@ -73,34 +56,19 @@ module SDL2
     end
   end
 
-  # Generates an alternative version of methodName that will return Ruby's `true`
-  # if the method named returns SDL_true/:true enum value.  The alternative
-  # method has the same name with a question mark ("?") appended, to indicate its
-  # boolean nature.
-  def self.boolean?(methodName)
+  # Generates an alternative ? version for methodName.
+  def self.boolean?(methodName, filter = nil)
     metaclass.instance_eval do
-      define_method("#{methodName}?".to_sym) do |*args|
-        self.send(methodName, *args) == :true
+      if filter.nil?
+        alias_method "#{methodName}?".to_sym, methodName
+      else
+        define_method("#{methodName}?".to_sym) do |*args|          
+            filter.call(self.send(methodName, *args))
+          end
       end
     end
   end
-
-  # Define a four character code as a Uint32
-  #MACRO: SDL_FOURCC(A, B, C, D) \
-  #    ((SDL_static_cast(Uint32, SDL_static_cast(Uint8, (A))) << 0) | \
-  #     (SDL_static_cast(Uint32, SDL_static_cast(Uint8, (B))) << 8) | \
-  #     (SDL_static_cast(Uint32, SDL_static_cast(Uint8, (C))) << 16) | \
-  #     (SDL_static_cast(Uint32, SDL_static_cast(Uint8, (D))) << 24))
-  def self.fourcc(*args)
-    bit_cnt = 0
-    result = 0
-    args.each do |arg|
-      arg = arg.codepoints[0] if arg.kind_of? String
-      result = result | (arg << bit_cnt)
-      bit_cnt += 8
-    end
-    return result
-  end
+  
 
   # FFI::Struct class with some useful additions.
   class Struct < FFI::Struct
@@ -120,13 +88,37 @@ module SDL2
       pointer.free
     end
 
+    # Define a set of member readers
+    # Ex1: `member_readers [:one, :two, :three]`
+    # Ex2: `member_readers *members`
+    def self.member_readers(*members_to_define)
+      #self.class_eval do
+      members_to_define.each do |member|
+        define_method member do
+          [member]
+        end
+      end
+      #end
+    end
+
+    # Define a set of member writers
+  	# Ex1: `member_writers [:one, :two, :three]`
+	  # Ex2: `member_writers *members`
+    def self.member_writers(*members_to_define)
+      members_to_define.each do |member|
+        define_method "#{member}=".to_sym do |value|
+          self[member]= value
+        end
+      end
+    end
+
     # A human-readable representation of the struct and it's values.
     def inspect
-      return 'nul' if pointer.null?
-      binding.pry
+      return 'nil' if self.null?
+
       #binding.pry
-      #return self.to_s      
-      
+      #return self.to_s
+
       report = "struct #{self.class.to_s}{"
       report += self.class.members.collect do |field|
         "#{field}->#{self[field].inspect}"
@@ -157,10 +149,6 @@ module SDL2
 
   end
 
-  # SDL_Bool: SDL's TRUE/FALSE enumeration.
-  # Ruby does not automatically evaluate 0 as false.
-  enum :bool, [:false, 0, :true, 1]
-
   # Raise the current error value as a RuntimeException
   def self.raise_error
     raise "SDL Error: #{SDL2.get_error()}"
@@ -175,16 +163,17 @@ module SDL2
   def self.raise_error_if(condition)
     raise_error if condition
   end
-  
+
   class TypedPointer < Struct
+
     def self.type(kind)
       layout :value, kind
     end
-    
+
     def value
       self[value]
     end
-    
+
     alias_method :deref, :value
   end
 
@@ -199,19 +188,19 @@ module SDL2
     type :int
   end
 
-  # 
+  #
   class UInt16Struct < TypedPointer
     type :uint16
   end
 
-  class UInt32Struct < TypedPointer 
+  class UInt32Struct < TypedPointer
     type :uint32
   end
 
   class UInt8Struct < TypedPointer
     type :uint8
   end
-
+  
   # TODO: Review if this is the best place to put it.
   # BlendMode is defined in a header file that is always included, so I'm
   # defineing again here.
@@ -232,3 +221,35 @@ module SDL2
   typedef :int, :count
 
 end
+
+require 'sdl2/stdinc'
+require 'sdl2/init'
+
+#TODO: require 'sdl2/assert'
+#TODO: require 'sdl2/atomic'
+require 'sdl2/audio'
+require 'sdl2/clipboard'
+require 'sdl2/cpuinfo'
+
+#TODO: require 'sdl2/endian'
+require 'sdl2/error'
+require 'sdl2/events'
+require 'sdl2/joystick'
+require 'sdl2/gamecontroller'
+require 'sdl2/haptic'
+require 'sdl2/hints'
+
+#TODO?: require 'sdl2/loadso'
+require 'sdl2/log'
+
+#TODO: require 'sdl2/messagebox'
+#TODO: require 'sdl2/mutex'
+require 'sdl2/power'
+require 'sdl2/render'
+require 'sdl2/rwops'
+
+#TODO: require 'sdl2/system'
+#TODO: require 'sdl2/thread'
+require 'sdl2/timer'
+require 'sdl2/version'
+require 'sdl2/video'
