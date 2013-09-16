@@ -164,6 +164,9 @@ module SDL2
     class Direction < Struct
       layout :type, :uint8,
       :dir, [:int32, 3] # Magic #3 form line 442
+        
+      member_readers *members # Read all      
+      member_writers *members # Write all
     end
 
     # Identical starting elements shared between structures.
@@ -432,7 +435,7 @@ module SDL2
   end
 
   ##
-  #
+  # Get the number of haptics?
   api :SDL_NumHaptics, [], :int
   api :SDL_HapticName, [:int], :string
   api :SDL_HapticOpen, [:int], Haptic.auto_ptr
