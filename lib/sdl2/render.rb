@@ -5,7 +5,7 @@ require 'sdl2/texture'
 require 'sdl2/point'
 
 module SDL2
-  enum :renderer_flags, *RENDERER.by_name
+  enum :renderer_flags, RENDERER.flatten_consts
   
   # The access pattern allowed for a texture
   module TEXTUREACCESS
@@ -14,7 +14,7 @@ module SDL2
     STREAMING = next_const_value
     TARGET = next_const_value
   end
-  enum :texture_access, *TEXTUREACCESS.by_name  
+  enum :texture_access, TEXTUREACCESS.flatten_consts  
        
   # The texture channel modulation used in #render_copy 
   module TEXTUREMODULATE
@@ -23,7 +23,7 @@ module SDL2
     COLOR = 0x00000001    
     ALPHA = 0x00000002     
   end    
-  enum :texture_modulate, *TEXTUREMODULATE.by_name
+  enum :texture_modulate, TEXTUREMODULATE.flatten_consts
   
   # Constants for #render_copy_ex
   module FLIP
@@ -32,7 +32,7 @@ module SDL2
     HORIZONTAL = 0x00000001
     VERTICAL = 0x00000002  
   end
-  enum :renderer_flip, *FLIP.by_name
+  enum :renderer_flip, FLIP.flatten_consts
     
   typedef :int, :render_driver_index
   
