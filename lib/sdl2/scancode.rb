@@ -271,6 +271,6 @@ module SDL2
     APP2  =  284
   end
   
-  enum :scancode, *SCANCODE.by_name
+  enum :scancode, SCANCODE.flatten_consts
 
 end
