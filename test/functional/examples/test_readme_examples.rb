@@ -8,7 +8,7 @@ describe "README.md" do
     
     SDL2.init! :EVERYTHING
 
-    assert SDL2.was_init? :VIDEO
+    assert SDL2.was_init?(:VIDEO)
     
   end
   

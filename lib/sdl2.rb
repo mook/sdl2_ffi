@@ -1,74 +1,13 @@
-require 'ffi'
 require 'sdl2/sdl_module'
 require 'active_support/inflector'
 require 'enumerable_constants'
-
+require 'sdl2/stdinc'
 # libSDL2's prototypes are attached directly to this module.
 #
 module SDL2
   extend FFI::Library
-  ffi_lib SDL_MODULE
-
-  # This converts the SDL Function Prototype name "SDL_XxxYyyyyZzz" to ruby's
-  # "xxx_yyyy_zzz" convetion
-  def self.api(func_name, args, type, options = {})
-
-    options = {
-      :error => false,
-      :filter => type == :bool ? TRUE_WHEN_TRUE : TRUE_WHEN_ZERO
-    }.merge(options)
-
-    camelCaseName = func_name.to_s.gsub('SDL_','')
-    methodName = ActiveSupport::Inflector.underscore(camelCaseName).to_sym
-
-    self.attach_function methodName, func_name, args, type
-
-    if options[:error]
-      returns_error(methodName, options[:filter])
-    end
-
-    if type == :bool
-      boolean?(methodName)
-    end
-
-    return methodName
-  end
-
-  # Returns the 'singleton class' so we can define class-level methods on the
-  # fly.
-  # There may be a better place to put this.
-  def self.metaclass
-
-    class << self; self; end
-  end
-
-  # Generates an alternative version of methodName that will raise a SDL Error
-  # when the return value fails the filter test.  The alternative version has
-  # the same name, but with an exclamation mark ("!") at the end, indicating the
-  # danger.
-  def self.returns_error(methodName, filter)
-    metaclass.instance_eval do
-      define_method "#{methodName}!".to_sym do |*args|
-        result = self.send(methodName, *args)
-        raise_error_unless filter.call(result)
-        result
-      end
-    end
-  end
-
-  # Generates an alternative ? version for methodName.
-  def self.boolean?(methodName, filter = nil)
-    metaclass.instance_eval do
-      if filter.nil?
-        alias_method "#{methodName}?".to_sym, methodName
-      else
-        define_method("#{methodName}?".to_sym) do |*args|          
-            filter.call(self.send(methodName, *args))
-          end
-      end
-    end
-  end
-  
+  extend Library
+  ffi_lib SDL_MODULE  
 
   # FFI::Struct class with some useful additions.
   class Struct < FFI::Struct
@@ -149,20 +88,7 @@ module SDL2
 
   end
 
-  # Raise the current error value as a RuntimeException
-  def self.raise_error
-    raise "SDL Error: #{SDL2.get_error()}"
-  end
-
-  # Conditionally raise an error, unless true
-  def self.raise_error_unless(condition)
-    raise_error unless condition
-  end
-
-  # Conditionally raise an error, unless false
-  def self.raise_error_if(condition)
-    raise_error if condition
-  end
+  
 
   class TypedPointer < Struct
 
@@ -222,7 +148,7 @@ module SDL2
 
 end
 
-require 'sdl2/stdinc'
+
 require 'sdl2/init'
 
 #TODO: require 'sdl2/assert'

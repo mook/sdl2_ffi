@@ -10,7 +10,7 @@ module SDL2
   callback :rwops_write, [RWops.by_ref, :pointer, :size_t, :size_t], :size_t
   callback :rwops_close, [RWops.by_ref], :int
 
-  class RWops 
+  class RWops < Struct
     class AndroidIO < Struct
       layout :fileNameRef, :pointer,
         :inputSteramRef, :pointer,
@@ -74,7 +74,11 @@ module SDL2
     # CONSTANTS
     SEEK_SET = 0
     SEEK_CUR = 1
-    SEEK_END = 2
+    SEEK_END = 2       
+    
+    def self.from_file(file_name, mode)
+      SDL2.rw_from_file!(file_name, mode)
+    end
     
     # Read/Write Macros re-implemented: Lines #184~189
     def size
@@ -103,11 +107,11 @@ module SDL2
     
   end
   
-  api :SDL_RWFromFile, [:string, :string], RWops.auto_ptr
-  api :SDL_RWFromFP, [:pointer, :bool], RWops.auto_ptr
-  api :SDL_RWFromMem, [:pointer, :count], RWops.auto_ptr
-  api :SDL_RWFromConstMem, [:pointer, :count], RWops.auto_ptr
-  api :SDL_AllocRW, [], RWops.auto_ptr
+  api :SDL_RWFromFile, [:string, :string], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+  api :SDL_RWFromFP, [:pointer, :bool], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+  api :SDL_RWFromMem, [:pointer, :count], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+  api :SDL_RWFromConstMem, [:pointer, :count], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+  api :SDL_AllocRW, [], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
   api :SDL_FreeRW, [RWops.by_ref], :void
   api :SDL_ReadU8, [RWops.by_ref], :uint8
   api :SDL_ReadLE16, [RWops.by_ref], :uint16

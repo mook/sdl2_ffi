@@ -1,6 +1,7 @@
 # TODO: Review stdinc stub.
 
 require 'enumerable_constants'
+require 'sdl2/library'
 
 module SDL2
 
@@ -207,6 +208,6 @@ module SDL2
   #  #define SDL_iconv_utf8_ucs2(S)      (Uint16 *)SDL_iconv_string("UCS-2-INTERNAL", "UTF-8", S, SDL_strlen(S)+1)
   #  #define SDL_iconv_utf8_ucs4(S)      (Uint32 *)SDL_iconv_string("UCS-4-INTERNAL", "UTF-8", S, SDL_strlen(S)+1)
     
-
+  
     
 end

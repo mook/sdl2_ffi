@@ -5,9 +5,12 @@ require 'sdl2/point'
 
 module SDL2
 
-  class Rect < FFI::Struct
+  class Rect < Struct
     layout :x, :int, :y, :int, :w, :int, :h, :int
 
+    member_readers *members
+    member_writers *members
+    
     def empty
       return ((!self.null?) || (self[:w] <= 0) || (self[:h] <= 0))
     end

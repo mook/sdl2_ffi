@@ -6,23 +6,17 @@ require 'active_support/inflector'
 module SDL2
 
   module Image
-
     extend FFI::Library
+    extend Library
     ffi_lib SDL_IMAGE_MODULE
 
-    def self.api(func_name, args, type)
-      camelCaseName = func_name.to_s.gsub('IMG_', '')
-      methodName = ActiveSupport::Inflector.underscore(camelCaseName).to_sym
-      self.attach_function methodName, func_name, args, type
-      return methodName
-    end
 
     enum :init_flags, [:JPG, :PNG, :TIF, :WEBP]
 
     api :IMG_Init, [:init_flags], :int
     api :IMG_Quit, [], :void
     api :IMG_LoadTyped_RW, [RWops.by_ref, :int, :string], Surface.auto_ptr
-    api :IMG_Load, [:string], Surface.auto_ptr
+    api :IMG_Load, [:string], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL }
     api :IMG_Load_RW, [RWops.by_ref, :int], Surface.auto_ptr
 
     api :IMG_isICO, [RWops.by_ref], :int
@@ -55,9 +49,9 @@ module SDL2
     api :IMG_LoadXPM_RW, [RWops.by_ref], Surface.auto_ptr
     api :IMG_LoadXV_RW, [RWops.by_ref], Surface.auto_ptr
     api :IMG_LoadWEBP_RW, [RWops.by_ref], Surface.auto_ptr
-    
+
     api :IMG_ReadXPMFromArray, [:pointer], Surface.auto_ptr
-      
+
     api :IMG_SavePNG, [Surface.by_ref, :string], :int
     api :IMG_SavePNG_RW, [Surface.by_ref, RWops.by_ref, :int], :int
 

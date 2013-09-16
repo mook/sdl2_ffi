@@ -4,7 +4,6 @@ require 'sdl2/pixels'
 require 'sdl2/rect'
 require 'sdl2/palette'
 
-
 #require 'sdl2/pixel_format'
 
 module SDL2
@@ -14,7 +13,7 @@ module SDL2
   #
   #\note  This structure should be treated as read-only, except for \c pixels,
   #       which, if not NULL, contains the raw pixel data for the surface.
-  class Surface < FFI::Struct
+  class Surface < Struct
 
     private :[]
 
@@ -29,6 +28,8 @@ module SDL2
     :clip_rect, Rect,
     :map, :pointer,
     :refcount, :int
+    
+    member_readers(*members)
 
     [:flags, :format, :w, :h, :pixels, :userdata, :locked, :lock_data, :clip_rect, :map, :refcount].each do |field|
       define_method field do
@@ -103,12 +104,14 @@ module SDL2
       self[:flags] & RLEACCEL != 0
     end
 
-    def blit_from(src, src_rect, dst_rect)
-      SDL2.blit!(src, src_rect, self, dst_rect)
+    # Blit from source to this surface 
+    def blit_in(src, src_rect = nil, dst_rect = nil)
+      SDL2.blit_surface!(src, src_rect, self, dst_rect)
     end
 
-    def blit_to(src_rect, dst, dst_rect)
-      SDL2.blit!(self, src_rect, dst, dst_rect)
+    # Blit from this surface to dest
+    def blit_out(dest, dest_rect = nil, src_rect = nil)
+      SDL2.blit_surface!(self, src_rect, dest, dest_rect)
     end
 
     def set_rle(flag)
@@ -126,6 +129,11 @@ module SDL2
       SDL2.get_color_key!(self, key_s)
       return key_s[:value]
     end
+
+    # Convert existing surface into this surface's format
+    def convert(surface, flags = 0)
+      SDL2.convert_surface!(surface, self.format, flags)
+    end
   end
 
   callback :blit, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int
@@ -141,6 +149,8 @@ module SDL2
   def self.load_bmp(file)
     SDL2.load_bmp_rw(RWops.from_file(file, 'rb'), 1)
   end
+
+  returns_error(:load_bmp,TRUE_WHEN_NOT_NULL)
 
   api :SDL_SaveBMP_RW, [Surface.by_ref, RWops.by_ref, :int], :int
 
@@ -159,7 +169,7 @@ module SDL2
   api :SDL_GetSurfaceBlendMode, [Surface.by_ref, BlendModeStruct.by_ref], :int, {error: true}
   api :SDL_SetClipRect, [Surface.by_ref, Rect.by_ref], :int, {error: true}
   api :SDL_GetClipRect, [Surface.by_ref, Rect.by_ref], :int, {error: true}
-  api :SDL_ConvertSurface, [Surface.by_ref, PixelFormat.by_ref, :surface_flags], Surface.auto_ptr
+  api :SDL_ConvertSurface, [Surface.by_ref, PixelFormat.by_ref, :surface_flags], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
   api :SDL_ConvertSurfaceFormat, [Surface.by_ref, :pixel_format, :surface_flags], Surface.auto_ptr
   api :SDL_ConvertPixels, [:int, :int, :pixel_format, :pointer, :int, :pixel_format, :pointer, :int], :int, {error: true}
   api :SDL_FillRect, [Surface.by_ref, Rect.by_ref, :uint32], :int, {error: true}
@@ -171,6 +181,8 @@ module SDL2
     upper_blit(src, srcrect, dst, dstrect)
   end
 
+  returns_error(:blit_surface, TRUE_WHEN_ZERO)
+
   api :SDL_LowerBlit, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int
   api :SDL_SoftStretch, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int
   api :SDL_UpperBlitScaled, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int
@@ -179,6 +191,8 @@ module SDL2
   def self.blit_scaled(src, srcrect, dst, dstrect)
     upper_blit_scaled(src, srcrect, dst, dstrect)
   end
+
+  returns_error(:blit_scaled, TRUE_WHEN_ZERO)
 
   api :SDL_LowerBlitScaled, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int
 

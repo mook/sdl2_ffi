@@ -110,7 +110,8 @@ module SDL2
       ptr.each(&:free)
       return result
     end
-
+    
+    
   end
 
 end
