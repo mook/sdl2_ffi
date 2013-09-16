@@ -6,7 +6,7 @@ require 'sdl2/surface'
 require 'sdl2/display/mode'
 
 module SDL2
-  
+
   # Window Flags Constants
   module WINDOW
     include EnumerableConstants
@@ -24,7 +24,61 @@ module SDL2
     FULLSCREEN_DESKTOP = ( FULLSCREEN | 0x00001000 )
     FOREIGN            = 0x00000800
   end
-  
+
+  # Used to indicate that you don't care what the window position is.
+  module WINDOWPOS
+    include EnumerableConstants
+    UNEDFINED_MASK = 0x1FFF0000
+
+    # Used to generate the UNDEFINED constant,
+    # which if I understand correctly is just UNDEFINED_MASK anyways.
+    # I think this is to encourage divers/applications to write specific
+    # undefined codes? `</ramble>`
+    def self.undefined_display(x)
+      self::UNEDFINED_MASK|x
+    end
+
+    UNDEFINED = undefined_display(0)
+
+    # SDL_video.h doesn't have much documentation on this,
+    # I think it is used internally, but may be useful for applications.
+    def self.is_undefined(x)
+      (((x)&0xFFFFF00000) == self::UNDEFINED_MASK)
+    end
+
+    CENTERED_MASK = 0x2FFF0000
+
+    def self.centered_display(x)
+      self::CENTERED_MASK | x
+    end
+
+    CENTERED = centered_display(0)
+
+    def self.is_centered(x)
+      (((x)&0xFFFF0000) == self::CENTERED_MASK)
+    end
+  end
+
+  # Event subtype for window events
+  module WINDOWEVENT
+    include EnumerableConstants
+    NONE          = next_const_value
+    SHOWN         = next_const_value
+    HIDDEN        = next_const_value
+    EXPOSED       = next_const_value
+    MOVED         = next_const_value
+    RESIZED       = next_const_value
+    SIZE_CHANGED  = next_const_value
+    MINIMIZED     = next_const_value
+    MAXIMIZED     = next_const_value
+    RESTORED      = next_const_value
+    ENTER         = next_const_value
+    LEAVE         = next_const_value
+    FOCUS_GAINED  = next_const_value
+    FOCUS_LOST    = next_const_value
+    CLOSE         = next_const_value
+  end
+
   # System Window
   # A rectangular area you can blit into.
   class Window < Struct
@@ -53,40 +107,41 @@ module SDL2
     :shaper, :pointer, # TODO: WindowShaper.by_ref,
     :data, :pointer,
     :driverdata, :pointer,
-    :prev, Window.by_ref,
-    :next, Window.by_ref
+    :prev, :pointer,
+    :next, :pointer
 
     # A simple wrapper for data objects associated with a window.
     class Data
+
       # Create a data object manager for a given window
       def initialize(for_window)
         @for_window = for_window
       end
-      
+
       # Return the data named
       def named(name)
         SDL2.get_window_data(@for_window, name.to_s)
       end
-      
+
       alias_method :[], :named
 
       # Set the data named to value specified.
       def named=(name, value)
         SDL2.set_window_data(@for_window, name.to_s, value.to_s)
       end
-      
+
       alias_method :[]=, :named=
     end
 
     # The Window's data manager.
     attr_reader :data
-    
+
     # Construct a new window.
     def initialize(*args, &block)
       super(*args, &block)
       @data = Data.new(self)
     end
-    
+
     # Construct a new window with given:
     # @param title: The caption to use for the window
     # @param x: The x-position of the window
@@ -105,8 +160,8 @@ module SDL2
       create_window_from!(data)
     end
 
-    # Returns the identified window already created 
-    # @param id: The window identifier to retrieve 
+    # Returns the identified window already created
+    # @param id: The window identifier to retrieve
     def self.from_id(id)
       get_window_from_id!(id)
     end
@@ -124,7 +179,7 @@ module SDL2
         nil
       end
     end
-    
+
     # Release memory utilized by structure
     def self.release(pointer)
       destroy_window(pointer)
@@ -155,7 +210,7 @@ module SDL2
     def display_index
       SDL2.get_window_display_index(self)
     end
-    
+
     # Get the display associated with this window
     def display
       Display[display_index]
@@ -173,9 +228,6 @@ module SDL2
 
     # Set the input grab mode
     def grab=(value)
-      unless value == :true or value == :false
-        value = value ? :true : :false
-      end
       SDL2.set_window_grab(self, value)
     end
 
@@ -223,7 +275,7 @@ module SDL2
     def restore
       SDL2.restore_window(self)
     end
-    
+
     # Show the window
     def show
       SDL2.show_window(self)
@@ -238,7 +290,7 @@ module SDL2
     def update_surface()
       SDL2.update_window_surface!(self)
     end
-            
+
     # Get the window's current size
     # @return Array => [<width>, <height>]
     def current_size()
@@ -274,7 +326,7 @@ module SDL2
     def minimum_size
       w_struct, h_struct = IntStruct.new, IntStruct.new
       SDL2::get_window_minimum_size(self, w_struct, h_struct)
-      w, h = w_struct[:value], h_struct[:value]      
+      w, h = w_struct[:value], h_struct[:value]
       [w, h]
     end
 
@@ -282,8 +334,8 @@ module SDL2
     # @param size: A array containing the [width,height]
     def minimum_size=(size)
       SDL2.set_window_minimum_size(self, size[0], size[1])
-    end    
-    
+    end
+
     # Get the window's position
     # @return Array => [<x>, <y>]
     def position
@@ -293,18 +345,18 @@ module SDL2
       position.each{|struct|struct.pointer.free}
       [x, y]
     end
-    
+
     # Set the window's position
     # @param size: A array containing the [x,y]
     def position=(location)
       SDL2::set_window_position(self, location[0],location[1])
     end
-    
+
     # Return the surface associated with the window
     def surface
       SDL2.get_window_surface(self)
     end
-    
+
     # Set the window's FULLSCREEN mode flags.
     def fullscreen=(flags)
       SDL2.set_window_fullscreen(self, flags)

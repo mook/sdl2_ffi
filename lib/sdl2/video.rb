@@ -1,4 +1,4 @@
-require 'sdl2'
+require 'sdl2/stdinc'
 require 'sdl2/rect'
 require 'sdl2/window'
 require 'sdl2/display'
@@ -11,32 +11,12 @@ require 'sdl2/syswm/info'
 module SDL2
   typedef :int, :display_index
 
-  enum :window_flags, *WINDOW.by_name
+  enum :window_flags, WINDOW.flatten_consts
   # TODO: SDL_video.h lines 113~129
-
-  # Translation of SDL_WindowEventID enumeration
-  module WINDOWEVENT
-    include EnumerableConstants
-    NONE          = next_const_value
-    SHOWN         = next_const_value
-    HIDDEN        = next_const_value
-    EXPOSED       = next_const_value
-    MOVED         = next_const_value
-    RESIZED       = next_const_value
-    SIZE_CHANGED  = next_const_value
-    MINIMIZED     = next_const_value
-    MAXIMIZED     = next_const_value
-    RESTORED      = next_const_value
-    ENTER         = next_const_value
-    LEAVE         = next_const_value
-    FOCUS_GAINED  = next_const_value
-    FOCUS_LOST    = next_const_value
-    CLOSE         = next_const_value
-  end
-
-  # line: 134~155
-  enum :window_event_id, *WINDOWEVENT.by_name
-  # line 160
+  enum :window_event_id, WINDOWEVENT.flatten_consts
+  
+  enum :windowpos, WINDOWPOS.flatten_consts
+  
   typedef :pointer, :gl_context
 
   # OpenGL configuration attributes
@@ -68,7 +48,7 @@ module SDL2
   end
   
   # lines 165~190
-  enum :gl_attr, *GLattr.by_name
+  enum :gl_attr, GLattr.flatten_consts
   
   # OpenGL Profile Values
   module GLprofile
@@ -77,7 +57,7 @@ module SDL2
     COMPATIBILITY = 0x0002
     ES = 0x0004
   end
-  enum :gl_profile, *GLprofile.by_name
+  enum :gl_profile, GLprofile.flatten_consts
   
   # OpenGL Context Values
   module GLcontextFlag
@@ -88,7 +68,7 @@ module SDL2
     RESET_ISOLATION = 0x0008
   end
   # lines 199~205
-  enum :gl_context_flag, *GLcontextFlag.by_name
+  enum :gl_context_flag, GLcontextFlag.flatten_consts
 
   # This interface represents SDL_video.h function prototypes, lines 208~
   
@@ -109,7 +89,7 @@ module SDL2
   api :SDL_SetWindowDisplayMode, [Window.by_ref, :uint32], :int
   api :SDL_GetWindowDisplayMode, [Window.by_ref, Display::Mode.by_ref], :int
   api :SDL_GetWindowPixelFormat, [Window.by_ref], :uint32
-  api :SDL_CreateWindow, [:string, :int, :int, :int, :int, :uint32], Window.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+  api :SDL_CreateWindow, [:string, :int, :int, :int, :int, :window_flags], Window.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
   api :SDL_CreateWindowFrom, [:pointer], Window.auto_ptr
   api :SDL_GetWindowFromID, [:uint32], Window.by_ref
   api :SDL_GetWindowID, [Window.by_ref], :uint32
