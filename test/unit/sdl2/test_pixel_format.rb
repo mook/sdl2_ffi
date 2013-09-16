@@ -24,9 +24,11 @@ describe SDL2::PixelFormat do
   end
   
   
-  it 'can get the name of all formats' do    
+  it 'can get the name of all formats' do
+    
     SDL2::PIXELFORMAT.by_name.each_pair do |k,v|
       name = SDL2::PixelFormat.get_name(v)
+      #binding.pry    
       assert_includes name, k.to_s      
     end
   end

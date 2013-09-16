@@ -9,20 +9,20 @@ describe SDL2 do
     assert_respond_to SDL2, :get_hint
     assert_respond_to SDL2, :set_hint
     
-    assert_equal 'constant', defined?(SDL2::HINT_FRAMEBUFFER_ACCELERATION)
-    assert_equal 'constant', defined?(SDL2::HINT_IDLE_TIMER_DISABLED)
-    assert_equal 'constant', defined?(SDL2::HINT_ORIENTATIONS)
-    assert_equal 'constant', defined?(SDL2::HINT_RENDER_DRIVER)
-    assert_equal 'constant', defined?(SDL2::HINT_RENDER_OPENGL_SHADERS)
-    assert_equal 'constant', defined?(SDL2::HINT_RENDER_SCALE_QUALITY)
-    assert_equal 'constant', defined?(SDL2::HINT_RENDER_VSYNC)
+    assert_equal 'constant', defined?(SDL2::HINT::FRAMEBUFFER_ACCELERATION)
+    assert_equal 'constant', defined?(SDL2::HINT::IDLE_TIMER_DISABLED)
+    assert_equal 'constant', defined?(SDL2::HINT::ORIENTATIONS)
+    assert_equal 'constant', defined?(SDL2::HINT::RENDER_DRIVER)
+    assert_equal 'constant', defined?(SDL2::HINT::RENDER_OPENGL_SHADERS)
+    assert_equal 'constant', defined?(SDL2::HINT::RENDER_SCALE_QUALITY)
+    assert_equal 'constant', defined?(SDL2::HINT::RENDER_VSYNC)
 
-    assert_equal :true, SDL2.set_hint("My Hint", "My Value")
+    assert SDL2.set_hint("My Hint", "My Value")
     assert_kind_of String, SDL2.get_hint("My Hint")
     assert_equal "My Value", SDL2.get_hint("My Hint")
     
     [:default, :normal, :override].each do |priority|
-      assert_equal :true, SDL2.set_hint_with_priority("#{priority}Hint", "#{priority}Value", priority)
+      assert SDL2.set_hint_with_priority("#{priority}Hint", "#{priority}Value", priority)
     end    
     
   end

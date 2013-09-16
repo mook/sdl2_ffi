@@ -100,9 +100,9 @@ describe SDL2 do
 
   it 'can manage the screen saver' do
     SDL2.disable_screen_saver
-    refute SDL2.is_screen_saver_enabled == :true
+    refute SDL2.is_screen_saver_enabled
     SDL2.enable_screen_saver
-    assert SDL2.is_screen_saver_enabled == :true
+    assert SDL2.is_screen_saver_enabled
   end
 
   describe SDL2::Window do

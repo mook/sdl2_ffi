@@ -109,7 +109,7 @@ describe SDL2::Window do
 
   it 'can update the window surface' do
     surface = @window.surface
-    assert_equal 0, @window.update_surface!
+    assert_equal 0, @window.update_surface
   end
 
   it 'can update surface rects' do
