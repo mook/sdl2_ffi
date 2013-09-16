@@ -73,7 +73,7 @@ module SDL2
     LASTEVENT    = 0xFFFF
   end
 
-  enum :event_type, *EVENTTYPE.by_name
+  enum :event_type, EVENTTYPE.flatten_consts
 
   # Fields shared by every event
   class CommonEvent < Struct
@@ -366,10 +366,10 @@ module SDL2
     GET = next_const_value
   end
 
-  enum :eventaction, *EVENTACTION.by_name
+  enum :eventaction, EVENTACTION.flatten_consts
 
   ##
-  #
+  # :class-method: peep_events
   api :SDL_PeepEvents, [Event.by_ref, :count, :eventaction, :uint32, :uint32], :int
   api :SDL_HasEvent, [:uint32], :bool
   api :SDL_HasEvents, [:uint32, :uint32], :bool
@@ -404,7 +404,7 @@ module SDL2
     ENABLE = 1
   end
   
-  enum :event_state, *EVENTSTATE.by_name
+  enum :event_state, EVENTSTATE.flatten_consts
 
   ##
   # 
