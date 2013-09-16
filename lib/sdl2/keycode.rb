@@ -266,7 +266,7 @@ module SDL2
     SLEEP = SDL2.scancode_to_keycode(SCANCODE::SLEEP)
   end
 
-  enum :keycode, *KEYCODE.by_name
+  enum :keycode, KEYCODE.flatten_consts
 
   module KEYMOD
     include EnumerableConstants
@@ -289,6 +289,6 @@ module SDL2
     GUI = LGUI|RGUI
   end
 
-  enum :keymod, *KEYMOD.by_name
+  enum :keymod, KEYMOD.flatten_consts
 
 end
