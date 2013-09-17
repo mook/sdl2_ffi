@@ -85,7 +85,9 @@ module EnumerableConstants
         last_const_value.next
       end
 
+      def self.const_missing(const)
+        self.const_set(const, next_const_value)
+      end
     end
   end
-
 end
