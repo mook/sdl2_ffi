@@ -128,7 +128,7 @@ describe "Hello World example translated from: http://lazyfoo.net/SDL_tutorials/
 
       @screen = @window.surface
     end
-    
+
     def clean_up()
       @image.free unless @image.nil?
       SDL2.quit()
@@ -146,35 +146,41 @@ describe "Hello World example translated from: http://lazyfoo.net/SDL_tutorials/
       offset.x, offset.y = x,y
       source.blit_out(destination, offset)
     end
-    
+
     def load_files()
       @image = load_image(PNG[:x])
     end
 
-    
     # Main start:
-    
+
     quit = false
-    
+
     init()
-    
+
     load_files()
-    
+
     apply_surface(0,0, @image, @screen)
-    
+
     @window.update_surface()
-    
-  
-    
+
     until @quit do
+      # Pre-Events
+
+      # Event Processing
       while event = SDL2::Event.poll()
+        puts "GOT EVENT TYPE: #{event.type_symbol}"
         if (event.type == SDL2::EVENTTYPE::QUIT)
           @quit = true
-        else          
-          #binding.pry
-          puts "GOT TYPE SYMBOL: #{event.type_symbol}"
         end
       end
+
+      # Post - Events
+      # Lets insert an SDL QUIT event.
+      my_quit_event = SDL2::Event.new
+      my_quit_event.type = SDL2::EVENTTYPE::QUIT
+      
+      SDL2::push_event! my_quit_event
+      
     end
 
   end
