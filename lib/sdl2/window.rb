@@ -62,21 +62,21 @@ module SDL2
   # Event subtype for window events
   module WINDOWEVENT
     include EnumerableConstants
-    NONE          = next_const_value
-    SHOWN         = next_const_value
-    HIDDEN        = next_const_value
-    EXPOSED       = next_const_value
-    MOVED         = next_const_value
-    RESIZED       = next_const_value
-    SIZE_CHANGED  = next_const_value
-    MINIMIZED     = next_const_value
-    MAXIMIZED     = next_const_value
-    RESTORED      = next_const_value
-    ENTER         = next_const_value
-    LEAVE         = next_const_value
-    FOCUS_GAINED  = next_const_value
-    FOCUS_LOST    = next_const_value
-    CLOSE         = next_const_value
+    NONE    
+    SHOWN   
+    HIDDEN  
+    EXPOSED 
+    MOVED   
+    RESIZED 
+    SIZE_CHANGED  
+    MINIMIZED     
+    MAXIMIZED     
+    RESTORED      
+    ENTER         
+    LEAVE         
+    FOCUS_GAINED  
+    FOCUS_LOST    
+    CLOSE         
   end
 
   # System Window

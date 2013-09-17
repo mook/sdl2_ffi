@@ -22,29 +22,29 @@ module SDL2
   # OpenGL configuration attributes
   module GLattr
     include EnumerableConstants
-    RED_SIZE			     = next_const_value
-    GREEN_SIZE			   = next_const_value
-    BLUE_SIZE			     = next_const_value
-    ALPHA_SIZE			   = next_const_value
-    BUFFER_SIZE			   = next_const_value
-    DOUBLEBUFFER			 = next_const_value
-    DEPTH_SIZE			   = next_const_value
-    STENCIL_SIZE			 = next_const_value
-    ACCUM_RED_SIZE		 = next_const_value
-    ACCUM_GREEN_SIZE	 = next_const_value
-    ACCUM_BLUE_SIZE		 = next_const_value
-    ACCUM_ALPHA_SIZE	 = next_const_value
-    STEREO			       = next_const_value
-    MULTISAMPLEBUFFERS = next_const_value
-    MULTISAMPLESAMPLES = next_const_value
-    ACCELERATED_VISUAL = next_const_value
-    RETAINED_BACKING	 = next_const_value
-    CONTEXT_MAJOR_VERSION	= next_const_value
-    CONTEXT_MINOR_VERSION	= next_const_value
-    CONTEXT_EGL = next_const_value
-    CONTEXT_FLAGS = next_const_value
-    CONTEXT_PROFILE_MASK			= next_const_value
-    SHARE_WITH_CURRENT_CONTEXT = next_const_value
+    RED_SIZE			    
+    GREEN_SIZE			  
+    BLUE_SIZE			    
+    ALPHA_SIZE			  
+    BUFFER_SIZE			  
+    DOUBLEBUFFER			
+    DEPTH_SIZE			  
+    STENCIL_SIZE			
+    ACCUM_RED_SIZE		
+    ACCUM_GREEN_SIZE	
+    ACCUM_BLUE_SIZE		
+    ACCUM_ALPHA_SIZE	
+    STEREO			      
+    MULTISAMPLEBUFFERS
+    MULTISAMPLESAMPLES
+    ACCELERATED_VISUAL
+    RETAINED_BACKING	
+    CONTEXT_MAJOR_VERSION	
+    CONTEXT_MINOR_VERSION	
+    CONTEXT_EGL
+    CONTEXT_FLAGS
+    CONTEXT_PROFILE_MASK			
+    SHARE_WITH_CURRENT_CONTEXT
   end
   
   # lines 165~190

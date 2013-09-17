@@ -35,11 +35,11 @@ module SDL2
     
     module BUTTON
       include EnumerableConstants
-      LEFT = next_const_value
-      MIDDLE  = next_const_value
-      RIGHT  = next_const_value
-      X1  = next_const_value
-      X2  = next_const_value
+      LEFT
+      MIDDLE 
+      RIGHT 
+      X1 
+      X2 
     end
     
     module BUTTONMASK

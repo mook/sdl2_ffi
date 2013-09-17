@@ -10,9 +10,9 @@ module SDL2
   # The access pattern allowed for a texture
   module TEXTUREACCESS
     include EnumerableConstants
-    STATIC = next_const_value
-    STREAMING = next_const_value
-    TARGET = next_const_value
+    STATIC
+    STREAMING
+    TARGET
   end
   enum :texture_access, TEXTUREACCESS.flatten_consts  
        
