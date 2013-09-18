@@ -26,11 +26,11 @@ describe "Hello World example translated from: http://lazyfoo.net/SDL_tutorials/
     
     hello = SDL2::Surface.load_bmp(BMP[:hello])
     
-    Approvals.verify(hello, format: :bmp, name: 'hello world example: hello')
+    Approvals.verify(hello, format: :png, name: 'hello world example: hello')
       
     screen.blit_in(hello)
     
-    Approvals.verify(hello, format: :bmp, name: 'hello world example: screen')
+    Approvals.verify(screen, format: :png, name: 'hello world example: screen')
 
     window.update_surface
 
@@ -77,6 +77,8 @@ describe "Hello World example translated from: http://lazyfoo.net/SDL_tutorials/
     apply_surface(320,240, background, @screen)
 
     apply_surface(180, 140, message, @screen)
+    
+    Approvals.verify(@screen, format: :png, name: 'Optimized Surface Loading')
 
     window.update_surface
 

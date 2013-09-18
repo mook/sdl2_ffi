@@ -31,7 +31,7 @@ describe "Color Keying" do
     
     @window.update_surface
     
-    Approvals.verify(@screen, format: :bmp, name: "Color Keying Example")
+    Approvals.verify(@screen, format: :png, name: "Color Keying Example")
     
     background.free
     foo.free
