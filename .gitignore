@@ -19,3 +19,5 @@ tmp
 .buildpath
 *~
 .settings
+.approvals
+spec/fixtures/approvals/*received*
