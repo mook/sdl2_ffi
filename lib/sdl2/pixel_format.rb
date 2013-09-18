@@ -5,9 +5,9 @@ module SDL2
 
   # SDL_pixels.h:272~293:typdef struct SDL_PixelFormat
   # \note Everything in the pixel format structure is read-only.
-  class PixelFormat < FFI::Struct
+  class PixelFormat < Struct
 
-    private :[] # see note
+    protected :[] # see note
 
     layout :format, :pixel_format,
     :palette, Palette.by_ref,

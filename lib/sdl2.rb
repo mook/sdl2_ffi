@@ -10,6 +10,8 @@ module SDL2
   extend Library
   ffi_lib SDL_MODULE
 
+  PrintDebug = false
+
   module StructHelper
 
     # Define a set of member readers
@@ -38,9 +40,18 @@ module SDL2
 
   end
 
+  # Augmented for compares with anything that can be an array
+  class FFI::Struct::InlineArray
+
+    def ==(other)
+      self.to_a == other.to_a
+    end
+  end
+
   # FFI::Struct class with some useful additions.
   class Struct < FFI::Struct
     extend StructHelper
+
     # Allows creation and use within block, automatically freeing pointer after block.
     def initialize(*args, &block)
       super(*args)
@@ -57,28 +68,65 @@ module SDL2
     end
 
     # A human-readable representation of the struct and it's values.
-    def inspect
-      return 'nil' if self.null?
-
-      #binding.pry
-      #return self.to_s
-
-      report = "struct #{self.class.to_s}{"
-      report += self.class.members.collect do |field|
-        "#{field}->#{self[field].inspect}"
-      end.join(' ')
-      report += "}"
-    end
+    #def inspect
+    #  return 'nil' if self.null?
+    #
+    #  #binding.pry
+    #  #return self.to_s
+    #
+    #      report = "struct #{self.class.to_s}{"
+    #      report += self.class.members.collect do |field|
+    #        "#{field}->#{self[field].inspect}"
+    #      end.join(' ')
+    #      report += "}"
+    #    end
 
     # Compare two structures by class and values.
     def ==(other)
-      return false unless self.class == other.class
-      self.class.members.each do |field|
-        return false unless self[field] == other[field]
+      if PrintDebug
+        @@rec ||= -1
+        @@rec += 1
+        pad = "\t"*@@rec
+
+        puts
+        puts " #{pad}COMPARING #{self} to #{other}"
       end
-      true # return true if we get this far.
+
+      result = catch(:result) do
+        unless self.class == other.class
+          puts "Class Mismatch" if PrintDebug
+          throw :result, false
+        end
+
+        if self.null? or other.null?
+          unless self.null? and other.null?
+            puts "AHHHAOne is null and the other is not" if PrintDebug
+            throw :result, false
+          end
+        else
+          self.class.members.each do |field|
+            print "#{pad} #{field}:#{self[field].class} = " if PrintDebug
+
+            unless self[field] == other[field]
+              binding.pry
+              puts "NO MATCH: #{self[field].to_s} #{other[field].to_s}" if PrintDebug
+              throw :result, false
+            end
+            puts "MATCH" if PrintDebug
+          end
+        end
+
+        true # Everything passed.
+
+      end
+      if PrintDebug
+        @@rec += -1
+        puts
+        puts "#{pad}RESULT = #{result}"
+      end
+      return result
     end
-    
+
     # Default cast handler
     def self.cast(something)
       if something.kind_of? self
@@ -94,7 +142,7 @@ module SDL2
   # FFI::ManagedStruct possibly with useful additions.
   class ManagedStruct < FFI::ManagedStruct
     extend StructHelper
-    
+
     # Allows create and use the struct within a block.
     def initialize(*args, &block)
       super(*args)
