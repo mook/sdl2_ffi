@@ -6,13 +6,13 @@ require 'ffi'
 # An example:
 #     module MyEnumeration
 #       include EnumerableConstants
-#       MY_FIRST_CONSTANT = next_const_value # defaults to 0
-#       MY_NEXT_CONSTANT = next_const_value # will be 1
-#       MY_THIRD_CONSTANT = next_const_value # will be 2, and the next would be 3 unless
+#       MY_FIRST_CONSTANT # defaults to 0
+#       MY_NEXT_CONSTANT # will be 1
+#       MY_THIRD_CONSTANT # will be 2, and the next would be 3 unless
 #       MY_FOURTH_CONSTANT = 100 # you assign a value.
-#       MY_FIFTH_CONSTANT = next_const_value # will be 101
+#       MY_FIFTH_CONSTANT # will be 101
 #       MY_SIXTH_CONSTANT = MY_THIRD_CONSTANT # There are no rules against duplicate values.
-#       MY_SEVENTH_CONSTANT = next_const_value # will be 3, be careful you don't unintentionally reuse values.
+#       MY_SEVENTH_CONSTANT # will be 3, be careful you don't unintentionally reuse values.
 #     end
 #
 # With this module, you can:
@@ -34,10 +34,14 @@ require 'ffi'
 #
 #     MyEnumeration::MY_EIGTH_CONSTANT = MyEnumeration.next_const_value # 4
 #
+# Or, you could just do:
+#
+#     MyEnumeration::MY_NINTH_CONSTANT #=> Automatically assigned value 5
+#
 # However, successive calls to just `#next_const_value` will just result in
 # the same value.
-#     MyEnumeration.next_const_value # 5
-#     MyEnumeration.next_const_value # 5
+#     MyEnumeration.next_const_value # 6
+#     MyEnumeration.next_const_value # 6
 module EnumerableConstants
 
   # This is the method that injects the new static-scope routines.

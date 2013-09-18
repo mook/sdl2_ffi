@@ -28,7 +28,7 @@ module SDL2
     :clip_rect, Rect,
     :map, :pointer,
     :refcount, :int
-    
+
     member_readers(*members)
 
     [:flags, :format, :w, :h, :pixels, :userdata, :locked, :lock_data, :clip_rect, :map, :refcount].each do |field|
@@ -104,14 +104,21 @@ module SDL2
       self[:flags] & RLEACCEL != 0
     end
 
-    # Blit from source to this surface 
+    # Blit from source to this surface
     def blit_in(src, src_rect = nil, dst_rect = nil)
+      
+      
+      src_rect = Rect.cast(src_rect)
+      dst_rect = Rect.cast(dst_rect)
+      
       SDL2.blit_surface!(src, src_rect, self, dst_rect)
     end
 
     # Blit from this surface to dest
-    def blit_out(dest, dest_rect = nil, src_rect = nil)
-      SDL2.blit_surface!(self, src_rect, dest, dest_rect)
+    def blit_out(dest, dst_rect = nil, src_rect = nil)
+      src_rect = Rect.cast(src_rect)
+      dst_rect = Rect.cast(dst_rect)
+      SDL2.blit_surface!(self, src_rect, dest, dst_rect)
     end
 
     def set_rle(flag)
@@ -120,20 +127,57 @@ module SDL2
 
     alias_method :rle=, :set_rle
 
-    def set_color_key(flag, key)
-      SDL2.set_color_key(self, flag, key)
+    # Sets the color key for this surface.
+    # @param key may be 1) A pixel value encoded for this surface's format
+    # 2) Anything that Color::cast can handle.
+    # 3) Nil, which will disable the color key for this surface.
+    def set_color_key(key)
+      if key.kind_of? Integer
+        pixel_value = key
+      else
+        pixel_value = format.map_rgb(Color.cast(key))
+      end
+
+      if key.nil?#then disable color keying
+        SDL2.set_color_key(self, false, 0)
+      else# Enable color key by value
+        SDL2.set_color_key(self, true, pixel_value)
+      end
     end
 
+    # Gets the color key for this surface.
+    # @returns Nil, indicating no color keying, or the encoded pixel value used.
     def get_color_key()
       key_s = UInt32Struct.new
-      SDL2.get_color_key!(self, key_s)
-      return key_s[:value]
+      if SDL2.get_color_key?(self, key_s)
+        result = key_s[:value]
+      else
+        result = nil
+      end
+      key_s.free
+      return result
     end
+
+    alias_method :color_key, :get_color_key
+    alias_method :color_key=, :set_color_key
 
     # Convert existing surface into this surface's format
     def convert(surface, flags = 0)
       SDL2.convert_surface!(surface, self.format, flags)
     end
+    
+    def fill_rect(rect, color)
+      
+      if color.kind_of? Integer
+        pixel_value = color
+      else
+        
+        pixel_value = format.map(Color.cast(color))
+      end
+      rect = Rect.cast(rect)
+      SDL2.fill_rect!(self, rect, pixel_value)
+    end
+    
   end
 
   callback :blit, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int
@@ -154,13 +198,15 @@ module SDL2
 
   api :SDL_SaveBMP_RW, [Surface.by_ref, RWops.by_ref, :int], :int
 
-  def self.save_bmp(file)
-    SDL2.save_bmp_rw(RWops.from_file(file, 'wb'), 1)
+  def self.save_bmp(surface, file)
+    SDL2.save_bmp_rw(surface, RWops.from_file(file, 'wb'), 1)
   end
 
   api :SDL_SetSurfaceRLE, [Surface.by_ref, :int], :int
-  api :SDL_SetColorKey, [Surface.by_ref, :int, :uint32], :int
-  api :SDL_GetColorKey, [Surface.by_ref, UInt32Struct.by_ref], :int
+  api :SDL_SetColorKey, [Surface.by_ref, :bool, :int], :int, {error: true}
+  api :SDL_GetColorKey, [Surface.by_ref, UInt32Struct.by_ref], :int, {error: true}
+  # Could mean an SDL error... or maybe not?
+  boolean? :get_color_key, TRUE_WHEN_ZERO
   api :SDL_SetSurfaceColorMod, [Surface.by_ref, :uint8, :uint8, :uint8], :int
   api :SDL_GetSurfaceColorMod, [Surface.by_ref, UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref], :int
   api :SDL_SetSurfaceAlphaMod, [Surface.by_ref, :uint8], :int, {error: true}
@@ -178,6 +224,7 @@ module SDL2
 
   # using upper_blit
   def self.blit_surface(src, srcrect, dst, dstrect)
+    
     upper_blit(src, srcrect, dst, dstrect)
   end
 

@@ -79,6 +79,13 @@ module SDL2
     
     alias_method :palette=, :set_palette
     
+    # Maps a color struct to a pixel value.
+    def map(color)
+      #binding.pry
+      c = Color.cast(color)
+      map_rgba(c.to_a)
+    end
+    
     # Maps an RGB triple (array) to an opaque pixel value    
     def map_rgb(rgb)
       r, g, b = *rgb
@@ -87,7 +94,8 @@ module SDL2
 
     # Maps an RGBA quadruple (array) to a pixel value
     def map_rgba(rgba)
-      r, g, b, a = *rgba
+      r, g, b, a = rgba
+      a = 0 if a.nil?
       SDL2.map_rgba(self, r, g, b, a)
     end
     

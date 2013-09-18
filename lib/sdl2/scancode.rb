@@ -2,10 +2,17 @@ require 'sdl2'
 
 
 module SDL2
+  # Not a key, just marks the number of scancodes for array bounds
   NUM_SCANCODES = 512
   
+  # The SDL keyboard scancode representation.
+  #
+  # Values of this type are used to represent keyboard keys, among other places
+  # in the Keysym#scancode field of the Event structure.
   module SCANCODE
     include EnumerableConstants
+    UNKOWN = 0
+    
     A  =  4
     B  =  5
     C  =  6

@@ -78,6 +78,17 @@ module SDL2
       end
       true # return true if we get this far.
     end
+    
+    # Default cast handler
+    def self.cast(something)
+      if something.kind_of? self
+        return something
+      elsif something.nil?
+        return something #TODO: Assume NUL is ok?
+      else
+        raise "#{self} can't cast #{something.insepct}"
+      end
+    end
   end
 
   # FFI::ManagedStruct possibly with useful additions.

@@ -23,9 +23,14 @@ describe "Hello World example translated from: http://lazyfoo.net/SDL_tutorials/
     screen = window.surface
 
     #binding.pry
+    
     hello = SDL2::Surface.load_bmp(BMP[:hello])
-
+    
+    Approvals.verify(hello, format: :bmp, name: 'hello world example: hello')
+      
     screen.blit_in(hello)
+    
+    Approvals.verify(hello, format: :bmp, name: 'hello world example: screen')
 
     window.update_surface
 

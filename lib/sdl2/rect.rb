@@ -11,6 +11,25 @@ module SDL2
     member_readers *members
     member_writers *members
     
+    def self.cast(something)
+      
+      if something.kind_of?(Array) 
+        something.map!(&:to_i)
+        result = Rect.new
+        case something.count
+        when 4
+          result.x, result.y, result.w, result.h = something
+        when 2
+          result.x, result.y = something
+        else
+          raise "#{self}#cast cannot convert array length #{something.count} of: #{something.inspect}"
+        end
+        return result
+      else
+        return super
+      end
+    end
+    
     def empty
       return ((!self.null?) || (self[:w] <= 0) || (self[:h] <= 0))
     end

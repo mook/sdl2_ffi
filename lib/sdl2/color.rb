@@ -9,12 +9,18 @@ module SDL2
     :b, :uint8,
     :a, :uint8
 
-    [:r,:g,:b,:a].each do |field|
-      define_method field do
-        self[field]
-      end
-      define_method "#{field}=".to_sym do |value|
-        self[field]=value
+    member_readers *members
+    member_writers *members
+    
+    # If possible, convert argument into a SDL::Color
+    def self.cast(something)
+      if something.kind_of? Array
+        something.map!(&:to_i)
+        result = new
+        result.set(*something)
+        return result
+      else
+        return super
       end
     end
 
@@ -30,6 +36,11 @@ module SDL2
         self.send("#{c}=", color.send(c))
       end
     end
+    
+    def to_a
+      [r, g, b, a]
+    end
   end
+  # Alternative spelling of Color
   Colour = Color # Because SDL does it
 end
