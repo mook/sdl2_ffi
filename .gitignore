@@ -20,4 +20,4 @@ tmp
 *~
 .settings
 .approvals
-spec/fixtures/approvals/*received*
+spec/fixtures/approvals/**/*received*
