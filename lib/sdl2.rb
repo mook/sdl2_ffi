@@ -67,6 +67,10 @@ module SDL2
       pointer.free
     end
 
+    def free()
+      self.pointer.free
+    end
+
     # A human-readable representation of the struct and it's values.
     #def inspect
     #  return 'nil' if self.null?
@@ -82,6 +86,8 @@ module SDL2
     #    end
 
     # Compare two structures by class and values.
+    # This will return true if compared to a "partial hash",
+    # if all the keys the hash defines equal
     def ==(other)
       if PrintDebug
         @@rec ||= -1
@@ -93,22 +99,28 @@ module SDL2
       end
 
       result = catch(:result) do
-        unless self.class == other.class
+        unless self.class == other.class or other.kind_of? Hash
           puts "Class Mismatch" if PrintDebug
           throw :result, false
         end
 
-        if self.null? or other.null?
+        if (other.kind_of? Hash) and (other.keys - members).any?
+          puts "Extra Keys: #{other.keys-members}"
+          thorw :result, false
+        end
+
+        if (other.respond_to?:null?) and (self.null? or other.null?)
           unless self.null? and other.null?
             puts "AHHHAOne is null and the other is not" if PrintDebug
             throw :result, false
           end
         else
-          self.class.members.each do |field|
+          fields = other.kind_of?(Hash) ? members & other.keys : members
+          fields.each do |field|
             print "#{pad} #{field}:#{self[field].class} = " if PrintDebug
 
             unless self[field] == other[field]
-              binding.pry
+
               puts "NO MATCH: #{self[field].to_s} #{other[field].to_s}" if PrintDebug
               throw :result, false
             end
@@ -132,20 +144,32 @@ module SDL2
       if something.kind_of? self
         return something
       elsif something.kind_of? Hash
-        common = (self.members & something.keys)
-        if common.empty?
-          raise "#{self} can't cast this Hash: #{something.inspect}"
-        else
-          tmp = self.new
-          common.each do |field|
-            tmp[field] = something[field]
-          end
-          return tmp
-        end        
+        tmp = self.new
+        tmp.update_members(something)
+        return tmp
       elsif something.nil?
         return something #TODO: Assume NUL is ok?
       else
         raise "#{self} can't cast #{something.insepct}"
+      end
+    end
+
+    # Set members to values contained within hash.
+    def update_members(values)
+      if values.kind_of? Array
+        raise "#{self} has less fields then #{values.inspect}" if values.count > members.count
+        members.first(values.count).each_with_index do |field, idx|
+          self[field] = values[idx]
+        end
+
+      elsif values.kind_of? Hash
+        common = (self.members & values.keys)
+        raise "#{self} has nothing to update from #{values.inspect}" if common.empty?
+        common.each do |field|
+          self[field] = values[field]
+        end
+      else
+        raise "#{self}#update_members unable to update from #{values.inspect}"
       end
     end
   end
