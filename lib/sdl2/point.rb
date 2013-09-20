@@ -18,6 +18,35 @@ module SDL2
       end
     end
     
+    def self.cast_array(somethings, count_something = nil)
+      
+      # Convert Ruby arrays into Struct Arrays.
+      if somethings.kind_of? Array 
+        count_something = somethings.count if count_something.nil?
+        
+        raise "count_something > somethings.count" if count_something > somethings.count
+        
+        pointer = FFI::MemoryPointer.new(self, count_something)
+        
+        count_something.times do |idx|
+          pointer[idx].update_members(somethings[idx])
+        end
+        
+        somethings = pointer
+  
+        # If it is already a structure, then it is an array of 1, unless
+        # someone defined a count, in which case we assume they know what they
+        # are doing.
+      elsif somethings.kind_of? self
+            count_something = 1 if count_something.nil?
+            
+      else
+        raise "#{self} cannot cast array from #{somethings.inspect}"
+      end
+      
+      return somethings, count_something
+    end
+    
     
   end
 end
