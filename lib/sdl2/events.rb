@@ -77,12 +77,15 @@ module SDL2
 
   class AbstractEvent < Struct
     SHARED = [:type, :event_type, :timestamp, :uint32]
+          
   end
 
   # Fields shared by every event
   class CommonEvent < AbstractEvent
 
     layout *SHARED
+    
+    
   end
 
   # Window state change event data (event.window.*)

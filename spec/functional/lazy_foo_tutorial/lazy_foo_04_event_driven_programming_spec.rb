@@ -28,8 +28,8 @@ describe "LazyFoo.net: Lesson 04: Event Driven Programming" do
         end
       end
 
-      my_quit_event = SDL2::Event.new
-      my_quit_event.type = SDL2::EVENTTYPE::QUIT
+      my_quit_event = Event.cast(QuitEvent.cast(type: :QUIT))
+      
 
       SDL2.push_event!(my_quit_event)
 
