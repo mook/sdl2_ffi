@@ -84,26 +84,42 @@ module SDL2
       end
       
       alias_method :free, :close
-
-      def render_text_solid(text, color = [255,255,255])
+      
+      def self.default_fg=(color)
+        @@default_fg = Color.cast(color)
+      end
+      
+      def self.default_fg
+        @@default_fg ||= Color.cast([255,255,255])
+      end
+      
+      def self.default_bg=(color)
+        @@default_bg = Color.cast(color)
+      end
+      
+      def self.default_bg
+        @@default_bg ||= Color.cast([0,0,0])
+      end
+      
+      def render_text_solid(text, color = Font::default_fg)
         color = Color.cast(color)
         TTF.render_text_solid!(self, text, color)
       end
 
-      def render_text_shaded(text, fg = [255,255,255,255], bg = [0,0,0,0] )
+      def render_text_shaded(text, fg = Font::default_fg, bg = Font::default_bg )
         fg = Color.cast(fg)
         bg = Color.cast(bg)
         TTF.render_text_shaded!(self, text, fg, bg)
       end
 
-      def render_text_blended(text, fg = [255, 255, 255, 255])
+      def render_text_blended(text, fg = Font::default_fg)
         #binding.pry
         fg = Color.cast(fg)
         #binding.pry
         TTF.render_text_blended!(self, text, fg)
       end
       
-      def render_text_blended_wrapped(text, width, fg = [255,255,255,255])
+      def render_text_blended_wrapped(text, width, fg = default_fg)
         fg = Color.cast(fg)
         TTF.render_text_blended_wrapped!(self, text, fg, width)
       end
