@@ -13,6 +13,9 @@ module SDL2
       :sym, :keycode,
       :mod, :uint16,
       :unused, :uint32
+      
+    member_readers *members
+    member_writers *members
   end
   
   api :SDL_GetKeyboardFocus, [], Window.by_ref

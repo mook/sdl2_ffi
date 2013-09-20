@@ -23,7 +23,7 @@ describe "LazyFoo.net: Lesson 04: Event Driven Programming" do
 
       while event = Event.poll()
         puts "GOT EVENT TYPE: #{event.type_symbol}"
-        if (event.type == SDL2::EVENTTYPE::QUIT)
+        if (event.type == :QUIT)
           @quit = true
         end
       end

@@ -6,7 +6,7 @@ require 'sdl2/ttf'
 # Adapted for Ruby & SDL 2.0 as functional test by BadQuanta
 describe "LazyFoo.net: Lesson 07: True Type Fonts" do
   
-  before :all do
+  before do
     
     #binding.pry
     SDL2.init!(:EVERYTHING)
@@ -34,7 +34,7 @@ describe "LazyFoo.net: Lesson 07: True Type Fonts" do
     #delay(1000)
   end
   
-  after :all do
+  after do
     @background.free
     @message.free
     @font.free

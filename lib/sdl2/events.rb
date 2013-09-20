@@ -76,7 +76,7 @@ module SDL2
   enum :event_type, EVENTTYPE.flatten_consts
 
   class AbstractEvent < Struct
-    SHARED = [:type, :uint32, :timestamp, :uint32]
+    SHARED = [:type, :event_type, :timestamp, :uint32]
   end
 
   # Fields shared by every event
@@ -402,7 +402,7 @@ module SDL2
   # Remember that this is a union, all other structures not related to #type are
   # garbage
   class Event < Union
-    layout :type, :uint32,
+    layout :type, :event_type,
     :common, CommonEvent,
     :window, WindowEvent,
     :key, KeyboardEvent,
@@ -438,6 +438,14 @@ module SDL2
         tmp_event = nil
       end
       return tmp_event # May be nil if SDL2.poll_event fails.
+    end
+    
+    def self.cast(something)
+      if something.kind_of? AbstractEvent
+        return self.new(something.pointer)
+      else
+        raise "Is not an AbstractEvent!: #{something.inspect}"
+      end
     end
 
     # Converts SDL's type integer into a EVENTTYPE symbol
