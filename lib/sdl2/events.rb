@@ -454,14 +454,7 @@ module SDL2
       else
         raise "Is not an AbstractEvent!: #{something.inspect}"
       end
-    end
-
-    # Converts SDL's type integer into a EVENTTYPE symbol
-    # Returns :UNKOWN on failure.
-    def type_symbol
-      sym = EVENTTYPE.by_value[self.type]
-      sym.nil? ? :UNKOWN : sym
-    end
+    end    
 
   end
 
