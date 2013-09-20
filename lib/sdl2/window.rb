@@ -288,7 +288,7 @@ module SDL2
 
     # Update the window's surface
     def update_surface()
-      SDL2.update_window_surface!(self)
+      SDL2.update_window_surface!(self)      
     end
 
     # Get the window's current size
@@ -342,7 +342,7 @@ module SDL2
       position = [IntStruct.new, IntStruct.new]
       SDL2::get_window_position(self, position[0], position[1])
       x, y = position[0][:value], position[1][:value]
-      position.each{|struct|struct.pointer.free}
+      position.each(&:free)
       [x, y]
     end
 
