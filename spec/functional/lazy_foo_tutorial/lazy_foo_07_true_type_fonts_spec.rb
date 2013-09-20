@@ -23,10 +23,12 @@ describe "LazyFoo.net: Lesson 07: True Type Fonts" do
     #@textColor = Color.cast({r: 255,g: 255,b: 255,a: 255})
     @textColor = Color.cast(r: 255, g: 0, b: 0, a: 255)    
         
-    @message = @font.render_text_blended_wrapped("The quick brown fox jumps over the lazy dog", 480, @textColor)
+    
+    @message = @font.render_text_blended_wrapped("The quick brown fox jumps over the lazy dog", @screen.w, @textColor)
+    # Optimize message: 
     #@message = @screen.convert(@message)
     
-    @background.blit_out(@screen, @screen.rect)
+    @background.blit_out(@screen)
     @message.blit_out(@screen, x: 0, y: 150)
     
     @window.update_surface
