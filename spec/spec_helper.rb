@@ -20,4 +20,6 @@ def fixture(filename)
   return path
 end
 
-
+at_exit do
+  SDL2.quit()
+end
