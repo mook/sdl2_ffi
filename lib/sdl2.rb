@@ -131,6 +131,17 @@ module SDL2
     def self.cast(something)
       if something.kind_of? self
         return something
+      elsif something.kind_of? Hash
+        common = (self.members & something.keys)
+        if common.empty?
+          raise "#{self} can't cast this Hash: #{something.inspect}"
+        else
+          tmp = self.new
+          common.each do |field|
+            tmp[field] = something[field]
+          end
+          return tmp
+        end        
       elsif something.nil?
         return something #TODO: Assume NUL is ok?
       else

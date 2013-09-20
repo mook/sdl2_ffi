@@ -13,7 +13,7 @@ describe "LazyFoo.net: Lesson 04: Event Driven Programming" do
     
     @screen = @window.surface
     
-    @image = @screen.convert(Image.load!(input_file('x.png')))
+    @image = @screen.convert(Image.load!(img_path('x.png')))
       
     @image.blit_out(@screen, [0, 0])
     

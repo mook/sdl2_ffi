@@ -11,7 +11,7 @@ describe "LazyFoo.net: Lesson 01: Hello World" do
 
     @screen = @window.surface
 
-    @hello = @screen.convert(SDL2.load_bmp!(input_file('hello.bmp')))
+    @hello = @screen.convert(SDL2.load_bmp!(img_path('hello.bmp')))
     @screen.blit_in(@hello)
     @window.update_surface
     # If you want to see it, uncomment the following:
@@ -19,7 +19,7 @@ describe "LazyFoo.net: Lesson 01: Hello World" do
   end
 
   it 'loaded and optimizes hello bitmap' do
-    verify(format: :png){@hello}
+    verify(){@hello}
   end
 
   it 'created a window surface' do

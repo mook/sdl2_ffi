@@ -178,6 +178,11 @@ module SDL2
       SDL2.fill_rect!(self, rect, pixel_value)
     end
     
+    # Returns a RECT for the whole surface:
+    def rect
+      Rect.cast(x: 0, y: 0, w: self.w, h: self.h)
+    end
+    
   end
 
   callback :blit, [Surface.by_ref, Rect.by_ref, Surface.by_ref, Rect.by_ref], :int

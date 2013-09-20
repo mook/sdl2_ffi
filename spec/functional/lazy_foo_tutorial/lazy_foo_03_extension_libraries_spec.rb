@@ -12,7 +12,7 @@ describe "LazyFoo.net: Lesson 03: Extension Libraries" do
     
     @screen = @window.surface
         
-    a_png = @screen.convert(Image.load!(input_file('an_example.png')))
+    a_png = @screen.convert(Image.load!(img_path('an_example.png')))
       
     a_png.blit_out(@screen)
     

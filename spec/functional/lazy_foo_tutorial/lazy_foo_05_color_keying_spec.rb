@@ -11,9 +11,9 @@ describe "LazyFoo.net: Lesson 05: Color Keying" do
     @window = Window.create(subject, :CENTERED, :CENTERED, 640, 480)
     @screen = @window.surface
     
-    @background = @screen.convert(Image.load!(input_file('background.jpg')))
+    @background = @screen.convert(Image.load!(img_path('background.jpg')))
       
-    @foo = @screen.convert(Image.load!(input_file('foo.jpg')))
+    @foo = @screen.convert(Image.load!(img_path('foo.jpg')))
       
     @foo.color_key = @foo.format.map_rgb([0, 0xff, 0xff])
     

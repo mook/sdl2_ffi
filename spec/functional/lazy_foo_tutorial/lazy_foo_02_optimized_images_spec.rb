@@ -19,8 +19,8 @@ describe "LazyFoo.net: Lesson 02: Optimized Images" do
       @screen.convert(SDL2.load_bmp!(file))
     end
     
-    @background = load_image(input_file('background.bmp'))
-    @message = load_image(input_file('hello.bmp'))
+    @background = load_image(img_path('background.bmp'))
+    @message = load_image(img_path('hello.bmp'))
     @background.blit_out(@screen, [0, 0])
     @background.blit_out(@screen, [320, 0])
     @background.blit_out(@screen, [0, 240])
