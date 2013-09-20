@@ -31,7 +31,7 @@ module SDL2
   end#GameController
   
   api :SDL_GameControllerAddMapping, [:string], :int
-  api :SDL_GameControllerMappingForGUID, [JoystickGUID], :string
+  api :SDL_GameControllerMappingForGUID, [JoystickGUID.by_value], :string
   api :SDL_GameControllerMapping, [GameController.by_ref], :string
   api :SDL_IsGameController, [:joystick_index], :bool
   api :SDL_GameControllerNameForIndex, [:joystick_index], :string

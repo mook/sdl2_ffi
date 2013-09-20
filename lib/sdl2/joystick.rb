@@ -28,7 +28,7 @@ module SDL2
   api :SDL_JoystickName, [Joystick.by_ref], :string
   api :SDL_JoystickGetDeviceGUID, [:int], JoystickGUID
   api :SDL_JoystickGetGUID, [Joystick.by_ref], JoystickGUID
-  api :SDL_JoystickGetGUIDString, [JoystickGUID, :pointer, :int], :void
+  api :SDL_JoystickGetGUIDString, [JoystickGUID.by_value, :pointer, :int], :void
   api :SDL_JoystickGetGUIDFromString, [:string], JoystickGUID
   api :SDL_JoystickGetAttached, [Joystick.by_ref], :bool
   api :SDL_JoystickInstanceID, [Joystick.by_ref], :joystick_id

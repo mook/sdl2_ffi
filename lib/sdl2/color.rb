@@ -18,6 +18,7 @@ module SDL2
         something.map!(&:to_i)
         result = new
         result.set(*something)
+        
         return result
       else
         return super
@@ -28,7 +29,7 @@ module SDL2
       self.r = r
       self.g = g
       self.b = b
-      self.a = a unless a.nil?
+      self.a = a.nil? ? ALPHA_OPAQUE : a
     end
 
     def copy_from(color)

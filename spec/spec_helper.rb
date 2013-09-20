@@ -12,4 +12,12 @@ def img_path(filename)
   return path  
 end
 
+FixturesPath = File.expand_path('../fixtures',__FILE__)
+
+def fixture(filename)
+  path = File.expand_path(filename, FixturesPath)
+  raise "Missing Fixture File: #{path}!" unless File.exist?(path)
+  return path
+end
+
 
