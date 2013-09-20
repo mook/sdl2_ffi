@@ -21,26 +21,14 @@ describe "LazyFoo.net: Lesson 08: Key Presses" do
     @rightMessage = @font.render_text_solid("Right was pressed")
     @quit = false
 
+    # Simulated user events.  If you don't want to simulate, comment line:77
     @events = [
-      SDL2::KeyboardEvent.cast(
-      type: SDL2::EVENTTYPE::KEYDOWN,
-      keysym: Keysym.cast(sym: SDL2::KEYCODE::UP)
-      ),
-      SDL2::KeyboardEvent.cast(
-      type: SDL2::EVENTTYPE::KEYDOWN,
-      keysym: Keysym.cast(sym: SDL2::KEYCODE::DOWN)
-      ),
-
-      SDL2::KeyboardEvent.cast(
-      type: SDL2::EVENTTYPE::KEYDOWN,
-      keysym: Keysym.cast(sym: SDL2::KEYCODE::LEFT)
-      ),
-
-      SDL2::KeyboardEvent.cast(
-      type: SDL2::EVENTTYPE::KEYDOWN,
-      keysym: Keysym.cast(sym: SDL2::KEYCODE::RIGHT)
-      ),
-      SDL2::QuitEvent.cast(type: SDL2::EVENTTYPE::QUIT)
+      SDL2::KeyboardEvent.cast(type: :KEYDOWN, keysym: Keysym.cast(sym: :UP)),
+      SDL2::KeyboardEvent.cast(type: :KEYDOWN, keysym: Keysym.cast(sym: :DOWN)),
+      SDL2::KeyboardEvent.cast(type: :KEYDOWN, keysym: Keysym.cast(sym: :LEFT)),
+      SDL2::KeyboardEvent.cast(type: :KEYDOWN, keysym: Keysym.cast(sym: :RIGHT)),
+      SDL2::QuitEvent.cast(type: :QUIT)
+    
     ]
 
     @background.blit_out(@screen) # Clear screen.
@@ -86,7 +74,7 @@ describe "LazyFoo.net: Lesson 08: Key Presses" do
 
       #binding.pry
       begin
-        SDL2.push_event(SDL2::Event.cast(enum.next))
+        SDL2::Event.push(enum.next)
       rescue StopIteration
         puts "NO MORE EVENTS"
 

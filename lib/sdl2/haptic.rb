@@ -436,35 +436,95 @@ module SDL2
 
   ##
   # Get the number of haptics?
-  api :SDL_NumHaptics, [], :int
-  api :SDL_HapticName, [:int], :string
-  api :SDL_HapticOpen, [:int], Haptic.auto_ptr
-  api :SDL_HapticOpened, [:int], :int
-  api :SDL_HapticIndex, [Haptic.by_ref], :int
-  api :SDL_MouseIsHaptic, [], :int
-  api :SDL_HapticOpenFromMouse, [], Haptic.auto_ptr
-  api :SDL_JoystickIsHaptic, [Joystick.by_ref], :int
-  api :SDL_HapticOpenFromJoystick, [Joystick.by_ref], Haptic.auto_ptr
-  api :SDL_HapticClose, [Haptic.by_ref], :void
-  api :SDL_HapticNumEffects, [Haptic.by_ref], :int
-  api :SDL_HapticNumEffectsPlaying, [Haptic.by_ref], :int
-  api :SDL_HapticQuery, [Haptic.by_ref], :int
-  api :SDL_HapticNumAxes, [Haptic.by_ref], :int
-  api :SDL_HapticEffectSupported, [Haptic.by_ref, Haptic::Effect.by_ref], :int
-  api :SDL_HapticNewEffect, [Haptic.by_ref, Haptic::Effect.by_ref], :int
-  api :SDL_HapticUpdateEffect, [Haptic.by_ref, :int, Haptic::Effect.by_ref], :int
-  api :SDL_HapticRunEffect, [Haptic.by_ref, :int, :uint32], :int
-  api :SDL_HapticStopEffect, [Haptic.by_ref, :int], :int
-  api :SDL_HapticDestroyEffect, [Haptic.by_ref, :int], :int
-  api :SDL_HapticGetEffectStatus, [Haptic.by_ref, :int], :int
-  api :SDL_HapticSetGain, [Haptic.by_ref, :int], :int
-  api :SDL_HapticSetAutocenter, [Haptic.by_ref, :int], :int
-  api :SDL_HapticPause, [Haptic.by_ref], :int
-  api :SDL_HapticUnpause, [Haptic.by_ref], :int
-  api :SDL_HapticStopAll, [Haptic.by_ref], :int
-  api :SDL_HapticRumbleSupported, [Haptic.by_ref], :int
-  api :SDL_HapticRumbleInit, [Haptic.by_ref], :int
-  api :SDL_HapticRumblePlay, [Haptic.by_ref], :int
-  api :SDL_HapticRumbleStop, [Haptic.by_ref], :int
+  ##
+	#
+	api :SDL_NumHaptics, [], :int
+  ##
+	#
+	api :SDL_HapticName, [:int], :string
+  ##
+	#
+	api :SDL_HapticOpen, [:int], Haptic.auto_ptr
+  ##
+	#
+	api :SDL_HapticOpened, [:int], :int
+  ##
+	#
+	api :SDL_HapticIndex, [Haptic.by_ref], :int
+  ##
+	#
+	api :SDL_MouseIsHaptic, [], :int
+  ##
+	#
+	api :SDL_HapticOpenFromMouse, [], Haptic.auto_ptr
+  ##
+	#
+	api :SDL_JoystickIsHaptic, [Joystick.by_ref], :int
+  ##
+	#
+	api :SDL_HapticOpenFromJoystick, [Joystick.by_ref], Haptic.auto_ptr
+  ##
+	#
+	api :SDL_HapticClose, [Haptic.by_ref], :void
+  ##
+	#
+	api :SDL_HapticNumEffects, [Haptic.by_ref], :int
+  ##
+	#
+	api :SDL_HapticNumEffectsPlaying, [Haptic.by_ref], :int
+  ##
+	#
+	api :SDL_HapticQuery, [Haptic.by_ref], :int
+  ##
+	#
+	api :SDL_HapticNumAxes, [Haptic.by_ref], :int
+  ##
+	#
+	api :SDL_HapticEffectSupported, [Haptic.by_ref, Haptic::Effect.by_ref], :int
+  ##
+	#
+	api :SDL_HapticNewEffect, [Haptic.by_ref, Haptic::Effect.by_ref], :int
+  ##
+	#
+	api :SDL_HapticUpdateEffect, [Haptic.by_ref, :int, Haptic::Effect.by_ref], :int
+  ##
+	#
+	api :SDL_HapticRunEffect, [Haptic.by_ref, :int, :uint32], :int
+  ##
+	#
+	api :SDL_HapticStopEffect, [Haptic.by_ref, :int], :int
+  ##
+	#
+	api :SDL_HapticDestroyEffect, [Haptic.by_ref, :int], :int
+  ##
+	#
+	api :SDL_HapticGetEffectStatus, [Haptic.by_ref, :int], :int
+  ##
+	#
+	api :SDL_HapticSetGain, [Haptic.by_ref, :int], :int
+  ##
+	#
+	api :SDL_HapticSetAutocenter, [Haptic.by_ref, :int], :int
+  ##
+	#
+	api :SDL_HapticPause, [Haptic.by_ref], :int
+  ##
+	#
+	api :SDL_HapticUnpause, [Haptic.by_ref], :int
+  ##
+	#
+	api :SDL_HapticStopAll, [Haptic.by_ref], :int
+  ##
+	#
+	api :SDL_HapticRumbleSupported, [Haptic.by_ref], :int
+  ##
+	#
+	api :SDL_HapticRumbleInit, [Haptic.by_ref], :int
+  ##
+	#
+	api :SDL_HapticRumblePlay, [Haptic.by_ref], :int
+  ##
+	#
+	api :SDL_HapticRumbleStop, [Haptic.by_ref], :int
 
 end

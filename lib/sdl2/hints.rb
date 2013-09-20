@@ -51,9 +51,17 @@ module SDL2
     end
   end
 
-  api :SDL_ClearHints, [], :void
-  api :SDL_GetHint, [:string], :string
-  api :SDL_SetHint, [:string, :string], :bool, {error: true}
-  api :SDL_SetHintWithPriority, [:string, :string, :hint_priority], :bool
+  ##
+	#
+	api :SDL_ClearHints, [], :void
+  ##
+	#
+	api :SDL_GetHint, [:string], :string
+  ##
+	#
+	api :SDL_SetHint, [:string, :string], :bool, {error: true}
+  ##
+	#
+	api :SDL_SetHintWithPriority, [:string, :string, :hint_priority], :bool
 
 end

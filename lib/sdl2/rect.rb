@@ -52,10 +52,20 @@ module SDL2
 
   end
 
-  api :SDL_HasIntersection, [Rect.by_ref, Rect.by_ref], :bool
-  api :SDL_IntersectRect, [Rect.by_ref, Rect.by_ref, Rect.by_ref], :bool
-  api :SDL_UnionRect, [Rect.by_ref, Rect.by_ref, Rect.by_ref], :void
-  api :SDL_EnclosePoints, [Point.by_ref, :count, Rect.by_ref, Rect.by_ref], :bool
-  api :SDL_IntersectRectAndLine, [Rect.by_ref, :int, :int, :int, :int], :bool
+  ##
+	#
+	api :SDL_HasIntersection, [Rect.by_ref, Rect.by_ref], :bool
+  ##
+	#
+	api :SDL_IntersectRect, [Rect.by_ref, Rect.by_ref, Rect.by_ref], :bool
+  ##
+	#
+	api :SDL_UnionRect, [Rect.by_ref, Rect.by_ref, Rect.by_ref], :void
+  ##
+	#
+	api :SDL_EnclosePoints, [Point.by_ref, :count, Rect.by_ref, Rect.by_ref], :bool
+  ##
+	#
+	api :SDL_IntersectRectAndLine, [Rect.by_ref, :int, :int, :int, :int], :bool
 
 end

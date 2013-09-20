@@ -98,45 +98,93 @@ module SDL2
   callback :audio_callback, [:pointer, :pointer, :int], :void
   callback :audio_filter, [Audio::CVT.by_ref, :audio_format], :void
 
-  api :SDL_GetNumAudioDrivers, [], :int
-  api :SDL_GetAudioDriver, [:int], :string
-  api :SDL_AudioInit, [:string], :int
-  api :SDL_AudioQuit, [], :void
-  api :SDL_GetCurrentAudioDriver, [], :string
-  api :SDL_OpenAudio, [Audio::Spec.by_ref, Audio::Spec.by_ref], :int
+  ##
+	#
+	api :SDL_GetNumAudioDrivers, [], :int
+  ##
+	#
+	api :SDL_GetAudioDriver, [:int], :string
+  ##
+	#
+	api :SDL_AudioInit, [:string], :int
+  ##
+	#
+	api :SDL_AudioQuit, [], :void
+  ##
+	#
+	api :SDL_GetCurrentAudioDriver, [], :string
+  ##
+	#
+	api :SDL_OpenAudio, [Audio::Spec.by_ref, Audio::Spec.by_ref], :int
 
   typedef :uint32, :audio_device_id
 
-  api :SDL_GetNumAudioDevices, [:int], :int
-  api :SDL_GetAudioDeviceName, [:int, :int], :string
-  api :SDL_OpenAudioDevice, [:string, :int, Audio::Spec.by_ref, Audio::Spec.by_ref, :int], :audio_device_id
+  ##
+	#
+	api :SDL_GetNumAudioDevices, [:int], :int
+  ##
+	#
+	api :SDL_GetAudioDeviceName, [:int, :int], :string
+  ##
+	#
+	api :SDL_OpenAudioDevice, [:string, :int, Audio::Spec.by_ref, Audio::Spec.by_ref, :int], :audio_device_id
 
   enum :audio_status, [:STOPPED, 0, :PLAYING, :PAUSED]
 
-  api :SDL_GetAudioStatus, [], :audio_status
-  api :SDL_PauseAudio, [:int], :void
-  api :SDL_PauseAudioDevice, [:audio_device_id, :int], :void
-  api :SDL_LoadWAV_RW, [RWops.by_ref, :int, Audio::Spec.by_ref, :pointer, :pointer], Audio::Spec.by_ref
+  ##
+	#
+	api :SDL_GetAudioStatus, [], :audio_status
+  ##
+	#
+	api :SDL_PauseAudio, [:int], :void
+  ##
+	#
+	api :SDL_PauseAudioDevice, [:audio_device_id, :int], :void
+  ##
+	#
+	api :SDL_LoadWAV_RW, [RWops.by_ref, :int, Audio::Spec.by_ref, :pointer, :pointer], Audio::Spec.by_ref
 
   def self.load_wav(file, spec, audio_buf, audio_len)
     load_wav_rw(rw_from_file)
   end
   
-  api :SDL_FreeWAV, [:pointer], :void
-  api :SDL_BuildAudioCVT, [Audio::CVT.by_ref, :audio_format, :uint8, :int, :audio_format, :uint8, :int], :int
-  api :SDL_ConvertAudio, [Audio::CVT.by_ref], :int
+  ##
+	#
+	api :SDL_FreeWAV, [:pointer], :void
+  ##
+	#
+	api :SDL_BuildAudioCVT, [Audio::CVT.by_ref, :audio_format, :uint8, :int, :audio_format, :uint8, :int], :int
+  ##
+	#
+	api :SDL_ConvertAudio, [Audio::CVT.by_ref], :int
   
   MIX_MAXVOLUME = 128
   
-  api :SDL_MixAudio, [:pointer, :pointer, :uint32, :int], :void
-  api :SDL_MixAudioFormat, [:pointer, :pointer, :audio_format, :uint32, :int], :void
-  api :SDL_LockAudio, [], :void
-  api :SDL_LockAudioDevice, [:audio_device_id], :void
-  api :SDL_UnlockAudio, [], :void
-  api :SDL_UnlockAudioDevice, [:audio_device_id], :void
+  ##
+	#
+	api :SDL_MixAudio, [:pointer, :pointer, :uint32, :int], :void
+  ##
+	#
+	api :SDL_MixAudioFormat, [:pointer, :pointer, :audio_format, :uint32, :int], :void
+  ##
+	#
+	api :SDL_LockAudio, [], :void
+  ##
+	#
+	api :SDL_LockAudioDevice, [:audio_device_id], :void
+  ##
+	#
+	api :SDL_UnlockAudio, [], :void
+  ##
+	#
+	api :SDL_UnlockAudioDevice, [:audio_device_id], :void
     
-  api :SDL_CloseAudio, [], :void
-  api :SDL_CloseAudioDevice, [:audio_device_id], :void
+  ##
+	#
+	api :SDL_CloseAudio, [], :void
+  ##
+	#
+	api :SDL_CloseAudioDevice, [:audio_device_id], :void
   
 
 end

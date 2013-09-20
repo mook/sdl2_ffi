@@ -36,7 +36,13 @@ module SDL2
     
   end
   
-  api :SDL_GetRevision, [], :string
-  api :SDL_GetRevisionNumber, [], :int
-  api :SDL_GetVersion, [Version.by_ref], :void
+  ##
+	#
+	api :SDL_GetRevision, [], :string
+  ##
+	#
+	api :SDL_GetRevisionNumber, [], :int
+  ##
+	#
+	api :SDL_GetVersion, [Version.by_ref], :void
 end

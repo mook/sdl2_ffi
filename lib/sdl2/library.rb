@@ -31,6 +31,11 @@ module SDL2
       methodName = ActiveSupport::Inflector.underscore(camelCaseName).to_sym
 
       attach_function methodName, func_name, args, type
+            
+      metaclass.instance_eval do
+        alias_method func_name, methodName
+      end
+      alias_method func_name, methodName
 
       if options[:error]
         returns_error(methodName, options[:filter])

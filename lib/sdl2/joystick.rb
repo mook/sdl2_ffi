@@ -22,23 +22,57 @@ module SDL2
   typedef :int32, :joystick_id
   typedef :int32, :joystick_index # Dunno
 
-  api :SDL_NumJoysticks, [], :int
-  api :SDL_JoystickNameForIndex, [:int], :string
-  api :SDL_JoystickOpen, [:int], Joystick.auto_ptr
-  api :SDL_JoystickName, [Joystick.by_ref], :string
-  api :SDL_JoystickGetDeviceGUID, [:int], JoystickGUID
-  api :SDL_JoystickGetGUID, [Joystick.by_ref], JoystickGUID
-  api :SDL_JoystickGetGUIDString, [JoystickGUID.by_value, :pointer, :int], :void
-  api :SDL_JoystickGetGUIDFromString, [:string], JoystickGUID
-  api :SDL_JoystickGetAttached, [Joystick.by_ref], :bool
-  api :SDL_JoystickInstanceID, [Joystick.by_ref], :joystick_id
-  api :SDL_JoystickNumAxes, [Joystick.by_ref], :int
-  api :SDL_JoystickNumBalls, [Joystick.by_ref], :int
-  api :SDL_JoystickNumHats, [Joystick.by_ref], :int
-  api :SDL_JoystickNumButtons, [Joystick.by_ref], :int
-  api :SDL_JoystickUpdate, [], :void
-  api :SDL_JoystickEventState, [:int], :int
-  api :SDL_JoystickGetAxis, [Joystick.by_ref, :int], :int16
+  ##
+	#
+	api :SDL_NumJoysticks, [], :int
+  ##
+	#
+	api :SDL_JoystickNameForIndex, [:int], :string
+  ##
+	#
+	api :SDL_JoystickOpen, [:int], Joystick.auto_ptr
+  ##
+	#
+	api :SDL_JoystickName, [Joystick.by_ref], :string
+  ##
+	#
+	api :SDL_JoystickGetDeviceGUID, [:int], JoystickGUID
+  ##
+	#
+	api :SDL_JoystickGetGUID, [Joystick.by_ref], JoystickGUID
+  ##
+	#
+	api :SDL_JoystickGetGUIDString, [JoystickGUID.by_value, :pointer, :int], :void
+  ##
+	#
+	api :SDL_JoystickGetGUIDFromString, [:string], JoystickGUID
+  ##
+	#
+	api :SDL_JoystickGetAttached, [Joystick.by_ref], :bool
+  ##
+	#
+	api :SDL_JoystickInstanceID, [Joystick.by_ref], :joystick_id
+  ##
+	#
+	api :SDL_JoystickNumAxes, [Joystick.by_ref], :int
+  ##
+	#
+	api :SDL_JoystickNumBalls, [Joystick.by_ref], :int
+  ##
+	#
+	api :SDL_JoystickNumHats, [Joystick.by_ref], :int
+  ##
+	#
+	api :SDL_JoystickNumButtons, [Joystick.by_ref], :int
+  ##
+	#
+	api :SDL_JoystickUpdate, [], :void
+  ##
+	#
+	api :SDL_JoystickEventState, [:int], :int
+  ##
+	#
+	api :SDL_JoystickGetAxis, [Joystick.by_ref, :int], :int16
 
   # Hat positions
   module HAT
@@ -54,8 +88,16 @@ module SDL2
     LEFTDOWN = LEFT | DOWN
   end
 
-  api :SDL_JoystickGetHat, [Joystick.by_ref, :int], :uint8
-  api :SDL_JoystickGetBall, [Joystick.by_ref, :int, IntStruct.by_ref, IntStruct.by_ref], :int
-  api :SDL_JoystickGetButton, [Joystick.by_ref, :int], :uint8
-  api :SDL_JoystickClose, [Joystick.by_ref], :void
+  ##
+	#
+	api :SDL_JoystickGetHat, [Joystick.by_ref, :int], :uint8
+  ##
+	#
+	api :SDL_JoystickGetBall, [Joystick.by_ref, :int, IntStruct.by_ref, IntStruct.by_ref], :int
+  ##
+	#
+	api :SDL_JoystickGetButton, [Joystick.by_ref, :int], :uint8
+  ##
+	#
+	api :SDL_JoystickClose, [Joystick.by_ref], :void
 end

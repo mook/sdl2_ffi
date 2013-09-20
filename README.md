@@ -2,11 +2,12 @@
 
 [![Gem Version](https://badge.fury.io/rb/sdl2_ffi.png)](http://badge.fury.io/rb/sdl2_ffi)
 
-This is a simple interface to SDL2 for Ruby using FFI.  
-It also supports SDL_image and SDL_ttf.
-While a lot of the SDLlib, SDL_image, and SDL_ttf are linked, not all prototypes
-have been tested.  Large sections, such as "SDL_opengl<x>.h" have not been translated
-at all.
+The sdl2_ffi makes SDL2 fun and easy, eventually. This is still a new project
+and I am still implementing major sections of it.  Check out the 
+[approvals](https://github.com/BadQuanta/sdl2_ffi/tree/master/spec/fixtures/approvals)
+to get an idea of how much is working.  These are screen-shots of SDL generated
+content.  Approval testing is used to validate functionality.
+
 
 The "Object Oriented" part of this interface has barely started.
 
@@ -19,47 +20,6 @@ Otherwise, you can use RDoc to generate current source documentation.
  
 # How to start:
 
-The GEM is organized to the same structure as the SDL header files.  Where in C/C++ you would need to:
-
-    include 'SDL'
-    include 'SDL_image'
-    include 'SDL_ttf'
-    
-with this rubygem, you would instead:
-
-    require 'sdl2'
-    require 'sdl2/image'
-    require 'sdl2/ttf'
-    
-The SDL2 module is defined and it is where the raw SDL API is loaded and linked.  The Raw API can be called like so:
-
-    SDL2.init!(:EVERYTHING)
-	SDL2.was_init?(:EVERYTHING)
-    
-## More Examples:
-
-As a means of validating functionality, I am in the process of translating
-existing SDL Examples into Minitest [functional tests](https://github.com/BadQuanta/sdl2_ffi/tree/master/test/functional/examples).  
-
-
-## Dependencies
-
-* Obviously, ruby
-* SDL2 Runtime (Development files are not needed.)
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'sdl2_ffi'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install sdl2_ffi
     
 ## Testing
 
@@ -67,30 +27,32 @@ Minitests are being written to validate functionality. Not SDL's functionality, 
 
 Run the tests with rake:
 
-    $ rake test
+    $ rake spec
     
-Verbose options are nice:
+Or:
 
-    $ rake test TESTOPTS="--verbose"
+    $ ./bin/rspec ./spec -fd
+    
+### Approval Testing
+
+This project now uses Approval testing.  At the moment, I'm using a custom
+'approvals' gem which is specified in the Gemfile, as opposed to the Gemspec.
+This is only temporary.  The approved specifications are in the repository 
+and can act as a repository of screen shots. :)
 
    
 ### Testing Under *nix & X11
 
 If you are testing under some kind of unix system with X11 and have Xnest available,
 I'd recommend starting up Xnest and changing your testing terminal DISPLAY value
-so that the tests do not throw around a bunch of Windows on your scren.
-
-
-    
-### I need your help!
-
-I'm just starting to implement the Object Oriented Wrapper.  I'll need help identifying mistakes, especially in memory management.  Bug-reports submitted with tests will be looked at before bug-reports without tests, as a way to encourage tests being written.
-
-Thanks for reading this!
+so that the tests do not throw around a bunch of Windows on your screen.
 
 ## Usage
 
-The interface is intended to be modular and follows (roughly) SDL's header files.
+When you `require 'sdl2'`, it should give you the same things that
+include 'SDL.h' would have done.  See the specs for examples.  There are C/C++
+tutorials that have been translated as a means of validating functionality.
+
 
 ## Contributing
 

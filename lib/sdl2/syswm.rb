@@ -15,6 +15,8 @@ module SDL2 # SDL_syswm.h
   # Line 99~107
   enum :syswm_type, [:unkown, :window, :x11, :directfb, :cocoa, :uikit]
   
-  api :SDL_GetWindowWMInfo, [Window.by_ref, SYSWM::Info.by_ref], :bool
+  ##
+	#
+	api :SDL_GetWindowWMInfo, [Window.by_ref, SYSWM::Info.by_ref], :bool
   
 end

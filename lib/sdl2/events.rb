@@ -443,6 +443,11 @@ module SDL2
       return tmp_event # May be nil if SDL2.poll_event fails.
     end
     
+    def self.push(event)
+      event = Event.cast(event)
+      SDL2.push_event!(event)
+    end
+    
     def self.cast(something)
       if something.kind_of? AbstractEvent
         return self.new(something.pointer)
@@ -471,16 +476,34 @@ module SDL2
 
   ##
   # :class-method: peep_events
-  api :SDL_PeepEvents, [Event.by_ref, :count, :eventaction, :uint32, :uint32], :int
-  api :SDL_HasEvent, [:uint32], :bool
-  api :SDL_HasEvents, [:uint32, :uint32], :bool
-  api :SDL_FlushEvent, [:uint32], :void
-  api :SDL_FlushEvents, [:uint32, :uint32], :void
-  api :SDL_PollEvent, [Event.by_ref], :int
+  ##
+	#
+	api :SDL_PeepEvents, [Event.by_ref, :count, :eventaction, :uint32, :uint32], :int
+  ##
+	#
+	api :SDL_HasEvent, [:uint32], :bool
+  ##
+	#
+	api :SDL_HasEvents, [:uint32, :uint32], :bool
+  ##
+	#
+	api :SDL_FlushEvent, [:uint32], :void
+  ##
+	#
+	api :SDL_FlushEvents, [:uint32, :uint32], :void
+  ##
+	#
+	api :SDL_PollEvent, [Event.by_ref], :int
   boolean? :poll_event, TRUE_WHEN_ONE
-  api :SDL_WaitEvent, [Event.by_ref], :int
-  api :SDL_WaitEventTimeout, [Event.by_ref, :count], :int
-  api :SDL_PushEvent, [Event.by_ref], :int, {error: true, filter: TRUE_WHEN_ONE}
+  ##
+	#
+	api :SDL_WaitEvent, [Event.by_ref], :int
+  ##
+	#
+	api :SDL_WaitEventTimeout, [Event.by_ref, :count], :int
+  ##
+	#
+	api :SDL_PushEvent, [Event.by_ref], :int, {error: true, filter: TRUE_WHEN_ONE}
 
   ##
   # callback event_filter #=> Proc.new do |pointer, event|; return int; end
@@ -491,11 +514,21 @@ module SDL2
     layout :callback, :event_filter
   end
 
-  api :SDL_SetEventFilter, [:event_filter, :pointer], :void
-  api :SDL_GetEventFilter, [:pointer, :pointer], :bool
-  api :SDL_AddEventWatch, [:event_filter, :pointer], :void
-  api :SDL_DelEventWatch, [:event_filter, :pointer], :void
-  api :SDL_FilterEvents, [:event_filter, :pointer], :void
+  ##
+	#
+	api :SDL_SetEventFilter, [:event_filter, :pointer], :void
+  ##
+	#
+	api :SDL_GetEventFilter, [:pointer, :pointer], :bool
+  ##
+	#
+	api :SDL_AddEventWatch, [:event_filter, :pointer], :void
+  ##
+	#
+	api :SDL_DelEventWatch, [:event_filter, :pointer], :void
+  ##
+	#
+	api :SDL_FilterEvents, [:event_filter, :pointer], :void
 
   # Enumeration of event_state query
   module EVENTSTATE
@@ -510,11 +543,15 @@ module SDL2
 
   ##
   #
-  api :SDL_EventState, [:uint32, :event_state], :uint8
+  ##
+	#
+	api :SDL_EventState, [:uint32, :event_state], :uint8
 
   def get_event_state(type)
     event_state(type, EVENTSTATE::QUERY)
   end
 
-  api :SDL_RegisterEvents, [:count], :uint32
+  ##
+	#
+	api :SDL_RegisterEvents, [:count], :uint32
 end

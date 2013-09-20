@@ -22,10 +22,14 @@ module SDL2
   enum :init_flag, INIT.flatten_consts
   
 
-  api :SDL_Init, [:init_flag], :int, {error: true}
+  ##
+	#
+	api :SDL_Init, [:init_flag], :int, {error: true}
 
 
-  api :SDL_InitSubSystem, [:init_flag], :int, {error: true}
+  ##
+	#
+	api :SDL_InitSubSystem, [:init_flag], :int, {error: true}
 
   def init_sub_system!(flags)
     error_code = init_sub_system(flags)
@@ -34,11 +38,17 @@ module SDL2
     end
   end
 
-  api :SDL_WasInit, [:init_flag], :uint32
+  ##
+	#
+	api :SDL_WasInit, [:init_flag], :uint32
     
   boolean? :was_init, TRUE_WHEN_NOT_ZERO
 
-  api :SDL_Quit, [], :void
+  ##
+	#
+	api :SDL_Quit, [], :void
 
-  api :SDL_QuitSubSystem, [:init_flag], :void
+  ##
+	#
+	api :SDL_QuitSubSystem, [:init_flag], :void
 end

@@ -13,6 +13,8 @@ module SDL2
   enum :powerstate, POWERSTATE.flatten_consts
 
   
-  api :SDL_GetPowerInfo, [IntStruct.by_ref, IntStruct.by_ref], :powerstate
+  ##
+	#
+	api :SDL_GetPowerInfo, [IntStruct.by_ref, IntStruct.by_ref], :powerstate
 
 end

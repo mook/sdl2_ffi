@@ -194,18 +194,44 @@ module SDL2
     YVYU =          SDL2.define_pixelfourcc('Y', 'V', 'Y', 'U')
   end
 
-  api :SDL_GetPixelFormatName, [:pixel_format], :string
-  api :SDL_PixelFormatEnumToMasks, [:pixel_format, IntStruct.by_ref, UInt32Struct.by_ref, UInt32Struct.by_ref,UInt32Struct.by_ref,UInt32Struct.by_ref,], :bool
-  api :SDL_MasksToPixelFormatEnum, [:int, :uint32, :uint32, :uint32, :uint32], :pixel_format
-  api :SDL_AllocFormat, [:pixel_format], PixelFormat.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
-  api :SDL_FreeFormat, [PixelFormat.by_ref], :void
-  api :SDL_AllocPalette, [:count], Palette.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
-  api :SDL_SetPixelFormatPalette, [PixelFormat.by_ref, Palette.by_ref], :int
-  api :SDL_SetPaletteColors, [Palette.by_ref, :pointer, :int, :count], :int
-  api :SDL_FreePalette, [Palette.by_ref], :void
-  api :SDL_MapRGB, [PixelFormat.by_ref, :uint8, :uint8, :uint8], :uint32
-  api :SDL_MapRGBA, [PixelFormat.by_ref, :uint8, :uint8, :uint8, :uint8], :uint32
-  api :SDL_GetRGB, [:uint32, PixelFormat.by_ref, UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref], :void
-  api :SDL_GetRGBA, [:uint32, PixelFormat.by_ref, UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref], :void
+  ##
+	#
+	api :SDL_GetPixelFormatName, [:pixel_format], :string
+  ##
+	#
+	api :SDL_PixelFormatEnumToMasks, [:pixel_format, IntStruct.by_ref, UInt32Struct.by_ref, UInt32Struct.by_ref,UInt32Struct.by_ref,UInt32Struct.by_ref,], :bool
+  ##
+	#
+	api :SDL_MasksToPixelFormatEnum, [:int, :uint32, :uint32, :uint32, :uint32], :pixel_format
+  ##
+	#
+	api :SDL_AllocFormat, [:pixel_format], PixelFormat.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+  ##
+	#
+	api :SDL_FreeFormat, [PixelFormat.by_ref], :void
+  ##
+	#
+	api :SDL_AllocPalette, [:count], Palette.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+  ##
+	#
+	api :SDL_SetPixelFormatPalette, [PixelFormat.by_ref, Palette.by_ref], :int
+  ##
+	#
+	api :SDL_SetPaletteColors, [Palette.by_ref, :pointer, :int, :count], :int
+  ##
+	#
+	api :SDL_FreePalette, [Palette.by_ref], :void
+  ##
+	#
+	api :SDL_MapRGB, [PixelFormat.by_ref, :uint8, :uint8, :uint8], :uint32
+  ##
+	#
+	api :SDL_MapRGBA, [PixelFormat.by_ref, :uint8, :uint8, :uint8, :uint8], :uint32
+  ##
+	#
+	api :SDL_GetRGB, [:uint32, PixelFormat.by_ref, UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref], :void
+  ##
+	#
+	api :SDL_GetRGBA, [:uint32, PixelFormat.by_ref, UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref], :void
 
 end

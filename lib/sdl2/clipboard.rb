@@ -21,7 +21,13 @@ module SDL2
     end
   end
 
-  api :SDL_SetClipboardText, [:string], :int
-  api :SDL_GetClipboardText, [], :string
-  api :SDL_HasClipboardText, [], :bool
+  ##
+	#
+	api :SDL_SetClipboardText, [:string], :int
+  ##
+	#
+	api :SDL_GetClipboardText, [], :string
+  ##
+	#
+	api :SDL_HasClipboardText, [], :bool
 end

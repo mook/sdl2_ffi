@@ -107,25 +107,65 @@ module SDL2
     
   end
   
-  api :SDL_RWFromFile, [:string, :string], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
-  api :SDL_RWFromFP, [:pointer, :bool], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
-  api :SDL_RWFromMem, [:pointer, :count], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
-  api :SDL_RWFromConstMem, [:pointer, :count], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
-  api :SDL_AllocRW, [], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
-  api :SDL_FreeRW, [RWops.by_ref], :void
-  api :SDL_ReadU8, [RWops.by_ref], :uint8
-  api :SDL_ReadLE16, [RWops.by_ref], :uint16
-  api :SDL_ReadBE16, [RWops.by_ref], :uint16
-  api :SDL_ReadLE32, [RWops.by_ref], :uint32
-  api :SDL_ReadBE32, [RWops.by_ref], :uint32
-  api :SDL_ReadLE64, [RWops.by_ref], :uint64
-  api :SDL_ReadBE64, [RWops.by_ref], :uint64
+  ##
+	#
+	api :SDL_RWFromFile, [:string, :string], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+  ##
+	#
+	api :SDL_RWFromFP, [:pointer, :bool], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+  ##
+	#
+	api :SDL_RWFromMem, [:pointer, :count], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+  ##
+	#
+	api :SDL_RWFromConstMem, [:pointer, :count], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+  ##
+	#
+	api :SDL_AllocRW, [], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+  ##
+	#
+	api :SDL_FreeRW, [RWops.by_ref], :void
+  ##
+	#
+	api :SDL_ReadU8, [RWops.by_ref], :uint8
+  ##
+	#
+	api :SDL_ReadLE16, [RWops.by_ref], :uint16
+  ##
+	#
+	api :SDL_ReadBE16, [RWops.by_ref], :uint16
+  ##
+	#
+	api :SDL_ReadLE32, [RWops.by_ref], :uint32
+  ##
+	#
+	api :SDL_ReadBE32, [RWops.by_ref], :uint32
+  ##
+	#
+	api :SDL_ReadLE64, [RWops.by_ref], :uint64
+  ##
+	#
+	api :SDL_ReadBE64, [RWops.by_ref], :uint64
   
-  api :SDL_WriteU8, [RWops.by_ref, :uint8], :size_t
-  api :SDL_WriteLE16, [RWops.by_ref, :uint16], :size_t
-  api :SDL_WriteBE16, [RWops.by_ref, :uint16], :size_t
-  api :SDL_WriteLE32, [RWops.by_ref, :uint32], :size_t
-  api :SDL_WriteBE32, [RWops.by_ref, :uint32], :size_t
-  api :SDL_WriteLE64, [RWops.by_ref, :uint64], :size_t
-  api :SDL_WriteBE64, [RWops.by_ref, :uint64], :size_t
+  ##
+	#
+	api :SDL_WriteU8, [RWops.by_ref, :uint8], :size_t
+  ##
+	#
+	api :SDL_WriteLE16, [RWops.by_ref, :uint16], :size_t
+  ##
+	#
+	api :SDL_WriteBE16, [RWops.by_ref, :uint16], :size_t
+  ##
+	#
+	api :SDL_WriteLE32, [RWops.by_ref, :uint32], :size_t
+  ##
+	#
+	api :SDL_WriteBE32, [RWops.by_ref, :uint32], :size_t
+  ##
+	#
+	api :SDL_WriteLE64, [RWops.by_ref, :uint64], :size_t
+  ##
+	#
+	api :SDL_WriteBE64, [RWops.by_ref, :uint64], :size_t
 end

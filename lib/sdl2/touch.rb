@@ -15,10 +15,18 @@ module SDL2
   
   TOUCH_MOUSEID = -1 
   
-  api :SDL_GetNumTouchDevices, [], :int
-  api :SDL_GetTouchDevice, [:int], :touch_id
-  api :SDL_GetNumTouchFingers, [:touch_id], :int
-  api :SDL_GetTouchFinger, [:touch_id, :int], Finger.by_ref
+  ##
+	#
+	api :SDL_GetNumTouchDevices, [], :int
+  ##
+	#
+	api :SDL_GetTouchDevice, [:int], :touch_id
+  ##
+	#
+	api :SDL_GetNumTouchFingers, [:touch_id], :int
+  ##
+	#
+	api :SDL_GetTouchFinger, [:touch_id, :int], Finger.by_ref
   
   
 end
