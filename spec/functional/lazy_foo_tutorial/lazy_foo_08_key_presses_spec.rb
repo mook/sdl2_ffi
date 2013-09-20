@@ -38,7 +38,7 @@ describe "LazyFoo.net: Lesson 08: Key Presses" do
       @message = nil
 
       while (event = Event.poll())
-        puts event.type
+        #puts event.type
 
         if event.type == :KEYDOWN
           case event.key.keysym.sym
@@ -76,7 +76,7 @@ describe "LazyFoo.net: Lesson 08: Key Presses" do
       begin
         SDL2::Event.push(enum.next)
       rescue StopIteration
-        puts "NO MORE EVENTS"
+        #puts "NO MORE EVENTS"
 
       end
 
