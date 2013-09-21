@@ -75,8 +75,7 @@ module SDL2
 
   # Single window app.
   class Application < Engines
-    include Singleton
-
+    
     attr_accessor :window
 
     def initialize(opts = {})
@@ -95,11 +94,11 @@ module SDL2
       self.on({type: :QUIT}) do |event|
         @quit_loop = true
       end
-      
-      ObjectSpace::define_finalizer(self, proc do |id|
-        SDL2::quit()        
-      end)
 
+    end
+    
+    def quit()
+      @window.free
     end
     
     
