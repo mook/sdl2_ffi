@@ -182,8 +182,14 @@ module SDL2
 
     # Release memory utilized by structure
     def self.release(pointer)
-      destroy_window(pointer)
+      destroy_window(self.new pointer)
     end
+        
+    def destroy
+      destroy_window(self)
+    end
+    
+    alias_method :destroy, :free
 
     # Return the brightness level
     def brightness
