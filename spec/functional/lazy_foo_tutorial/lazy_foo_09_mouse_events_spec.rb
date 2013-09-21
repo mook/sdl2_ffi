@@ -69,7 +69,7 @@ end#ButtonEngine
 describe "LazyFoo.net: Lesson 09: Mouse Events" do
 
   before do
-    @application = Application.instance()
+    @application = Application.new()
     @application.window.title = subject
     @button = ButtonEngine.new(x: 170, y: 120, w: 320, h: 240)
     @application.engines << @button
@@ -77,7 +77,7 @@ describe "LazyFoo.net: Lesson 09: Mouse Events" do
   end
 
   after do
-
+    @application.quit()
   end
 
   it 'has a button sheet' do
@@ -89,7 +89,7 @@ describe "LazyFoo.net: Lesson 09: Mouse Events" do
     #delay(1000)
     @application.loop(1)
     verify(){@application.window.surface}
-
+    
   end
 
   it 'shows mouse in' do
