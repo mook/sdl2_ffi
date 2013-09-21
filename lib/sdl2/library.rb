@@ -22,6 +22,8 @@ module SDL2
         "IMG_"
       when "SDL2::TTF"
         "TTF_"
+      when "SDL2::Mixer"
+        "Mix_"
       else
         $stderr.puts("Library#api does not know how to handle module: #{self.to_s}")
         /[A-Z][A-Z|0-9]*_/
