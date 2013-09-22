@@ -11,14 +11,19 @@ module SDL2
 
     member_readers *members
     member_writers *members
-    
+
+    def self.create(values = {})
+      values[:a] ||= ALPHA_OPAQUE
+       super(values)
+    end
+
     # If possible, convert argument into a SDL::Color
     def self.cast(something)
       if something.kind_of? Array
         something.map!(&:to_i)
         result = new
         result.set(*something)
-        
+
         return result
       else
         return super
@@ -37,7 +42,7 @@ module SDL2
         self.send("#{c}=", color.send(c))
       end
     end
-    
+
     def to_a
       [r, g, b, a]
     end
