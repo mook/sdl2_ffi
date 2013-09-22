@@ -28,12 +28,15 @@ module SDL2
       return false # if we get to here.
     end
 
-    def paint_to(surface)
+    def paint_to(surface)      
+      result = false
+                  
+      result = true if super(surface)
+      
       if ce = current_engine
-        return ce.paint_to(surface)
-      else
-        return false
+        result = true if ce.paint_to(surface)
       end
+      return result
     end
     
     def quit()

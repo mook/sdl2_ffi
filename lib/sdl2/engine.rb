@@ -42,7 +42,22 @@ module SDL2
 
     # This routine should be overriden.
     def paint_to(surface)
-      false
+      result = false
+            
+      painter.each do |one|
+        
+        result = true if one.call(surface)
+      end
+      
+      return result
+    end
+    
+    def painter(&block)
+      @painter ||= []
+      @painter << block unless block.nil?      
+      
+      @painter
+      
     end
 
     protected
