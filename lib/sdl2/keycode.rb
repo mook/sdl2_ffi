@@ -3,7 +3,7 @@ require 'sdl2/scancode'
 
 module SDL2
 
-  typedef :int32, :keycode
+  #typedef :int32, :keycode
   typedef :int32, :scancode
 
   # TODO: Review if I translated lines 44~45 right.
@@ -17,76 +17,76 @@ module SDL2
     include EnumerableConstants
     UNKNOWN  =  0
 
-    RETURN  =  '\r'
-    ESCAPE  =  '\033'
-    BACKSPACE  =  '\b'
-    TAB  =  '\t'
-    SPACE  =  ' '
-    EXCLAIM  =  '!'
-    QUOTEDBL  =  '"'
-    HASH  =  '#'
-    PERCENT  =  '%'
-    DOLLAR  =  '$'
-    AMPERSAND  =  '&'
-    QUOTE  =  '\''
-    LEFTPAREN  =  '('
-    RIGHTPAREN  =  ')'
-    ASTERISK  =  '*'
-    PLUS  =  '+'
-    COMMA  =  ','
-    MINUS  =  '-'
-    PERIOD  =  '.'
-    SLASH  =  '/'
-    N0  =  '0'
-    N1  =  '1'
-    N2  =  '2'
-    N3  =  '3'
-    N4  =  '4'
-    N5  =  '5'
-    N6  =  '6'
-    N7  =  '7'
-    N8  =  '8'
-    N9  =  '9'
-    COLON  =  ':'
-    SEMICOLON  =  ';'
-    LESS  =  '<'
-    EQUALS  =  '='
-    GREATER  =  '>'
-    QUESTION  =  '?'
-    AT  =  '@'
+    RETURN  =  '\r'.codepoints()[0]
+    ESCAPE  =  '\033'.codepoints()[0]
+    BACKSPACE  =  '\b'.codepoints()[0]
+    TAB  =  '\t'.codepoints()[0]
+    SPACE  =  ' '.codepoints()[0]
+    EXCLAIM  =  '!'.codepoints()[0]
+    QUOTEDBL  =  '"'.codepoints()[0]
+    HASH  =  '#'.codepoints()[0]
+    PERCENT  =  '%'.codepoints()[0]
+    DOLLAR  =  '$'.codepoints()[0]
+    AMPERSAND  =  '&'.codepoints()[0]
+    QUOTE  =  '\''.codepoints()[0]
+    LEFTPAREN  =  '('.codepoints()[0]
+    RIGHTPAREN  =  ')'.codepoints()[0]
+    ASTERISK  =  '*'.codepoints()[0]
+    PLUS  =  '+'.codepoints()[0]
+    COMMA  =  ','.codepoints()[0]
+    MINUS  =  '-'.codepoints()[0]
+    PERIOD  =  '.'.codepoints()[0]
+    SLASH  =  '/'.codepoints()[0]
+    N0  =  '0'.codepoints()[0]
+    N1  =  '1'.codepoints()[0]
+    N2  =  '2'.codepoints()[0]
+    N3  =  '3'.codepoints()[0]
+    N4  =  '4'.codepoints()[0]
+    N5  =  '5'.codepoints()[0]
+    N6  =  '6'.codepoints()[0]
+    N7  =  '7'.codepoints()[0]
+    N8  =  '8'.codepoints()[0]
+    N9  =  '9'.codepoints()[0]
+    COLON  =  ':'.codepoints()[0]
+    SEMICOLON  =  ';'.codepoints()[0]
+    LESS  =  '<'.codepoints()[0]
+    EQUALS  =  '='.codepoints()[0]
+    GREATER  =  '>'.codepoints()[0]
+    QUESTION  =  '?'.codepoints()[0]
+    AT  =  '@'.codepoints()[0]
 
-    LEFTBRACKET  =  '['
-    BACKSLASH  =  '\\'
-    RIGHTBRACKET  =  ']'
-    CARET  =  '^'
-    UNDERSCORE  =  '_'
-    BACKQUOTE  =  '`'
-    a  =  'a'
-    b  =  'b'
-    c  =  'c'
-    d  =  'd'
-    e  =  'e'
-    f  =  'f'
-    g  =  'g'
-    h  =  'h'
-    i  =  'i'
-    j  =  'j'
-    k  =  'k'
-    l  =  'l'
-    m  =  'm'
-    n  =  'n'
-    o  =  'o'
-    p  =  'p'
-    q  =  'q'
-    r  =  'r'
-    s  =  's'
-    t  =  't'
-    u  =  'u'
-    v  =  'v'
-    w  =  'w'
-    x  =  'x'
-    y  =  'y'
-    z  =  'z'
+    LEFTBRACKET  =  '['.codepoints()[0]
+    BACKSLASH  =  '\\'.codepoints()[0]
+    RIGHTBRACKET  =  ']'.codepoints()[0]
+    CARET  =  '^'.codepoints()[0]
+    UNDERSCORE  =  '_'.codepoints()[0]
+    BACKQUOTE  =  '`'.codepoints()[0]
+    a  =  'a'.codepoints()[0]
+    b  =  'b'.codepoints()[0]
+    c  =  'c'.codepoints()[0]
+    d  =  'd'.codepoints()[0]
+    e  =  'e'.codepoints()[0]
+    f  =  'f'.codepoints()[0]
+    g  =  'g'.codepoints()[0]
+    h  =  'h'.codepoints()[0]
+    i  =  'i'.codepoints()[0]
+    j  =  'j'.codepoints()[0]
+    k  =  'k'.codepoints()[0]
+    l  =  'l'.codepoints()[0]
+    m  =  'm'.codepoints()[0]
+    n  =  'n'.codepoints()[0]
+    o  =  'o'.codepoints()[0]
+    p  =  'p'.codepoints()[0]
+    q  =  'q'.codepoints()[0]
+    r  =  'r'.codepoints()[0]
+    s  =  's'.codepoints()[0]
+    t  =  't'.codepoints()[0]
+    u  =  'u'.codepoints()[0]
+    v  =  'v'.codepoints()[0]
+    w  =  'w'.codepoints()[0]
+    x  =  'x'.codepoints()[0]
+    y  =  'y'.codepoints()[0]
+    z  =  'z'.codepoints()[0]
 
     CAPSLOCK  =  SDL2.scancode_to_keycode(SCANCODE::CAPSLOCK)
 
@@ -109,7 +109,7 @@ module SDL2
     INSERT  =  SDL2.scancode_to_keycode(SCANCODE::INSERT)
     HOME  =  SDL2.scancode_to_keycode(SCANCODE::HOME)
     PAGEUP  =  SDL2.scancode_to_keycode(SCANCODE::PAGEUP)
-    DELETE  =  '\177'
+    DELETE  =  '\177'.codepoints()[0]
     END_  =  SDL2.scancode_to_keycode(SCANCODE::END_)
     PAGEDOWN  =  SDL2.scancode_to_keycode(SCANCODE::PAGEDOWN)
     RIGHT  =  SDL2.scancode_to_keycode(SCANCODE::RIGHT)
@@ -264,7 +264,7 @@ module SDL2
     KBDILLUMUP  =  SDL2.scancode_to_keycode(SCANCODE::KBDILLUMUP)
     EJECT  =  SDL2.scancode_to_keycode(SCANCODE::EJECT)
     SLEEP = SDL2.scancode_to_keycode(SCANCODE::SLEEP)
-  end
+  end   
 
   enum :keycode, KEYCODE.flatten_consts
 
