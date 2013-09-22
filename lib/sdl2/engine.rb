@@ -30,7 +30,7 @@ module SDL2
     def handle_event(event)
       
       @on_handlers.each_pair do |event_hash, handler|
-        binding.pry if event.type == :KEYDOWN
+        
         return true if handler.call(event) if event == event_hash
       end
       return false # if we get to here.
