@@ -51,7 +51,7 @@ module SDL2
   # FFI::Struct class with some useful additions.
   class Struct < FFI::Struct
     extend StructHelper
-
+    
     # Allows creation and use within block, automatically freeing pointer after block.
     def initialize(*args, &block)
       super(*args)
@@ -60,6 +60,13 @@ module SDL2
         yield self
         self.class.release(self.pointer)
       end
+    end
+    
+    # Placeholder for Structs that need to initialize values.
+    def self.create(values = {})
+      created = self.new
+      created.update_members(values)
+      created
     end
 
     # A default release scheme is defined, but should be redefined where appropriate.
@@ -141,16 +148,23 @@ module SDL2
 
     # Default cast handler
     def self.cast(something)
+      
       if something.kind_of? self
+      
         return something
+      
       elsif something.kind_of? Hash
-        tmp = self.new
-        tmp.update_members(something)
-        return tmp
+
+        return self.create(something)
+
       elsif something.nil?
+      
         return something #TODO: Assume NUL is ok?
+      
       else
+        
         raise "#{self} can't cast #{something.insepct}"
+      
       end
     end
 
@@ -164,7 +178,6 @@ module SDL2
 
       elsif values.kind_of? Hash
         common = (self.members & values.keys)
-        raise "#{self} has nothing to update from #{values.inspect}" if common.empty?
         common.each do |field|
           self[field] = values[field]
         end
