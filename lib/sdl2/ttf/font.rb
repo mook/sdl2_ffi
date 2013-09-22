@@ -90,7 +90,7 @@ module SDL2
       end
       
       def self.default_fg
-        @@default_fg ||= Color.cast([255,255,255])
+        @@default_fg ||= Color.cast([255,255,255, ALPHA_OPAQUE])
       end
       
       def self.default_bg=(color)
@@ -98,7 +98,7 @@ module SDL2
       end
       
       def self.default_bg
-        @@default_bg ||= Color.cast([0,0,0])
+        @@default_bg ||= Color.cast([0,0,0,ALPHA_OPAQUE])
       end
       
       def render_text_solid(text, color = Font::default_fg)
