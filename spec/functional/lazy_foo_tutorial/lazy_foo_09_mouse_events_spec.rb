@@ -23,10 +23,10 @@ class ButtonEngine < Engine
 
       offset = Point.cast([event.motion.x, event.motion.y])
       if @box.enclose_points(offset)
-        puts "Mouse OVER"
-        @clip = @clips[OVER]
+        puts "Mouse OVER"if SDL2::PrintDebug
+        @clip = @clips[OVER]if SDL2::PrintDebug
       else
-        puts "Mouse OUT"
+        puts "Mouse OUT" if SDL2::PrintDebug
         @clip = @clips[OUT]
       end
     end#on :MOUSEMOTION
@@ -51,7 +51,7 @@ class ButtonEngine < Engine
 
   def paint_to(surface)
     if @clip
-      puts "Painting"
+      puts "Painting"if SDL2::PrintDebug
 
       @button_sheet.blit_out(surface, @box, @clip) if @clip
       @clip = nil

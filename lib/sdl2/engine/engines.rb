@@ -21,10 +21,10 @@ module SDL2
     def handle_event(event)
       return true if super(event) # self swallowed event.
       if current_engine
-        puts "Passing to current engine."
+        puts "Passing to current engine."if SDL2::PrintDebug
         return true if current_engine.handle_event(event)
       end
-      puts "Unable to handle"
+      puts "Unable to handle"if SDL2::PrintDebug
       return false # if we get to here.
     end
 

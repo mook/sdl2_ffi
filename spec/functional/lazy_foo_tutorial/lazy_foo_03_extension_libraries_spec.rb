@@ -11,6 +11,7 @@ describe "LazyFoo.net: Lesson 03: Extension Libraries" do
     @window = Window.create(subject, :CENTERED, :CENTERED, 640, 480)
     
     @screen = @window.surface
+    @screen.fill_rect(@screen.rect, [0,0,0,SDL2::ALPHA_OPAQUE])
         
     a_png = @screen.convert(Image.load!(img_path('an_example.png')))
       

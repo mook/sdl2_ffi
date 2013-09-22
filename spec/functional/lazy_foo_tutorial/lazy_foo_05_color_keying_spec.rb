@@ -15,7 +15,7 @@ describe "LazyFoo.net: Lesson 05: Color Keying" do
       
     @foo = @screen.convert(Image.load!(img_path('foo.jpg')))
       
-    @foo.color_key = @foo.format.map_rgb([0, 0xff, 0xff])
+    @foo.color_key = [0, 0xff, 0xff]
     
     @screen.blit_in(@background)
     @screen.blit_in(@foo)

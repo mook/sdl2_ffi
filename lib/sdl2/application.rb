@@ -21,6 +21,7 @@ module SDL2
       flags = opts[:flags] || :SHOWN
 
       @window = Window.create(title, x, y, w, h, flags)
+      @window.surface.fill_rect(@window.surface.rect, [0,0,0,SDL2::ALPHA_OPAQUE])
 
       # Default ON handler for :QUIT events:
       self.on({type: :QUIT}) do |event|
@@ -39,14 +40,14 @@ module SDL2
     # What makes an engine an "Application" is that it takes control of event
     # polling.  There should only ever be one "Application"
     def poll(cnt = poll_count_limit)
-      puts "Poll Start"
+      puts "Poll Start" if SDL2::PrintDebug
       times = 0
       while (event = Event.poll()) and (cnt.nil? or (times+=1 < cnt))
-        puts "GOT: #{event.type}"
+        puts "GOT: #{event.type}"if SDL2::PrintDebug
         handle_event(event)
       end
 
-      puts "Poll End"
+      puts "Poll End"if SDL2::PrintDebug
     end
 
     attr_accessor :loop_count_limit
@@ -55,12 +56,12 @@ module SDL2
       @quit_loop = false
       times = 0
       while (cnt.nil?) or ((times+=1) <= cnt)
-        puts ">>> Loop##{times}"
+        puts ">>> Loop##{times}" if SDL2::PrintDebug
         poll # Process input
         break if @quit_loop
         # Update the surface when we are painted to
         @window.update_surface if paint_to(@window.surface)
-        puts "<<< Loop##{times}"
+        puts "<<< Loop##{times}" if SDL2::PrintDebug
         delay(opts[:delay]) if opts.has_key? :delay
       end
     end

@@ -7,6 +7,7 @@ describe "LazyFoo.net: Lesson 06: Clip Blitting and Sprite Sheets" do
     SDL2.init!(:EVERYTHING)
     @window = Window.create(subject, :CENTERED, :CENTERED, 640, 480)
     @screen = @window.surface
+    @screen.fill_rect(@screen.rect, [0,0,0,ALPHA_OPAQUE])
 
     @sprites = Array.new(4) do |idx|
       SDL2::Rect.cast(
@@ -19,8 +20,8 @@ describe "LazyFoo.net: Lesson 06: Clip Blitting and Sprite Sheets" do
     @dots = @screen.convert(Image.load(img_path('sprites.jpg')))
     @dots.color_key = {r: 0, g: 0xFF, b: 0xFF}
 
-    @screen.fill_rect(@screen.rect, {r: 0xFF, g: 0xFF, b: 0xFF})
-    
+    @screen.fill_rect(@screen.rect, {r: 0xFF, g: 0xFF, b: 0xFF, a: ALPHA_OPAQUE})
+
     @screen.blit_in(@dots, @sprites[0], {x: 0,   y: 0})
     @screen.blit_in(@dots, @sprites[1], {x: 540, y: 0})
     @screen.blit_in(@dots, @sprites[2], {x: 0,   y: 380})
@@ -31,7 +32,7 @@ describe "LazyFoo.net: Lesson 06: Clip Blitting and Sprite Sheets" do
 
   after do
     @dots.free
-    
+
     quit()
   end
 

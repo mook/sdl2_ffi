@@ -12,6 +12,7 @@ describe "LazyFoo.net: Lesson 04: Event Driven Programming" do
     @window = Window.create(subject, :CENTERED, :CENTERED, 640, 480)
 
     @screen = @window.surface
+    @screen.fill_rect(@screen.rect, [0,0,0,SDL2::ALPHA_OPAQUE])
 
     @image = @screen.convert(Image.load!(img_path('x.png')))
 
@@ -22,7 +23,7 @@ describe "LazyFoo.net: Lesson 04: Event Driven Programming" do
     until @quit do
 
       while event = Event.poll()
-        #puts "GOT EVENT TYPE: #{event.type}"
+        #puts "GOT EVENT TYPE: #{event.type}" if SDL2::PrintDebug
         if (event.type == :QUIT)
           @quit = true
         end

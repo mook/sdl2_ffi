@@ -141,6 +141,7 @@ module SDL2
       if key.nil?#then disable color keying
         SDL2.set_color_key(self, false, 0)
       else# Enable color key by value
+        #binding.pry
         SDL2.set_color_key(self, true, pixel_value)
       end
     end
@@ -226,10 +227,10 @@ module SDL2
 	api :SDL_SetSurfaceRLE, [Surface.by_ref, :int], :int
   ##
 	#
-	api :SDL_SetColorKey, [Surface.by_ref, :bool, :int], :int, {error: true}
+	api :SDL_SetColorKey, [Surface.by_ref, :bool, :uint32], :int, {error: true}
   ##
 	#
-	api :SDL_GetColorKey, [Surface.by_ref, UInt32Struct.by_ref], :int, {error: true}
+	api :SDL_GetColorKey, [Surface.by_ref, UInt32Struct.by_ref], :uint32, {error: true}
   # Could mean an SDL error... or maybe not?
   boolean? :get_color_key, TRUE_WHEN_ZERO
   ##
