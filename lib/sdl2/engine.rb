@@ -1,17 +1,19 @@
 require 'sdl2'
 
 module SDL2
+
   # Input/Output engine.
   class Engine
+
     def initialize(opts = {})
-      
+
       # TODO: ??
     end
 
     def quit()
-      
+
     end
-    
+
     attr_reader :surface
 
     def on_handlers
@@ -28,11 +30,13 @@ module SDL2
     end
 
     def handle_event(event)
-      
-      @on_handlers.each_pair do |event_hash, handler|
-        
+
+      on_handlers.each_pair do |event_hash, handler|
+
         return true if handler.call(event) if event == event_hash
+
       end
+      
       return false # if we get to here.
     end
 
@@ -40,11 +44,8 @@ module SDL2
     def paint_to(surface)
       false
     end
-    
+
     protected
-    
-    
-      
 
   end
 
