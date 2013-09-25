@@ -3,16 +3,15 @@ require 'sdl2/engine/engines'
 module SDL2
 
   # A Top-Level SDL Application:
-  # An application 
-  
-  
+  # An application
+
   class Application < Engine::Engines
 
     attr_accessor :window
-    
-    def initialize(opts = {})      
+
+    def initialize(opts = {})
       super(opts)
-      
+
       title = opts[:title] || self.to_s
       x = opts[:x] || :CENTERED
       y = opts[:y] || :CENTERED
@@ -31,8 +30,8 @@ module SDL2
     end
 
     def quit()
-      @window.free
-      super()      
+      @window.destroy
+      super()
     end
 
     attr_accessor :poll_count_limit
@@ -52,20 +51,33 @@ module SDL2
 
     attr_accessor :loop_count_limit
 
-  def loop(cnt = loop_count_limit, opts ={})      
+    def loop(cnt = loop_count_limit, opts ={})
       @quit_loop = false
       times = 0
+
       while (cnt.nil?) or ((times+=1) <= cnt)
-        puts ">>> Loop##{times}" if SDL2::PrintDebug
+        before_loop.each(&:call)
         poll # Process input
         break if @quit_loop
         # Update the surface when we are painted to
         @window.update_surface if paint_to(@window.surface)
-        puts "<<< Loop##{times}" if SDL2::PrintDebug
         delay(opts[:delay]) if opts.has_key? :delay
+        after_loop.each(&:call)
       end
+
     end
 
+    def before_loop(&block)
+      @before_loop ||= []
+      @before_loop << block unless block.nil?
+      @before_loop
+    end
+
+    def after_loop(&block)
+      @after_loop ||= []
+      @after_loop << block unless block.nil?
+      @after_loop
+    end
   end
 
 end
