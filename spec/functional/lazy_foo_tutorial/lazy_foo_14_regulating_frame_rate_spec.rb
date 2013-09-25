@@ -1,6 +1,6 @@
 require_relative 'lazy_foo_helper'
 require_relative 'timer'
-#ORIGINAL: http://lazyfoo.net/SDL_tutorials/lesson13/index.php
+#ORIGINAL: http://lazyfoo.net/SDL_tutorials/lesson14/index.php
 # Adapted for Ruby & SDL 2.0 as functional test by BadQuanta
 
 require 'sdl2/application'
