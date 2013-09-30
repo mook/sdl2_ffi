@@ -149,7 +149,7 @@ module SDL2
     # @param w: The width of the window
     # @param h: The height of the window
     # @param flags: Window Flags to use in construction
-    def self.create(title ='', x = 0, y = 0, w = 100, h = 100, flags = 0)
+    def self.create(title = self.to_s, x = :CENTERED, y = :CENTERED, w = 640, h = 480, flags = 0)      
       SDL2.create_window!(title, x, y, w, h, flags)
     end
 
