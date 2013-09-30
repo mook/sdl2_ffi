@@ -110,6 +110,10 @@ module SDL2
       def self.pause
         Mixer::pause_music
       end
+      
+      def self.release(pointer)
+        Mixer::free_music(pointer)
+      end
     end
 
     ##

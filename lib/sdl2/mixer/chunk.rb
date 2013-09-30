@@ -40,6 +40,10 @@ module SDL2
         Mixer::playing?(-1)
       end
       
+      def self.release(pointer)
+        Mixer::free_chunk(pointer)
+      end
+      
     end
     
   end
