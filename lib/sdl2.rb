@@ -71,6 +71,7 @@ module SDL2
 
     # A default release scheme is defined, but should be redefined where appropriate.
     def self.release(pointer)
+      puts "#{self.to_s}::release() called from: \n #{caller.join("\n")}"
       pointer.free
     end
 
