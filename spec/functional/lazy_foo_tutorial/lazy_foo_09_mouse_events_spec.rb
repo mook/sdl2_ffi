@@ -24,7 +24,7 @@ class ButtonEngine < Engine
       offset = Point.cast([event.motion.x, event.motion.y])
       if @box.enclose_points(offset)
         puts "Mouse OVER"if SDL2::PrintDebug
-        @clip = @clips[OVER]if SDL2::PrintDebug
+        @clip = @clips[OVER]
       else
         puts "Mouse OUT" if SDL2::PrintDebug
         @clip = @clips[OUT]
@@ -73,7 +73,7 @@ describe "LazyFoo.net: Lesson 09: Mouse Events" do
     @application.window.title = subject
     @button = ButtonEngine.new(x: 170, y: 120, w: 320, h: 240)
     @application.engines << @button
-    @application.loop(1) #Prime it
+    @application.loop(5) #Prime it
   end
 
   after do
