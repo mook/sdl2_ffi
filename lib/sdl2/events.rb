@@ -10,422 +10,471 @@ require 'sdl2/touch'
 require 'sdl2/syswm/msg'
 
 module SDL2
-
+  ##
+  # General keyboard/mouse released state
   RELEASED = 0
+  ##
+  # General keyboard/mouse pressed state
   PRESSED = 1
+  ##
+  # General Event UNION 
+  class Event < Union; end
+    
+  ##
+  # Enumerations:
+  # - TYPE
+  # - ACTION
+  # - STATE
+  class Event
 
-  # The types of events that can be delivered
-  module EVENTTYPE
-    include EnumerableConstants
-    FIRSTEVENT     = 0
+    # The types of events that can be delivered
+    module TYPE
+      include EnumerableConstants
+      FIRSTEVENT     = 0
 
-    QUIT           = 0x100
+      QUIT           = 0x100
 
-    APP_TERMINATING
-    APP_LOWMEMORY
-    APP_WILLENTERBACKGROUND
-    APP_DIDENTERBACKGROUND
-    APP_WILLENTERFOREGROUND
-    APP_DIDENTERFOREGROUND
+      APP_TERMINATING
+      APP_LOWMEMORY
+      APP_WILLENTERBACKGROUND
+      APP_DIDENTERBACKGROUND
+      APP_WILLENTERFOREGROUND
+      APP_DIDENTERFOREGROUND
 
-    WINDOWEVENT    = 0x200
-    SYSWMEVENT
+      WINDOWEVENT    = 0x200
+      SYSWMEVENT
 
-    KEYDOWN        = 0x300
-    KEYUP
-    TEXTEDITING
-    TEXTINPUT
+      KEYDOWN        = 0x300
+      KEYUP
+      TEXTEDITING
+      TEXTINPUT
 
-    MOUSEMOTION    = 0x400
-    MOUSEBUTTONDOWN
-    MOUSEBUTTONUP
-    MOUSEWHEEL
+      MOUSEMOTION    = 0x400
+      MOUSEBUTTONDOWN
+      MOUSEBUTTONUP
+      MOUSEWHEEL
 
-    JOYAXISMOTION  = 0x600
-    JOYBALLMOTION
-    JOYHATMOTION
-    JOYBUTTONDOWN
-    JOYBUTTONUP
-    JOYDEVICEADDED
-    JOYDEVICEREMOVED
+      JOYAXISMOTION  = 0x600
+      JOYBALLMOTION
+      JOYHATMOTION
+      JOYBUTTONDOWN
+      JOYBUTTONUP
+      JOYDEVICEADDED
+      JOYDEVICEREMOVED
 
-    CONTROLLERAXISMOTION  = 0x650
-    CONTROLLERBUTTONDOWN
-    CONTROLLERBUTTONUP
-    CONTROLLERDEVICEADDED
-    CONTROLLERDEVICEREMOVED
-    CONTROLLERDEVICEREMAPPED
+      CONTROLLERAXISMOTION  = 0x650
+      CONTROLLERBUTTONDOWN
+      CONTROLLERBUTTONUP
+      CONTROLLERDEVICEADDED
+      CONTROLLERDEVICEREMOVED
+      CONTROLLERDEVICEREMAPPED
 
-    FINGERDOWN      = 0x700
-    FINGERUP
-    FINGERMOTION
+      FINGERDOWN      = 0x700
+      FINGERUP
+      FINGERMOTION
 
-    DOLLARGESTURE   = 0x800
-    DOLLARRECORD
-    MULTIGESTURE
+      DOLLARGESTURE   = 0x800
+      DOLLARRECORD
+      MULTIGESTURE
 
-    CLIPBOARDUPDATE = 0x900
+      CLIPBOARDUPDATE = 0x900
 
-    DROPFILE        = 0x1000
+      DROPFILE        = 0x1000
 
-    USEREVENT    = 0x8000
+      USEREVENT    = 0x8000
 
-    LASTEVENT    = 0xFFFF
+      LASTEVENT    = 0xFFFF
+    end
+
+    ##
+    #
+    # Constants for use with SDL2::peep_events() as eventaction
+    module ACTION
+      include EnumerableConstants
+      ##
+      # Causes the creation of messages
+      ADD = next_const_value
+      ##
+      # Retrieves events without removing them
+      PEEK = next_const_value
+      ##
+      # Retrieves events and removes them
+      GET = next_const_value
+    end
+    
+    # Enumeration of event_state query
+    module STATE
+      include EnumerableConstants
+      QUERY = -1
+      IGNORE = 0
+      DISABLE = 0
+      ENABLE = 1
+    end
+
   end
+  
+  enum :event_type, Event::TYPE.flatten_consts
+  enum :eventaction, Event::ACTION.flatten_consts  
+  ##
+  # Structures
+  # - Abstract
+  #   - Common
+  #   - Window
+  #   - Keyboard
+  #   - TextEditing
+  #   - TextInput
+  #   - MouseMotion
+  #   - MouseButton
+  #   - MouseWheel
+  #   - JoyAxis--
+  class Event
+    class Abstract < Struct
+      SHARED = [:type, :event_type, :timestamp, :uint32]
 
-  enum :event_type, EVENTTYPE.flatten_consts
+    end
 
-  class AbstractEvent < Struct
-    SHARED = [:type, :event_type, :timestamp, :uint32]
+    # Fields shared by every event
+    class Common < Abstract
 
-  end
+      layout *SHARED
 
-  # Fields shared by every event
-  class CommonEvent < AbstractEvent
+    end
 
-    layout *SHARED
+    # Window state change event data (event.window.*)
+    class Window < Abstract
 
-  end
+      layout *SHARED + [
+        :windowID, :uint32,
+        :event, :uint8,
+        :padding1, :uint8,
+        :padding2, :uint8,
+        :padding3, :uint8,
+        :data1, :int32,
+        :data2, :int32
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Window state change event data (event.window.*)
-  class WindowEvent < AbstractEvent
+    # Keyboard button event structure (event.key.*)
+    class Keyboard < Abstract
 
-    layout *SHARED + [
-      :windowID, :uint32,
-      :event, :uint8,
-      :padding1, :uint8,
-      :padding2, :uint8,
-      :padding3, :uint8,
-      :data1, :int32,
-      :data2, :int32
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :windowID, :uint32,
+        :state, :uint8,
+        :repeat, :uint8,
+        :padding2, :uint8,
+        :padding3, :uint8,
+        :keysym, Keysym
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Keyboard button event structure (event.key.*)
-  class KeyboardEvent < AbstractEvent
+    # Keyboard text editing event structure (event.edit.*)
+    class TextEditing < Abstract
 
-    layout *SHARED + [
-      :windowID, :uint32,
-      :state, :uint8,
-      :repeat, :uint8,
-      :padding2, :uint8,
-      :padding3, :uint8,
-      :keysym, Keysym
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      TEXT_SIZE = 32 # Line 188
+      layout *SHARED + [
+        :windowID, :uint32,
+        :char, [:char, TEXT_SIZE],
+        :start, :int32,
+        :length, :int32
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Keyboard text editing event structure (event.edit.*)
-  class TextEditingEvent < AbstractEvent
+    # Keyboard text input event structure (event.text.*)
+    class TextInput < Abstract
 
-    TEXT_SIZE = 32 # Line 188
-    layout *SHARED + [
-      :windowID, :uint32,
-      :char, [:char, TEXT_SIZE],
-      :start, :int32,
-      :length, :int32
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      TEXT_SIZE = 32 # Line 203
+      layout *SHARED + [
+        :windowID, :uint32,
+        :char, [:char, TEXT_SIZE]
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Keyboard text input event structure (event.text.*)
-  class TextInputEvent < AbstractEvent
+    # Mouse motion event structure (event.motion.*)
+    class MouseMotion < Abstract
 
-    TEXT_SIZE = 32 # Line 203
-    layout *SHARED + [
-      :windowID, :uint32,
-      :char, [:char, TEXT_SIZE]
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :windowID, :uint32,
+        :which, :uint32,
+        :state, :uint32,
+        :x, :int32,
+        :y, :int32,
+        :xrel, :int32,
+        :yrel, :int32
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Mouse motion event structure (event.motion.*)
-  class MouseMotionEvent < AbstractEvent
+    # Mouse button event structure (event.button.*)
+    class MouseButton < Abstract
 
-    layout *SHARED + [
-      :windowID, :uint32,
-      :which, :uint32,
-      :state, :uint32,
-      :x, :int32,
-      :y, :int32,
-      :xrel, :int32,
-      :yrel, :int32
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :windowID, :uint32,
+        :which, :uint32,
+        :button, :uint8,
+        :state, :uint8,
+        :padding1, :uint8,
+        :padding2, :uint8,
+        :x, :int32,
+        :y, :int32
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Mouse button event structure (event.button.*)
-  class MouseButtonEvent < AbstractEvent
+    # Mouse wheel event structure (event.wheel.*)
+    class MouseWheel < Abstract
 
-    layout *SHARED + [
-      :windowID, :uint32,
-      :which, :uint32,
-      :button, :uint8,
-      :state, :uint8,
-      :padding1, :uint8,
-      :padding2, :uint8,
-      :x, :int32,
-      :y, :int32
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :windowID, :uint32,
+        :which, :uint32,
+        :x, :int32,
+        :y, :int32
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Mouse wheel event structure (event.wheel.*)
-  class MouseWheelEvent < AbstractEvent
+    # Joystick axis motion event structure (event.jaxis.*)
+    class JoyAxis < Abstract
 
-    layout *SHARED + [
-      :windowID, :uint32,
-      :which, :uint32,
-      :x, :int32,
-      :y, :int32
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :which, :joystick_id,
+        :axis, :uint8,
+        :padding1, :uint8,
+        :padding2, :uint8,
+        :padding3, :uint8,
+        :value, :int16,
+        :padding4, :uint16
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Joystick axis motion event structure (event.jaxis.*)
-  class JoyAxisEvent < AbstractEvent
+    # Joystick trackball motion event structure (event.jball.*)
+    class JoyBall < Abstract
 
-    layout *SHARED + [
-      :which, :joystick_id,
-      :axis, :uint8,
-      :padding1, :uint8,
-      :padding2, :uint8,
-      :padding3, :uint8,
-      :value, :int16,
-      :padding4, :uint16
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :which, :joystick_id,
+        :ball, :uint8,
+        :padding1, :uint8,
+        :padding2, :uint8,
+        :padding3, :uint8,
+        :xrel, :int16,
+        :yrel, :int16
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Joystick trackball motion event structure (event.jball.*)
-  class JoyBallEvent < AbstractEvent
+    # Joystick hat position change event structure (event.jhat.*)
+    class JoyHat < Abstract
 
-    layout *SHARED + [
-      :which, :joystick_id,
-      :ball, :uint8,
-      :padding1, :uint8,
-      :padding2, :uint8,
-      :padding3, :uint8,
-      :xrel, :int16,
-      :yrel, :int16
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :which, :joystick_id,
+        :hat, :uint8,
+        :value, :uint8,
+        :padding1, :uint8,
+        :padding2, :uint8
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Joystick hat position change event structure (event.jhat.*)
-  class JoyHatEvent < AbstractEvent
+    # Joystick button event structure (event.jbutton.*)
+    class JoyButton < Abstract
 
-    layout *SHARED + [
-      :which, :joystick_id,
-      :hat, :uint8,
-      :value, :uint8,
-      :padding1, :uint8,
-      :padding2, :uint8
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :which, :joystick_id,
+        :button, :uint8,
+        :state, :uint8,
+        :padding1, :uint8,
+        :padding2, :uint8
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Joystick button event structure (event.jbutton.*)
-  class JoyButtonEvent < AbstractEvent
+    # Joystick device event structure (event.jdevice.*)
+    class JoyDevice < Abstract
 
-    layout *SHARED + [
-      :which, :joystick_id,
-      :button, :uint8,
-      :state, :uint8,
-      :padding1, :uint8,
-      :padding2, :uint8
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :which, :joystick_id
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Joystick device event structure (event.jdevice.*)
-  class JoyDeviceEvent < AbstractEvent
+    # Game controller axis motion event structure (event.caxis.*)
+    class ControllerAxis < Abstract
 
-    layout *SHARED + [
-      :which, :joystick_id
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :which, :joystick_id,
+        :axis, :uint8,
+        :padding1, :uint8,
+        :padding2, :uint8,
+        :padding3, :uint8,
+        :value, :int16,
+        :padding4, :uint16
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Game controller axis motion event structure (event.caxis.*)
-  class ControllerAxisEvent < AbstractEvent
+    # Game controller button event structure (event.cbutton.*)
+    class ControllerButton < Abstract
 
-    layout *SHARED + [
-      :which, :joystick_id,
-      :axis, :uint8,
-      :padding1, :uint8,
-      :padding2, :uint8,
-      :padding3, :uint8,
-      :value, :int16,
-      :padding4, :uint16
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :which, :joystick_id,
+        :button, :uint8,
+        :state, :uint8,
+        :padding1, :uint8,
+        :padding2, :uint8
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Game controller button event structure (event.cbutton.*)
-  class ControllerButtonEvent < AbstractEvent
+    # Controller device event structure (event.cdevice.*)
+    class ControllerDevice < Abstract
 
-    layout *SHARED + [
-      :which, :joystick_id,
-      :button, :uint8,
-      :state, :uint8,
-      :padding1, :uint8,
-      :padding2, :uint8
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :which, :joystick_id
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Controller device event structure (event.cdevice.*)
-  class ControllerDeviceEvent < AbstractEvent
+    # Touch finger event structure (event.tfinger.*)
+    class TouchFinger < Abstract
 
-    layout *SHARED + [
-      :which, :joystick_id
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :touchId, :touch_id,
+        :fingerId, :finger_id,
+        :x, :float,
+        :y, :float,
+        :dx, :float,
+        :dy, :float,
+        :pressure, :float
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Touch finger event structure (event.tfinger.*)
-  class TouchFingerEvent < AbstractEvent
+    # Multiple Finger Gesture Event (event.mgesture.*)
+    class MultiGesture < Abstract
 
-    layout *SHARED + [
-      :touchId, :touch_id,
-      :fingerId, :finger_id,
-      :x, :float,
-      :y, :float,
-      :dx, :float,
-      :dy, :float,
-      :pressure, :float
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :touchId, :touch_id,
+        :dTheta, :float,
+        :dDist, :float,
+        :x, :float,
+        :y, :float,
+        :numFingers, :uint16,
+        :padding, :uint16
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Multiple Finger Gesture Event (event.mgesture.*)
-  class MultiGestureEvent < AbstractEvent
+    # Dollar Gesture Event (event.dgesture.*)
+    class DollarGesture < Abstract
 
-    layout *SHARED + [
-      :touchId, :touch_id,
-      :dTheta, :float,
-      :dDist, :float,
-      :x, :float,
-      :y, :float,
-      :numFingers, :uint16,
-      :padding, :uint16
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :touchId, :touch_id,
+        :gestureId, :gesture_id,
+        :numFingers, :uint32,
+        :error, :float,
+        :x, :float,
+        :y, :float
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # Dollar Gesture Event (event.dgesture.*)
-  class DollarGestureEvent < AbstractEvent
+    # @brief An event used to request a file open by the system (event.drop.*)
+    #        This event is disabled by default, you can enable it with
+    # SDL_EventState()
+    # @note If you enable this event, you must free the filename in the event.
+    #
+    class Drop < Abstract
 
-    layout *SHARED + [
-      :touchId, :touch_id,
-      :gestureId, :gesture_id,
-      :numFingers, :uint32,
-      :error, :float,
-      :x, :float,
-      :y, :float
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED + [
+        :file, :string
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-  # @brief An event used to request a file open by the system (event.drop.*)
-  #        This event is disabled by default, you can enable it with
-  # SDL_EventState()
-  # @note If you enable this event, you must free the filename in the event.
-  #
-  class DropEvent < AbstractEvent
+    # The "quit requested" event
+    class Quit < Abstract
 
-    layout *SHARED + [
-      :file, :string
-    ]
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED
+      member_readers *members
+      member_writers *members
+    end
 
-  # The "quit requested" event
-  class QuitEvent < AbstractEvent
+    # OS Specific event
+    class OS < Abstract
 
-    layout *SHARED
-    member_readers *members
-    member_writers *members
-  end
+      layout *SHARED
+      member_readers *members
+      member_writers *members
+    end
 
-  # OS Specific event
-  class OSEvent < AbstractEvent
+    # A user-defined event type (event.user.*)
+    class User < Abstract
+      layout *SHARED + [
+        :windowID, :uint32,
+        :code, :int32,
+        :data1, :pointer,
+        :data2, :pointer
+      ]
+      member_readers *members
+      member_writers *members
+    end
 
-    layout *SHARED
-    member_readers *members
-    member_writers *members
-  end
+    #  @brief A video driver dependent system event (event.syswm.*)
+    #         This event is disabled by default, you can enable it with
+    # SDL_EventState()
+    #
+    #  @note If you want to use this event, you should include SDL_syswm.h.
+    class SysWM < Abstract
+      layout *SHARED + [
+        :msg, SDL2::SysWM::Msg.by_ref
+      ]
+    end
 
-  # A user-defined event type (event.user.*)
-  class UserEvent < AbstractEvent
-    layout *SHARED + [
-      :windowID, :uint32,
-      :code, :int32,
-      :data1, :pointer,
-      :data2, :pointer
-    ]
-    member_readers *members
-    member_writers *members
-  end
-
-  #  @brief A video driver dependent system event (event.syswm.*)
-  #         This event is disabled by default, you can enable it with
-  # SDL_EventState()
-  #
-  #  @note If you want to use this event, you should include SDL_syswm.h.
-  class SysWMEvent < AbstractEvent
-    layout *SHARED + [
-      :msg, SDL2::SysWM::Msg.by_ref
-    ]
-  end
-
-  # General event UNION (structure)
-  # Remember that this is a union, all other structures not related to #type are
-  # garbage
-  class Event < Union
     layout :type, :event_type,
-    :common, CommonEvent,
-    :window, WindowEvent,
-    :key, KeyboardEvent,
-    :edit, TextEditingEvent,
-    :text, TextInputEvent,
-    :motion, MouseMotionEvent,
-    :button, MouseButtonEvent,
-    :wheel, MouseWheelEvent,
-    :jaxis, JoyAxisEvent,
-    :jball, JoyBallEvent,
-    :jbutton, JoyButtonEvent,
-    :jdevice, JoyDeviceEvent,
-    :caxis, ControllerAxisEvent,
-    :cbutton, ControllerButtonEvent,
-    :cdevice, ControllerDeviceEvent,
-    :quit, QuitEvent,
-    :user, UserEvent,
-    :syswm, SysWMEvent,
-    :tfinger, TouchFingerEvent,
-    :mgesture, MultiGestureEvent,
-    :drop, DropEvent,
+    :common, Common,
+    :window, Window,
+    :key, Keyboard,
+    :edit, TextEditing,
+    :text, TextInput,
+    :motion, MouseMotion,
+    :button, MouseButton,
+    :wheel, MouseWheel,
+    :jaxis, JoyAxis,
+    :jball, JoyBall,
+    :jbutton, JoyButton,
+    :jdevice, JoyDevice,
+    :caxis, ControllerAxis,
+    :cbutton, ControllerButton,
+    :cdevice, ControllerDevice,
+    :quit, Quit,
+    :user, User,
+    :syswm, SysWM,
+    :tfinger, TouchFinger,
+    :mgesture, MultiGesture,
+    :drop, Drop,
     :padding, [:uint8, 56] # From SDL_events.h:529
 
     member_readers *members
@@ -448,7 +497,7 @@ module SDL2
     end
 
     def self.cast(something)
-      if something.kind_of? AbstractEvent
+      if something.kind_of? Abstract
         return self.new(something.pointer)
       elsif something.kind_of? Hash
         raise "Must have type : #{something.inspect}" unless something.has_key? :type
@@ -463,7 +512,7 @@ module SDL2
         end
         return tmp
       else
-        raise "Is not an AbstractEvent!: #{something.inspect}"
+        raise "Is not an Abstract!: #{something.inspect}"
       end
     end
 
@@ -487,14 +536,7 @@ module SDL2
 
   end
 
-  module EVENTACTION
-    include EnumerableConstants
-    ADD
-    PEEK
-    GET
-  end
 
-  enum :eventaction, EVENTACTION.flatten_consts
 
   ##
   # :class-method: peep_events
@@ -552,16 +594,9 @@ module SDL2
   #
   api :SDL_FilterEvents, [:event_filter, :pointer], :void
 
-  # Enumeration of event_state query
-  module EVENTSTATE
-    include EnumerableConstants
-    QUERY = -1
-    IGNORE = 0
-    DISABLE = 0
-    ENABLE = 1
-  end
 
-  enum :event_state, EVENTSTATE.flatten_consts
+
+  enum :event_state, Event::STATE.flatten_consts
 
   ##
   #

@@ -7,30 +7,32 @@ module SDL2
   ALPHA_OPAQUE = 255
   ALPHA_TRANSPARENT = 0
 
+  ##
   # Predefined pixel types.
   module PIXELTYPE
     include EnumerableConstants
-    UNKNOWN
-    INDEX1
-    INDEX4
-    INDEX8
-    PACKED8
-    PACKED16
-    PACKED32
-    ARRAYU8
-    ARRAYU16
-    ARRAYU32
-    ARRAYF16
-    ARRAYF32
+    UNKNOWN = next_const_value
+    INDEX1 = next_const_value
+    INDEX4 = next_const_value
+    INDEX8 = next_const_value
+    PACKED8 = next_const_value
+    PACKED16 = next_const_value
+    PACKED32 = next_const_value
+    ARRAYU8 = next_const_value
+    ARRAYU16 = next_const_value
+    ARRAYU32 = next_const_value
+    ARRAYF16 = next_const_value
+    ARRAYF32 = next_const_value
   end
   enum :pixeltype, PIXELTYPE.flatten_consts
 
+  ##
   # Bitmap pixel order, high bit -> low bit
   module BITMAPORDER
     include EnumerableConstants
-    NONE 
-    N4321
-    N1234
+    NONE  = next_const_value
+    N4321 = next_const_value
+    N1234 = next_const_value
   end
 
   enum :bitmaporder, BITMAPORDER.flatten_consts
@@ -38,29 +40,30 @@ module SDL2
   # Packed component order, high bit -> low bit
   module PACKEDORDER
     include EnumerableConstants
-    NONE
-    XRGB
-    RGBX
-    ARGB
-    RGBA
-    XBGR
-    BGRX
-    ABGR
-    BGRA
+    NONE = next_const_value
+    XRGB = next_const_value
+    RGBX = next_const_value
+    ARGB = next_const_value
+    RGBA = next_const_value
+    XBGR = next_const_value
+    BGRX = next_const_value
+    ABGR = next_const_value
+    BGRA = next_const_value
   end
 
   enum :packedorder, PACKEDORDER.flatten_consts
 
+  
   # Array component order, low byte -> hight byte
   module ARRAYORDER
     include EnumerableConstants
-    NONE
-    RGB
-    RGBA
-    ARGB
-    BGR
-    BGRA
-    ABGR
+    NONE = next_const_value    
+    RGB = next_const_value 
+    RGBA = next_const_value
+    ARGB = next_const_value
+    BGR = next_const_value
+    BGRA = next_const_value
+    ABGR = next_const_value
   end
 
   enum :arrayorder, ARRAYORDER.flatten_consts
@@ -68,15 +71,15 @@ module SDL2
   # Packed component layout
   module PACKEDLAYOUT
     include EnumerableConstants
-    NONE
-    N332
-    N4444
-    N1555
-    N5551
-    N565
-    N8888
-    N2101010
-    N1010102
+    NONE = next_const_value
+    N332 = next_const_value
+    N4444 = next_const_value
+    N1555 = next_const_value
+    N5551 = next_const_value
+    N565 = next_const_value
+    N8888 = next_const_value
+    N2101010 = next_const_value
+    N1010102 = next_const_value
   end
 
   enum :packedlayout, PACKEDLAYOUT.flatten_consts
