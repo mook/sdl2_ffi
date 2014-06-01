@@ -4,7 +4,7 @@ module SDL2
 
   # A Top-Level SDL Application:
   # An application
-
+  # TODO: Review SDL2::Application for removal
   class Application < Engine::Engines
 
     attr_accessor :window

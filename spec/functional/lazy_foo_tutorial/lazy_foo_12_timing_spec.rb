@@ -8,7 +8,7 @@ require 'sdl2/engine/block_engine'
 #ORIGINAL: http://lazyfoo.net/SDL_tutorials/lesson12/index.php
 # Adapted for Ruby & SDL 2.0 as functional test by BadQuanta
 
-describe "LazyFoo.net: Lesson 11: Playing sounds" do
+describe "LazyFoo.net: Lesson 12: Timing" do
 
   before do
     @app = SDL2::Application.new()

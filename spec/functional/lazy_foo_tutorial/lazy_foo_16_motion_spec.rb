@@ -7,7 +7,7 @@ require 'sdl2/application'
 require 'sdl2/engine/block_engine'
 require 'sdl2/ttf'
 
-describe "LazyFoo.net: Lesson 15: Advanced Timers" do
+describe "LazyFoo.net: Lesson 16: Motion" do
 
   class Dot
 
