@@ -1,7 +1,7 @@
 require 'sdl2'
 
 module SDL2
-
+	
   # Input/Output engine.
   class Engine
 
@@ -40,7 +40,7 @@ module SDL2
       return false # if we get to here.
     end
 
-    # This routine should be overriden.
+    # This routine should be overridden.
     def paint_to(surface)
       result = false
             

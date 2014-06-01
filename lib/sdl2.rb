@@ -3,28 +3,26 @@ require 'active_support/inflector'
 require 'enumerable_constants'
 require 'sdl2/stdinc'
 
-# libSDL2's prototypes are attached directly to this module.
-#
+# The SDL2 Map of API Prototypes
 module SDL2
   extend FFI::Library
   extend Library
   ffi_lib SDL_MODULE
 
   PrintDebug = false
-
+	
   module StructHelper
 
     # Define a set of member readers
     # Ex1: `member_readers [:one, :two, :three]`
     # Ex2: `member_readers *members`
     def member_readers(*members_to_define)
-      #self.class_eval do
       members_to_define.each do |member|
         define_method member do
           self[member]
         end
       end
-      #end
+      
     end
 
     # Define a set of member writers
@@ -136,7 +134,8 @@ module SDL2
           end
         end
 
-        true # Everything passed.
+        # Everything passed
+        throw :result, true
 
       end
       if PrintDebug
@@ -265,13 +264,11 @@ module SDL2
 end
 
 require 'sdl2/init'
-
 #TODO: require 'sdl2/assert'
 #TODO: require 'sdl2/atomic'
 require 'sdl2/audio'
 require 'sdl2/clipboard'
 require 'sdl2/cpuinfo'
-
 #TODO: require 'sdl2/endian'
 require 'sdl2/error'
 require 'sdl2/events'
@@ -279,16 +276,12 @@ require 'sdl2/joystick'
 require 'sdl2/gamecontroller'
 require 'sdl2/haptic'
 require 'sdl2/hints'
-
-#TODO?: require 'sdl2/loadso'
 require 'sdl2/log'
-
 #TODO: require 'sdl2/messagebox'
 #TODO: require 'sdl2/mutex'
 require 'sdl2/power'
 require 'sdl2/render'
 require 'sdl2/rwops'
-
 #TODO: require 'sdl2/system'
 #TODO: require 'sdl2/thread'
 require 'sdl2/timer'

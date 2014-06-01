@@ -77,14 +77,6 @@ describe "LazyFoo.net: Lesson 11: Playing sounds" do
         Mix::halt_music!()
         true
       end
-      
-      # Quit the program
-      on({type: :KEYDOWN, key: {keysym: {sym: :Q}}}) do |event|
-        puts "Quit the program."
-        # Emit a QUIT Signal
-        Event.push({type: :quit})
-      end
-        
     end#initialize
 
     def paint_to(surface)

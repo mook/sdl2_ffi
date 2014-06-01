@@ -44,7 +44,7 @@ describe "LazyFoo.net: Lesson 07: True Type Fonts" do
   end
 
   it "loads a true type font" do
-    expect(@font).to be_a SDL2::TTF::Font
+    expect(@font).to be_a(SDL2::TTF::Font)
   end
     
   it "writes a message to a surface" do

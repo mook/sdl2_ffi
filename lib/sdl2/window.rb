@@ -182,7 +182,7 @@ module SDL2
 
     # Release memory utilized by structure
     def self.release(pointer)
-      SDL2::destroy_window(self.new pointer)
+      SDL2::destroy_window(self.new(pointer))
     end
         
     def destroy
