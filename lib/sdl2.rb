@@ -9,7 +9,7 @@ module SDL2
   extend Library
   ffi_lib SDL_MODULE
 
-  PrintDebug = false
+  PrintDebug = true
 	
   module StructHelper
 
@@ -184,6 +184,14 @@ module SDL2
       else
         raise "#{self}#update_members unable to update from #{values.inspect}"
       end
+    end
+
+    def to_s
+      null = self.to_ptr.null?
+      values = members.map do |member|
+        "#{member}=#{null ? 'null' : self[member]}"
+      end unless null
+      "<#{self.class.to_s} #{null ? 'NULL' : values.join(' ')}>"
     end
   end
 
