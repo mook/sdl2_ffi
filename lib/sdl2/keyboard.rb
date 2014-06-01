@@ -30,7 +30,7 @@ module SDL2
   ##
 	#  brief Get a snapshot of the current state of the keyboard.
   #
-  #  @param numkeys if non-NULL, receives the length of the returned array.
+  #    *  numkeys if non-NULL, receives the length of the returned array.
   #
   #  @return An array of key states. 
 	#   Indexes into this array are obtained by using ::SDL_Scancode values.

@@ -128,7 +128,7 @@ module SDL2
     alias_method :rle=, :set_rle
 
     # Sets the color key for this surface.
-    # @param key may be 1) A pixel value encoded for this surface's format
+    #   *  key may be 1) A pixel value encoded for this surface's format
     # 2) Anything that Color::cast can handle.
     # 3) Nil, which will disable the color key for this surface.
     def set_color_key(key)

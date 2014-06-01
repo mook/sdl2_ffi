@@ -88,7 +88,9 @@ module EnumerableConstants
       def self.next_const_value
         last_const_value.next
       end
-
+      
+      ##
+      # Set the value of undefined constants to the next constant value.
       def self.const_missing(const)
         self.const_set(const, next_const_value)
       end

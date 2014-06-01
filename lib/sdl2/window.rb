@@ -113,63 +113,76 @@ module SDL2
     # A simple wrapper for data objects associated with a window.
     class Data
 
+      ##
       # Create a data object manager for a given window
       def initialize(for_window)
         @for_window = for_window
       end
 
+      ##
       # Return the data named
       def named(name)
         SDL2.get_window_data(@for_window, name.to_s)
       end
 
+      ##
+      #
       alias_method :[], :named
 
+      ##
       # Set the data named to value specified.
       def named=(name, value)
         SDL2.set_window_data(@for_window, name.to_s, value.to_s)
       end
 
+      ##
+      #
       alias_method :[]=, :named=
     end
 
+    ##
     # The Window's data manager.
     attr_reader :data
 
+    ##
     # Construct a new window.
     def initialize(*args, &block)
       super(*args, &block)
       @data = Data.new(self)
     end
 
+    ##
     # Construct a new window with given:
-    # @param title: The caption to use for the window
-    # @param x: The x-position of the window
-    # @param y: The y-position of the window
-    # @param w: The width of the window
-    # @param h: The height of the window
-    # @param flags: Window Flags to use in construction
+    #   *  title: The caption to use for the window
+    #   *  x: The x-position of the window
+    #   *  y: The y-position of the window
+    #   *  w: The width of the window
+    #   *  h: The height of the window
+    #   *  flags: Window Flags to use in construction
     def self.create(title = self.to_s, x = :CENTERED, y = :CENTERED, w = 640, h = 480, flags = 0)      
       SDL2.create_window!(title, x, y, w, h, flags)
     end
 
+    ##
     # Constructs a new window from arbitrary system-specific structure
-    # @param data: Some system-specific pointer
+    #   *  data: Some system-specific pointer
     # See SDL Documentation
     def self.create_from(data)
       create_window_from!(data)
     end
 
+    ##
     # Returns the identified window already created
-    # @param id: The window identifier to retrieve
+    #   *  id: The window identifier to retrieve
     def self.from_id(id)
       get_window_from_id!(id)
     end
 
+    ##
     # Constructs both a window and a renderer
-    # @param w: The Width of the pair to create
-    # @param h: The Height of the pair to create
-    # @param flags: Window flags to utilize in creation
+    #   *  w: The Width of the pair to create
+    #   *  h: The Height of the pair to create
+    #   *  flags: Window flags to utilize in creation
     def self.create_with_renderer(w, h, flags)
       window = Window.new
       renderer = Renderer.new
@@ -180,17 +193,25 @@ module SDL2
       end
     end
 
+    ##
     # Release memory utilized by structure
     def self.release(pointer)
       SDL2::destroy_window(self.new(pointer))
     end
-        
+    
+    
+    ##
+    #    
     def destroy
       SDL2::destroy_window(self)
     end
     
+    
+    ##
+    #
     alias_method :destroy, :free
 
+    ##
     # Return the brightness level
     def brightness
       SDL2.get_window_brightness(self)
@@ -307,7 +328,7 @@ module SDL2
     end
 
     # Set the window's current size
-    # @param size: A array containing the [width,height]
+    #   *  size: A array containing the [width,height]
     def current_size=(size)
       SDL2.set_window_size(self, size[0], size[1])
     end
@@ -322,7 +343,7 @@ module SDL2
     end
 
     # Set the window's maximum size
-    # @param size: A array containing the [width,height]
+    #   *  size: A array containing the [width,height]
     def maximum_size=(size)
       SDL2.set_window_maximum_size(self, size[0], size[1])
     end
@@ -337,7 +358,7 @@ module SDL2
     end
 
     # Set the window's minimum size
-    # @param size: A array containing the [width,height]
+    #   *  size: A array containing the [width,height]
     def minimum_size=(size)
       SDL2.set_window_minimum_size(self, size[0], size[1])
     end
@@ -353,7 +374,7 @@ module SDL2
     end
 
     # Set the window's position
-    # @param size: A array containing the [x,y]
+    #   *  size: A array containing the [x,y]
     def position=(location)
       SDL2::set_window_position(self, location[0],location[1])
     end

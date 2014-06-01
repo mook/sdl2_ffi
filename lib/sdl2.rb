@@ -9,8 +9,15 @@ module SDL2
   extend Library
   ffi_lib SDL_MODULE
 
+  ##
+  # This controls some development debugging.
+  # TODO: THIS HAS TO BE REMOVED & IMPROVED
   PrintDebug = true
 	
+  ##
+  # A struct helper provides member_reader/member_writer helpers for quickly accessing those damn members.
+  # This is extended into sdl2_ffi's usage of Structs, ManagedStructs, and Unions. Do I know exatcly what I'm
+  # doing, no... but teach me what I'm doing wrong.
   module StructHelper
 
     # Define a set of member readers
@@ -37,8 +44,9 @@ module SDL2
     end
 
   end
-
-  # Augmented for compares with anything that can be an array
+  
+  ##
+  # BadQuanta: I Augmented for compares with anything that can be an array
   class FFI::Struct::InlineArray
 
     def ==(other)
@@ -46,10 +54,12 @@ module SDL2
     end
   end
 
-  # FFI::Struct class with some useful additions.
+  ##
+  # BadQuanta: sdl2_ffi messes with the FFI::Struct class for some useful additions.
   class Struct < FFI::Struct
     extend StructHelper
     
+    ##
     # Allows creation and use within block, automatically freeing pointer after block.
     def initialize(*args, &block)
       super(*args)
@@ -60,6 +70,7 @@ module SDL2
       end
     end
     
+    ##
     # Placeholder for Structs that need to initialize values.
     def self.create(values = {})
       created = self.new
@@ -67,12 +78,16 @@ module SDL2
       created
     end
 
+    ##
     # A default release scheme is defined, but should be redefined where appropriate.
     def self.release(pointer)
       puts "#{self.to_s}::release() called from: \n #{caller.join("\n")}"
       pointer.free
     end
 
+    ##
+    # A default free operation, but should be redefined where appropriate.
+    # TODO: Is this wrong to do in conjuction with release?
     def free()
       self.pointer.free
     end
@@ -91,9 +106,13 @@ module SDL2
     #      report += "}"
     #    end
 
+    ##
     # Compare two structures by class and values.
-    # This will return true if compared to a "partial hash",
-    # if all the keys the hash defines equal
+    # This will return true when compared to a "partial hash" and
+    # all the key/value pairs the hash defines equal the
+    # corrisponding members in the structure.
+    # Otherwise all values must match between structures.
+    # TODO: CLEAN UP THIS COMPARISON CODE!!!
     def ==(other)
       if PrintDebug
         @@rec ||= -1
@@ -146,7 +165,15 @@ module SDL2
       return result
     end
 
-    # Default cast handler
+    ##
+    # Default cast handler.  
+    #
+    #
+    # BadQuanta says:  
+    #   Casting means to take something and try to make it into a Structure
+    #   - Other instances of the same class (simply returns that instance)
+    #   - Any hash, this structure will be "created" with the has specifying members.
+    #   - A nil object, which will return the same nil object assuming that is o.k.   
     def self.cast(something)
       
       if something.kind_of? self
@@ -168,6 +195,7 @@ module SDL2
       end
     end
 
+    ##
     # Set members to values contained within hash.
     def update_members(values)
       if values.kind_of? Array
@@ -186,6 +214,8 @@ module SDL2
       end
     end
 
+    ##
+    # Human readable translation of a structure
     def to_s
       null = self.to_ptr.null?
       values = members.map do |member|
@@ -195,6 +225,7 @@ module SDL2
     end
   end
 
+  ##
   # FFI::ManagedStruct possibly with useful additions.
   class ManagedStruct < FFI::ManagedStruct
     extend StructHelper
@@ -209,10 +240,14 @@ module SDL2
 
   end
 
+  ##
+  # BadQuanta says: "Even FFI::Unions can be helped."
   class Union < FFI::Union
     extend StructHelper
   end
 
+  ##
+  # BadQuanta says: "Typed pointes let you get to the value."
   class TypedPointer < Struct
 
     def self.type(kind)

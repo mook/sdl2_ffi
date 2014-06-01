@@ -60,7 +60,7 @@ module SDL2
 
     
     # Determine whether two rectangles intersect.
-    # @param Another rectangle to test against.
+    #   *  Another rectangle to test against.
     # @return True when they touch, false when they don't
     def has_intersection?(rect)
       rect = Rect.cast(rect)
@@ -68,7 +68,7 @@ module SDL2
     end
     
     # Calculate the intersection of two rectangles.
-    # @param Another rectangle to find intersection with self.
+    #   *  Another rectangle to find intersection with self.
     # @return Rect or Nil if no intersection found. 
     def intersection(rect)
       rect = Rect.cast(rect)
