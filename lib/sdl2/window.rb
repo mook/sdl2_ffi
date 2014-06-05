@@ -336,6 +336,15 @@ module SDL2
       w, h = w_struct[:value], h_struct[:value]
       [w, h]
     end
+    
+    def width
+      current_size[0]
+    end
+    
+    def height
+      current_size[1]
+    end
+
 
     # Set the window's current size
     #   *  size: A array containing the [width,height]
@@ -398,6 +407,7 @@ module SDL2
     def fullscreen=(flags)
       SDL2.set_window_fullscreen(self, flags)
     end
+    
   end
 
 end

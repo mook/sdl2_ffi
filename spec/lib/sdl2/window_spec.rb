@@ -20,7 +20,10 @@ describe SDL2::Window do
     @window.maximum_size = [1024,768]
     expect(@window.minimum_size).to eq([320,240])
     expect(@window.maximum_size).to eq([1024,768])
-
+    @window.should respond_to :width
+    @window.width.should == 320
+    @window.should respond_to :height
+    @window.height.should == 240
   end
   
   it 'has data' do
