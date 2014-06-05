@@ -122,22 +122,22 @@ module SDL2
 	api :TTF_GlyphMetrics, [
       Font.by_ref,
       :uint16,
-      IntStruct.by_ref,
-      IntStruct.by_ref,
-      IntStruct.by_ref,
-      IntStruct.by_ref,
-      IntStruct.by_ref
+      TypedPointer::Int.by_ref,
+      TypedPointer::Int.by_ref,
+      TypedPointer::Int.by_ref,
+      TypedPointer::Int.by_ref,
+      TypedPointer::Int.by_ref
     ], :int
 
     ##
 	#
-	api :TTF_SizeText, [Font.by_ref, :string, IntStruct.by_ref, IntStruct.by_ref], :int
+	api :TTF_SizeText, [Font.by_ref, :string, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int
     ##
 	#
-	api :TTF_SizeUTF8, [Font.by_ref, :string, IntStruct.by_ref, IntStruct.by_ref], :int
+	api :TTF_SizeUTF8, [Font.by_ref, :string, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int
     ##
 	#
-	api :TTF_SizeUNICODE, [Font.by_ref, :string, IntStruct.by_ref, IntStruct.by_ref], :int
+	api :TTF_SizeUNICODE, [Font.by_ref, :string, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int
 
     ##
 	#

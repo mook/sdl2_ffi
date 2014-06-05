@@ -149,7 +149,7 @@ module SDL2
     # Gets the color key for this surface.
     # @returns Nil, indicating no color keying, or the encoded pixel value used.
     def get_color_key()
-      key_s = UInt32Struct.new
+      key_s = TypedPointer::UInt32.new
       if SDL2.get_color_key?(self, key_s)
         result = key_s[:value]
       else
@@ -230,7 +230,7 @@ module SDL2
 	api :SDL_SetColorKey, [Surface.by_ref, :bool, :uint32], :int, {error: true}
   ##
 	#
-	api :SDL_GetColorKey, [Surface.by_ref, UInt32Struct.by_ref], :uint32, {error: true}
+	api :SDL_GetColorKey, [Surface.by_ref, TypedPointer::UInt32.by_ref], :uint32, {error: true}
   # Could mean an SDL error... or maybe not?
   boolean? :get_color_key, TRUE_WHEN_ZERO
   ##
@@ -238,13 +238,13 @@ module SDL2
 	api :SDL_SetSurfaceColorMod, [Surface.by_ref, :uint8, :uint8, :uint8], :int
   ##
 	#
-	api :SDL_GetSurfaceColorMod, [Surface.by_ref, UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref], :int
+	api :SDL_GetSurfaceColorMod, [Surface.by_ref, TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref], :int
   ##
 	#
 	api :SDL_SetSurfaceAlphaMod, [Surface.by_ref, :uint8], :int, {error: true}
   ##
 	#
-	api :SDL_GetSurfaceAlphaMod, [Surface.by_ref,UInt8Struct.by_ref], :int, {error: true}
+	api :SDL_GetSurfaceAlphaMod, [Surface.by_ref,TypedPointer::UInt8.by_ref], :int, {error: true}
   ##
 	#
 	api :SDL_SetSurfaceBlendMode, [Surface.by_ref, :blend_mode], :int, {error: true}

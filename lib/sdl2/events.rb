@@ -34,48 +34,48 @@ module SDL2
 
       QUIT           = 0x100
 
-      APP_TERMINATING
-      APP_LOWMEMORY
-      APP_WILLENTERBACKGROUND
-      APP_DIDENTERBACKGROUND
-      APP_WILLENTERFOREGROUND
-      APP_DIDENTERFOREGROUND
+      APP_TERMINATING           = next_const_value       
+      APP_LOWMEMORY             = next_const_value
+      APP_WILLENTERBACKGROUND   = next_const_value
+      APP_DIDENTERBACKGROUND    = next_const_value
+      APP_WILLENTERFOREGROUND   = next_const_value
+      APP_DIDENTERFOREGROUND    = next_const_value
 
       WINDOWEVENT    = 0x200
-      SYSWMEVENT
+      SYSWMEVENT     = next_const_value 
 
       KEYDOWN        = 0x300
-      KEYUP
-      TEXTEDITING
-      TEXTINPUT
+      KEYUP          = next_const_value
+      TEXTEDITING    = next_const_value
+      TEXTINPUT      = next_const_value
 
       MOUSEMOTION    = 0x400
-      MOUSEBUTTONDOWN
-      MOUSEBUTTONUP
-      MOUSEWHEEL
+      MOUSEBUTTONDOWN= next_const_value
+      MOUSEBUTTONUP  = next_const_value
+      MOUSEWHEEL     = next_const_value
 
       JOYAXISMOTION  = 0x600
-      JOYBALLMOTION
-      JOYHATMOTION
-      JOYBUTTONDOWN
-      JOYBUTTONUP
-      JOYDEVICEADDED
-      JOYDEVICEREMOVED
+      JOYBALLMOTION  = next_const_value
+      JOYHATMOTION   = next_const_value
+      JOYBUTTONDOWN  = next_const_value
+      JOYBUTTONUP    = next_const_value
+      JOYDEVICEADDED = next_const_value
+      JOYDEVICEREMOVED= next_const_value
 
       CONTROLLERAXISMOTION  = 0x650
-      CONTROLLERBUTTONDOWN
-      CONTROLLERBUTTONUP
-      CONTROLLERDEVICEADDED
-      CONTROLLERDEVICEREMOVED
-      CONTROLLERDEVICEREMAPPED
+      CONTROLLERBUTTONDOWN= next_const_value
+      CONTROLLERBUTTONUP= next_const_value
+      CONTROLLERDEVICEADDED= next_const_value
+      CONTROLLERDEVICEREMOVED= next_const_value
+      CONTROLLERDEVICEREMAPPED= next_const_value
 
       FINGERDOWN      = 0x700
-      FINGERUP
-      FINGERMOTION
+      FINGERUP= next_const_value
+      FINGERMOTION= next_const_value
 
       DOLLARGESTURE   = 0x800
-      DOLLARRECORD
-      MULTIGESTURE
+      DOLLARRECORD= next_const_value
+      MULTIGESTURE= next_const_value
 
       CLIPBOARDUPDATE = 0x900
 
@@ -479,8 +479,9 @@ module SDL2
 
     member_readers *members
     member_writers *members
-
-    # Polls for currently pending events
+    
+    ##
+    # Polls for currently pending events.
     # @returns SDL2::Event or nil if there are no events.
     def self.poll()
       tmp_event = SDL2::Event.new
@@ -491,8 +492,9 @@ module SDL2
       return tmp_event # May be nil if SDL2.poll_event fails.
     end
 
+    
     def self.push(event)
-      event = Event.cast(event)
+      event = Event.cast(event) unless event.kind_of? Event
       SDL2.push_event!(event)
     end
 

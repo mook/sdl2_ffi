@@ -1,15 +1,10 @@
-# sdl2_ffi
+# sdl2_ffi June, 2014
 
 [![Gem Version](https://badge.fury.io/rb/sdl2_ffi.png)](http://badge.fury.io/rb/sdl2_ffi)
 
-The sdl2_ffi makes SDL2 fun and easy, eventually. This is still a new project
-and I am still implementing major sections of it.  Check out the 
-[approvals](https://github.com/BadQuanta/sdl2_ffi/tree/master/spec/fixtures/approvals)
-to get an idea of how much is working.  These are screen-shots of SDL generated
-content.  Approval testing is used to validate functionality.
-
-
-The "Object Oriented" part of this interface has barely started.
+The sdl2_ffi gem provides structured access to the SDL2 shared library to ruby via FFI.
+The interface is intended to be ruby-like and follow ruby's conventions.  The goal is to
+produce an easy to comprehend tool for prototyping and teaching.
 
 # Documentation/API Reference:
 

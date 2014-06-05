@@ -12,7 +12,7 @@ describe "LazyFoo.net: Lesson 02: Optimized Images" do
   HEIGHT = 480
   # BPP = 32 #  TODO: Is this still needed?
   before do
-    @window = Window.create(subject, :CENTERED, :CENTERED, WIDTH, HEIGHT, :SHOWN)
+    @window = Window.create(title: subject, width: WIDTH, height: HEIGHT, flags: :SHOWN)
     @screen = @window.surface
     
     def load_image(file)

@@ -18,10 +18,10 @@ module SDL2
 	api :SDL_GetMouseFocus, [], Window.by_ref
   ##
 	#
-	api :SDL_GetMouseState, [IntStruct.by_ref, IntStruct.by_ref], :uint32
+	api :SDL_GetMouseState, [TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :uint32
   ##
 	#
-	api :SDL_GetRelativeMouseState, [IntStruct.by_ref, IntStruct.by_ref], :uint32
+	api :SDL_GetRelativeMouseState, [TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :uint32
   ##
 	#
 	api :SDL_WarpMouseInWindow, [Window.by_ref, :int, :int], :void

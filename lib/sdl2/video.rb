@@ -22,29 +22,29 @@ module SDL2
   # OpenGL configuration attributes
   module GLattr
     include EnumerableConstants
-    RED_SIZE			    
-    GREEN_SIZE			  
-    BLUE_SIZE			    
-    ALPHA_SIZE			  
-    BUFFER_SIZE			  
-    DOUBLEBUFFER			
-    DEPTH_SIZE			  
-    STENCIL_SIZE			
-    ACCUM_RED_SIZE		
-    ACCUM_GREEN_SIZE	
-    ACCUM_BLUE_SIZE		
-    ACCUM_ALPHA_SIZE	
-    STEREO			      
-    MULTISAMPLEBUFFERS
-    MULTISAMPLESAMPLES
-    ACCELERATED_VISUAL
-    RETAINED_BACKING	
-    CONTEXT_MAJOR_VERSION	
-    CONTEXT_MINOR_VERSION	
-    CONTEXT_EGL
-    CONTEXT_FLAGS
-    CONTEXT_PROFILE_MASK			
-    SHARE_WITH_CURRENT_CONTEXT
+    RED_SIZE			                   = next_const_value    
+    GREEN_SIZE			                 = next_const_value
+    BLUE_SIZE			                   = next_const_value
+    ALPHA_SIZE			                 = next_const_value
+    BUFFER_SIZE			                 = next_const_value
+    DOUBLEBUFFER			               = next_const_value
+    DEPTH_SIZE			                 = next_const_value
+    STENCIL_SIZE			               = next_const_value  
+    ACCUM_RED_SIZE		               = next_const_value
+    ACCUM_GREEN_SIZE	               = next_const_value
+    ACCUM_BLUE_SIZE		               = next_const_value
+    ACCUM_ALPHA_SIZE	               = next_const_value
+    STEREO			                     = next_const_value
+    MULTISAMPLEBUFFERS               = next_const_value
+    MULTISAMPLESAMPLES               = next_const_value                
+    ACCELERATED_VISUAL               = next_const_value              
+    RETAINED_BACKING	               = next_const_value
+    CONTEXT_MAJOR_VERSION	          = next_const_value
+    CONTEXT_MINOR_VERSION	    = next_const_value
+    CONTEXT_EGL= next_const_value
+    CONTEXT_FLAGS= next_const_value
+    CONTEXT_PROFILE_MASK			= next_const_value
+    SHARE_WITH_CURRENT_CONTEXT= next_const_value
   end
   
   # lines 165~190
@@ -158,25 +158,25 @@ module SDL2
 	api :SDL_SetWindowPosition, [Window.by_ref, :int, :int], :void
   ##
 	#
-	api :SDL_GetWindowPosition, [Window.by_ref, IntStruct.by_ref, IntStruct.by_ref], :void
+	api :SDL_GetWindowPosition, [Window.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :void
   ##
 	#
 	api :SDL_SetWindowSize, [Window.by_ref, :int, :int], :void
   ##
 	#
-	api :SDL_GetWindowSize, [Window.by_ref, IntStruct.by_ref, IntStruct.by_ref], :void
+	api :SDL_GetWindowSize, [Window.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :void
   ##
 	#
 	api :SDL_SetWindowMaximumSize, [Window.by_ref, :int, :int], :void
   ##
 	#
-	api :SDL_GetWindowMaximumSize, [Window.by_ref, IntStruct.by_ref, IntStruct.by_ref], :void
+	api :SDL_GetWindowMaximumSize, [Window.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :void
   ##
 	#
 	api :SDL_SetWindowMinimumSize, [Window.by_ref, :int, :int], :void
   ##
 	#
-	api :SDL_GetWindowMinimumSize, [Window.by_ref, IntStruct.by_ref, IntStruct.by_ref], :void
+	api :SDL_GetWindowMinimumSize, [Window.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :void
   ##
 	#
 	api :SDL_SetWindowBordered, [Window.by_ref, :bool], :void
@@ -224,10 +224,10 @@ module SDL2
 	api :SDL_SetWindowBrightness, [Window.by_ref, :float], :int
   ##
 	#
-	api :SDL_GetWindowGammaRamp, [Window.by_ref, UInt16Struct.by_ref, UInt16Struct.by_ref, UInt16Struct.by_ref], :int
+	api :SDL_GetWindowGammaRamp, [Window.by_ref, TypedPointer::UInt16.by_ref, TypedPointer::UInt16.by_ref, TypedPointer::UInt16.by_ref], :int
   ##
 	#
-	api :SDL_SetWindowGammaRamp, [Window.by_ref, UInt16Struct.by_ref, UInt16Struct.by_ref, UInt16Struct.by_ref], :int
+	api :SDL_SetWindowGammaRamp, [Window.by_ref, TypedPointer::UInt16.by_ref, TypedPointer::UInt16.by_ref, TypedPointer::UInt16.by_ref], :int
   ##
 	#
 	api :SDL_DestroyWindow, [Window.by_ref], :void
@@ -254,10 +254,10 @@ module SDL2
 	api :SDL_GL_ExtensionSupported, [:string], :bool
   ##
 	#
-	api :SDL_GL_SetAttribute, [:gl_attr, IntStruct], :int
+	api :SDL_GL_SetAttribute, [:gl_attr, TypedPointer::Int], :int
   ##
 	#
-	api :SDL_GL_GetAttribute, [:gl_attr, IntStruct.by_ref], :int
+	api :SDL_GL_GetAttribute, [:gl_attr, TypedPointer::Int.by_ref], :int
   ##
 	#
 	api :SDL_GL_CreateContext, [Window.by_ref], :gl_context

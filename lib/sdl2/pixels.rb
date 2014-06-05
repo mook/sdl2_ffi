@@ -202,7 +202,7 @@ module SDL2
 	api :SDL_GetPixelFormatName, [:pixel_format], :string
   ##
 	#
-	api :SDL_PixelFormatEnumToMasks, [:pixel_format, IntStruct.by_ref, UInt32Struct.by_ref, UInt32Struct.by_ref,UInt32Struct.by_ref,UInt32Struct.by_ref,], :bool
+	api :SDL_PixelFormatEnumToMasks, [:pixel_format, TypedPointer::Int.by_ref, TypedPointer::UInt32.by_ref, TypedPointer::UInt32.by_ref,TypedPointer::UInt32.by_ref,TypedPointer::UInt32.by_ref,], :bool
   ##
 	#
 	api :SDL_MasksToPixelFormatEnum, [:int, :uint32, :uint32, :uint32, :uint32], :pixel_format
@@ -232,9 +232,9 @@ module SDL2
 	api :SDL_MapRGBA, [PixelFormat.by_ref, :uint8, :uint8, :uint8, :uint8], :uint32
   ##
 	#
-	api :SDL_GetRGB, [:uint32, PixelFormat.by_ref, UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref], :void
+	api :SDL_GetRGB, [:uint32, PixelFormat.by_ref, TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref], :void
   ##
 	#
-	api :SDL_GetRGBA, [:uint32, PixelFormat.by_ref, UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref], :void
+	api :SDL_GetRGBA, [:uint32, PixelFormat.by_ref, TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref], :void
 
 end

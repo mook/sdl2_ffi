@@ -13,13 +13,11 @@ module SDL2
   # This controls some development debugging.
   # TODO: THIS HAS TO BE REMOVED & IMPROVED
   PrintDebug = true
-	
   ##
   # A struct helper provides member_reader/member_writer helpers for quickly accessing those damn members.
   # This is extended into sdl2_ffi's usage of Structs, ManagedStructs, and Unions. Do I know exatcly what I'm
   # doing, no... but teach me what I'm doing wrong.
   module StructHelper
-
     # Define a set of member readers
     # Ex1: `member_readers [:one, :two, :three]`
     # Ex2: `member_readers *members`
@@ -29,7 +27,7 @@ module SDL2
           self[member]
         end
       end
-      
+
     end
 
     # Define a set of member writers
@@ -44,11 +42,10 @@ module SDL2
     end
 
   end
-  
+
   ##
   # BadQuanta: I Augmented for compares with anything that can be an array
   class FFI::Struct::InlineArray
-
     def ==(other)
       self.to_a == other.to_a
     end
@@ -58,7 +55,6 @@ module SDL2
   # BadQuanta: sdl2_ffi messes with the FFI::Struct class for some useful additions.
   class Struct < FFI::Struct
     extend StructHelper
-    
     ##
     # Allows creation and use within block, automatically freeing pointer after block.
     def initialize(*args, &block)
@@ -69,7 +65,7 @@ module SDL2
         self.class.release(self.pointer)
       end
     end
-    
+
     ##
     # Placeholder for Structs that need to initialize values.
     def self.create(values = {})
@@ -166,32 +162,32 @@ module SDL2
     end
 
     ##
-    # Default cast handler.  
+    # Default cast handler.
     #
     #
-    # BadQuanta says:  
+    # BadQuanta says:
     #   Casting means to take something and try to make it into a Structure
     #   - Other instances of the same class (simply returns that instance)
     #   - Any hash, this structure will be "created" with the has specifying members.
-    #   - A nil object, which will return the same nil object assuming that is o.k.   
+    #   - A nil object, which will return the same nil object assuming that is o.k.
     def self.cast(something)
-      
+
       if something.kind_of? self
-      
+
         return something
-      
+
       elsif something.kind_of? Hash
 
         return self.create(something)
 
       elsif something.nil?
-      
+
         return something #TODO: Assume NUL is ok?
-      
+
       else
-        
+
         raise "#{self} can't cast #{something.insepct}"
-      
+
       end
     end
 
@@ -229,7 +225,6 @@ module SDL2
   # FFI::ManagedStruct possibly with useful additions.
   class ManagedStruct < FFI::ManagedStruct
     extend StructHelper
-
     # Allows create and use the struct within a block.
     def initialize(*args, &block)
       super(*args)
@@ -249,7 +244,6 @@ module SDL2
   ##
   # BadQuanta says: "Typed pointes let you get to the value."
   class TypedPointer < Struct
-
     def self.type(kind)
       layout :value, kind
     end
@@ -259,30 +253,31 @@ module SDL2
     end
 
     alias_method :deref, :value
-  end
 
-  # Simple Type Structures to interface 'typed-pointers'
-  # TODO: Research if this is the best way to handle 'typed-pointers'
-  class FloatPointer < TypedPointer
-    type :float
-  end
+    # Simple Type Structures to interface 'typed-pointers'
+    # TODO: Research if this is the best way to handle 'typed-pointers'
+    class Float < TypedPointer
+      type :float
+    end
 
-  # Int-typed pointer
-  class IntStruct < TypedPointer
-    type :int
-  end
+    # Int-typed pointer
+    class Int < TypedPointer
+      type :int
+    end
 
-  #
-  class UInt16Struct < TypedPointer
-    type :uint16
-  end
+    #
+    class UInt16 < TypedPointer
+      type :uint16
+    end
 
-  class UInt32Struct < TypedPointer
-    type :uint32
-  end
+    class UInt32 < TypedPointer
+      type :uint32
+    end
 
-  class UInt8Struct < TypedPointer
-    type :uint8
+    class UInt8 < TypedPointer
+      type :uint8
+    end
+
   end
 
   # TODO: Review if this is the best place to put it.
@@ -307,11 +302,13 @@ module SDL2
 end
 
 require 'sdl2/init'
+
 #TODO: require 'sdl2/assert'
 #TODO: require 'sdl2/atomic'
 require 'sdl2/audio'
 require 'sdl2/clipboard'
 require 'sdl2/cpuinfo'
+
 #TODO: require 'sdl2/endian'
 require 'sdl2/error'
 require 'sdl2/events'
@@ -320,11 +317,13 @@ require 'sdl2/gamecontroller'
 require 'sdl2/haptic'
 require 'sdl2/hints'
 require 'sdl2/log'
+
 #TODO: require 'sdl2/messagebox'
 #TODO: require 'sdl2/mutex'
 require 'sdl2/power'
 require 'sdl2/render'
 require 'sdl2/rwops'
+
 #TODO: require 'sdl2/system'
 #TODO: require 'sdl2/thread'
 require 'sdl2/timer'

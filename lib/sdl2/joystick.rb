@@ -93,7 +93,7 @@ module SDL2
 	api :SDL_JoystickGetHat, [Joystick.by_ref, :int], :uint8
   ##
 	#
-	api :SDL_JoystickGetBall, [Joystick.by_ref, :int, IntStruct.by_ref, IntStruct.by_ref], :int
+	api :SDL_JoystickGetBall, [Joystick.by_ref, :int, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int
   ##
 	#
 	api :SDL_JoystickGetButton, [Joystick.by_ref, :int], :uint8

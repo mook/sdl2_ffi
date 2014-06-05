@@ -3,7 +3,7 @@ require_relative '../unit_helper'
 describe SDL2::Color do
   before :each do
     SDL2.init!(:EVERYTHING)
-    @window = SDL2::Window.create(subject.to_s, :CENTERED, :CENTERED, 100, 100)
+    @window = SDL2::Window.create(title: subject.to_s, width: 100, height: 100)
     @screen = @window.surface
     @color = SDL2::Color.new
   end

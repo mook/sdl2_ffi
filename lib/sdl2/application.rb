@@ -13,14 +13,12 @@ module SDL2
     def initialize(opts = {})
       super(opts)
   
-      title = opts[:title] || self.to_s
-      x = opts[:x] || :CENTERED
-      y = opts[:y] || :CENTERED
-      w = opts[:w] || 640
-      h = opts[:h] || 480
-      flags = opts[:flags] || :SHOWN
+      opts[:title] ||= self.to_s
+      opts[:width] ||= 640
+      opts[:height] ||= 480
+      opts[:flags] ||= :SHOWN
   
-      @window = Window.create(title, x, y, w, h, flags)
+      @window = Window.create(opts)
       @window.surface.fill_rect(@window.surface.rect, [0,0,0,SDL2::ALPHA_OPAQUE])
   
       # Default ON handler for :QUIT events:

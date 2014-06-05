@@ -13,7 +13,7 @@ describe SDL2::Window do
   end
 
   it 'has different sizes' do
-    expect(@window.current_size).to eq([640, 480])
+    expect(@window.current_size).to eq([320, 240])
     expect(@window.minimum_size).to eq([0,0])
     expect(@window.maximum_size).to eq([0,0])
     @window.minimum_size = [320,240]

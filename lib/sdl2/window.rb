@@ -62,21 +62,21 @@ module SDL2
   # Event subtype for window events
   module WINDOWEVENT
     include EnumerableConstants
-    NONE    
-    SHOWN   
-    HIDDEN  
-    EXPOSED 
-    MOVED   
-    RESIZED 
-    SIZE_CHANGED  
-    MINIMIZED     
-    MAXIMIZED     
-    RESTORED      
-    ENTER         
-    LEAVE         
-    FOCUS_GAINED  
-    FOCUS_LOST    
-    CLOSE         
+    NONE    = next_const_value
+    SHOWN   = next_const_value
+    HIDDEN  = next_const_value
+    EXPOSED = next_const_value
+    MOVED   = next_const_value
+    RESIZED = next_const_value
+    SIZE_CHANGED  = next_const_value
+    MINIMIZED     = next_const_value
+    MAXIMIZED     = next_const_value
+    RESTORED      = next_const_value
+    ENTER         = next_const_value
+    LEAVE         = next_const_value
+    FOCUS_GAINED  = next_const_value
+    FOCUS_LOST    = next_const_value
+    CLOSE         = next_const_value
   end
 
   # System Window
@@ -151,6 +151,14 @@ module SDL2
       @data = Data.new(self)
     end
 
+    DEFAULT = {
+     title: "SDL2::Window",
+     x: :CENTERED,
+     y: :CENTERED,
+     width: 320,
+     height: 240,
+     flags: 0
+    }
     ##
     # Construct a new window with given:
     #   *  title: The caption to use for the window
@@ -159,8 +167,10 @@ module SDL2
     #   *  w: The width of the window
     #   *  h: The height of the window
     #   *  flags: Window Flags to use in construction
-    def self.create(title = self.to_s, x = :CENTERED, y = :CENTERED, w = 640, h = 480, flags = 0)      
-      SDL2.create_window!(title, x, y, w, h, flags)
+    def self.create(options = {})      
+      o = DEFAULT.merge(options)
+      # TODO: Log unused option keys      
+      SDL2.create_window!(o[:title], o[:x], o[:y], o[:width], o[:height], o[:flags])
     end
 
     ##
@@ -321,7 +331,7 @@ module SDL2
     # Get the window's current size
     # @return Array => [<width>, <height>]
     def current_size()
-      w_struct, h_struct = IntStruct.new, IntStruct.new
+      w_struct, h_struct = TypedPointer::Int.new, TypedPointer::Int.new
       SDL2::get_window_size(self, w_struct, h_struct)
       w, h = w_struct[:value], h_struct[:value]
       [w, h]
@@ -336,7 +346,7 @@ module SDL2
     # Get the window's maximum_size
     # @return Array => [<width>, <height>]
     def maximum_size
-      w_struct, h_struct = IntStruct.new, IntStruct.new
+      w_struct, h_struct = TypedPointer::Int.new, TypedPointer::Int.new
       SDL2::get_window_maximum_size(self, w_struct, h_struct)
       w, h = w_struct[:value], h_struct[:value]
       [w, h]
@@ -351,7 +361,7 @@ module SDL2
     # Get the window's minimum size
     # @return Array => [<width>, <height>]
     def minimum_size
-      w_struct, h_struct = IntStruct.new, IntStruct.new
+      w_struct, h_struct = TypedPointer::Int.new, TypedPointer::Int.new
       SDL2::get_window_minimum_size(self, w_struct, h_struct)
       w, h = w_struct[:value], h_struct[:value]
       [w, h]
@@ -366,7 +376,7 @@ module SDL2
     # Get the window's position
     # @return Array => [<x>, <y>]
     def position
-      position = [IntStruct.new, IntStruct.new]
+      position = [TypedPointer::Int.new, TypedPointer::Int.new]
       SDL2::get_window_position(self, position[0], position[1])
       x, y = position[0][:value], position[1][:value]
       position.each(&:free)

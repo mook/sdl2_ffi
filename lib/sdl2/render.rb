@@ -59,7 +59,7 @@ module SDL2
 	api :SDL_GetRendererInfo, [Renderer.by_ref, RendererInfo.by_ref], :int
   ##
 	#
-	api :SDL_GetRendererOutputSize, [Renderer.by_ref, IntStruct.by_ref, IntStruct.by_ref], :int
+	api :SDL_GetRendererOutputSize, [Renderer.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int
   ##
 	#
 	api :SDL_CreateTexture, [Renderer.by_ref, :pixel_format, :texture_access, :int, :int], Texture.auto_ptr
@@ -68,19 +68,19 @@ module SDL2
 	api :SDL_CreateTextureFromSurface, [Renderer.by_ref, Surface.by_ref], Texture.auto_ptr
   ##
 	#
-	api :SDL_QueryTexture, [Texture.by_ref, UInt32Struct.by_ref, IntStruct.by_ref, IntStruct.by_ref, IntStruct.by_ref], :int
+	api :SDL_QueryTexture, [Texture.by_ref, TypedPointer::UInt32.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int
   ##
 	#
 	api :SDL_SetTextureColorMod, [Texture.by_ref, :uint8, :uint8, :uint8], :int
   ##
 	#
-	api :SDL_GetTextureColorMod, [Texture.by_ref, UInt8Struct.by_ref, UInt8Struct.by_ref, UInt8Struct.by_ref], :int
+	api :SDL_GetTextureColorMod, [Texture.by_ref, TypedPointer::UInt8.by_ref, TypedPointer::UInt8.by_ref, TypedPointer::UInt8.by_ref], :int
   ##
 	#
 	api :SDL_SetTextureAlphaMod, [Texture.by_ref, :uint8], :int
   ##
 	#
-	api :SDL_GetTextureAlphaMod, [Texture.by_ref, UInt8Struct.by_ref], :int
+	api :SDL_GetTextureAlphaMod, [Texture.by_ref, TypedPointer::UInt8.by_ref], :int
   ##
 	#
 	api :SDL_SetTextureBlendMode, [Texture.by_ref, :blend_mode], :int
@@ -92,7 +92,7 @@ module SDL2
 	api :SDL_UpdateTexture, [Texture.by_ref, Rect.by_ref, :pointer, :int], :int
   ##
 	#
-	api :SDL_LockTexture, [Texture.by_ref, Rect.by_ref, :pointer, IntStruct.by_ref], :int
+	api :SDL_LockTexture, [Texture.by_ref, Rect.by_ref, :pointer, TypedPointer::Int.by_ref], :int
   ##
 	#
 	api :SDL_UnlockTexture, [Texture.by_ref], :void
@@ -110,7 +110,7 @@ module SDL2
 	api :SDL_RenderSetLogicalSize, [Renderer.by_ref, :int, :int],:int
   ##
 	#
-	api :SDL_RenderGetLogicalSize, [Renderer.by_ref, IntStruct.by_ref, IntStruct.by_ref], :void
+	api :SDL_RenderGetLogicalSize, [Renderer.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :void
   ##
 	#
 	api :SDL_RenderSetViewport, [Renderer.by_ref, Rect.by_ref], :int
@@ -128,13 +128,13 @@ module SDL2
 	api :SDL_RenderSetScale, [Renderer.by_ref, :float, :float], :int
   ##
 	#
-	api :SDL_RenderGetScale, [Renderer.by_ref, FloatPointer.by_ref, FloatPointer.by_ref], :int
+	api :SDL_RenderGetScale, [Renderer.by_ref, TypedPointer::Float.by_ref, TypedPointer::Float.by_ref], :int
   ##
 	#
 	api :SDL_SetRenderDrawColor, [Renderer.by_ref, :uint8, :uint8, :uint8, :uint8], :int
   ##
 	#
-	api :SDL_GetRenderDrawColor, [Renderer.by_ref, UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref], :int
+	api :SDL_GetRenderDrawColor, [Renderer.by_ref, TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref], :int
   ##
 	#
 	api :SDL_SetRenderDrawBlendMode, [Renderer.by_ref, :blend_mode], :int
@@ -188,7 +188,7 @@ module SDL2
 	api :SDL_DestroyRenderer, [Renderer.by_ref], :void
   ##
 	#
-	api :SDL_GL_BindTexture, [Texture.by_ref, FloatPointer.by_ref, FloatPointer.by_ref], :int
+	api :SDL_GL_BindTexture, [Texture.by_ref, TypedPointer::Float.by_ref, TypedPointer::Float.by_ref], :int
   ##
 	#
 	api :SDL_GL_UnbindTexture, [Texture.by_ref], :int

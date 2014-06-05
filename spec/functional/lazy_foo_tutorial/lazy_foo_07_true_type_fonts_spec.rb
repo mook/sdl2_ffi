@@ -10,7 +10,7 @@ describe "LazyFoo.net: Lesson 07: True Type Fonts" do
     
     #binding.pry
     SDL2.init!(:EVERYTHING)
-    @window = Window.create(subject, :CENTERED, :CENTERED, 640, 480)
+    @window = Window.create(title: subject, width: 640, height: 480)
     @screen = @window.surface
     TTF.init!
     

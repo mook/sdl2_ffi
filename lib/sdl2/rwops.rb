@@ -60,9 +60,9 @@ module SDL2
     end
     
     class Mem <Struct
-      layout :base, UInt8Struct.by_ref,
-        :here, UInt8Struct.by_ref,
-        :stop, UInt8Struct.by_ref
+      layout :base, TypedPointer::UInt8.by_ref,
+        :here, TypedPointer::UInt8.by_ref,
+        :stop, TypedPointer::UInt8.by_ref
     end
     
     class Unkown < Struct

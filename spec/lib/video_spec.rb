@@ -1,4 +1,4 @@
-require_relative '../../test_helper'
+require_relative '../spec_helper'
 
 require 'sdl2/init'
 require 'sdl2/video'
@@ -84,7 +84,7 @@ VIDEO_API = [
 
 describe SDL2 do
   before do
-    assert(SDL2.init(SDL2::INIT::VIDEO) == 0, 'Video initialized.')
+    SDL2.init(SDL2::INIT::VIDEO).should == 0 
   end
 
   after do
@@ -92,17 +92,17 @@ describe SDL2 do
   end
 
   it 'has the video API' do
-    assert_equal 70, VIDEO_API.count
+    VIDEO_API.count.should == 70
     VIDEO_API.each do |function|
-      assert_respond_to SDL2, function
+      SDL2.should respond_to(function)
     end
   end
 
   it 'can manage the screen saver' do
     SDL2.disable_screen_saver
-    refute SDL2.is_screen_saver_enabled
+    SDL2.is_screen_saver_enabled.should_not be_true
     SDL2.enable_screen_saver
-    assert SDL2.is_screen_saver_enabled
+    SDL2.is_screen_saver_enabled.should be_true
   end
 
   describe SDL2::Window do
@@ -110,30 +110,30 @@ describe SDL2 do
   end
 
   it 'can query OpenGL Extension Support' do
-    skip 'not sure how to write this test right now.'
+    pending 'not sure how to write this test right now.'
   end
 
   it 'can query and set OpenGL Attributes' do
-    skip 'for now.'
+    pending 'for now.'
   end
 
   describe SDL2::Display do
     it 'can count the displays attached' do
       sdl_count = SDL2.get_num_video_displays()
-      assert_equal sdl_count, SDL2::Display.count
+      SDL2::Display.count.should == sdl_count
     end
 
     it 'can get the first display' do
-      assert_kind_of SDL2::Display, SDL2::Display.first
+      SDL2::Display.first.should be_a(SDL2::Display)
     end
 
     it 'can get the display bounds' do
-      assert_kind_of SDL2::Rect, SDL2::Display.first.bounds!
+      SDL2::Display.first.bounds!.should be_a(SDL2::Rect)
     end
 
     it 'has many display modes' do
-      assert SDL2::Display.first.modes.count > 0
-      assert_kind_of SDL2::Display::Mode, SDL2::Display.first().modes.first
+      SDL2::Display.first.modes.count.should > 0
+      SDL2::Display.first().modes.first.should be_a(SDL2::Display::Mode)
     end
 
   end
@@ -153,7 +153,7 @@ describe SDL2 do
       closest_display_mode_found = SDL2::Display.first.closest_display_mode!(wanted)
     end # This should automatically dispose of the display_mode struct we created
     # as wanted
-    assert_kind_of SDL2::Display::Mode, closest_display_mode_found
+    closest_display_mode_found.should be_a(SDL2::Display::Mode)
 
   end
   #TODO: Redo GLContext testing
