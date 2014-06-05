@@ -11,7 +11,7 @@ require 'sdl2/syswm/info'
 module SDL2
   typedef :int, :display_index
 
-  enum :window_flags, WINDOW.flatten_consts
+  enum :window_flags, Window::FLAGS.flatten_consts
   # TODO: SDL_video.h lines 113~129
   enum :window_event_id, WINDOWEVENT.flatten_consts
   

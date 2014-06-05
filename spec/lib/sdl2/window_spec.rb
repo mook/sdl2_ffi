@@ -29,5 +29,9 @@ describe SDL2::Window do
   it 'has data' do
     expect(@window.data).to be_a(SDL2::Window::Data)
   end
+  
+  it 'has window flags' do
+    @window.flags.should == SDL2::Window::FLAGS::SHOWN
+  end
 
 end

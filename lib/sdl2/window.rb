@@ -7,23 +7,6 @@ require 'sdl2/display/mode'
 
 module SDL2
 
-  # Window Flags Constants
-  module WINDOW
-    include EnumerableConstants
-    FULLSCREEN         = 0x00000001
-    OPENGL             = 0x00000002
-    SHOWN              = 0x00000004
-    HIDDEN             = 0x00000008
-    BORDERLESS         = 0x00000010
-    RESIZABLE          = 0x00000020
-    MINIMIZED          = 0x00000040
-    MAXIMIZED          = 0x00000080
-    INPUT_GRABBED      = 0x00000100
-    INPUT_FOCUS        = 0x00000200
-    MOUSE_FOCUS        = 0x00000400
-    FULLSCREEN_DESKTOP = ( FULLSCREEN | 0x00001000 )
-    FOREIGN            = 0x00000800
-  end
 
   # Used to indicate that you don't care what the window position is.
   module WINDOWPOS
@@ -82,7 +65,25 @@ module SDL2
   # System Window
   # A rectangular area you can blit into.
   class Window < Struct
-    include WINDOW
+    
+    # Window Flags Constants
+    module FLAGS
+      include EnumerableConstants
+      FULLSCREEN         = 0x00000001
+      OPENGL             = 0x00000002
+      SHOWN              = 0x00000004
+      HIDDEN             = 0x00000008
+      BORDERLESS         = 0x00000010
+      RESIZABLE          = 0x00000020
+      MINIMIZED          = 0x00000040
+      MAXIMIZED          = 0x00000080
+      INPUT_GRABBED      = 0x00000100
+      INPUT_FOCUS        = 0x00000200
+      MOUSE_FOCUS        = 0x00000400
+      FULLSCREEN_DESKTOP = ( FULLSCREEN | 0x00001000 )
+      FOREIGN            = 0x00000800
+    end
+    
 
     layout :magic, :pointer,
     :id, :uint32,
