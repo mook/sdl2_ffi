@@ -19,7 +19,7 @@ module SDL2
     # Returns a joystick identifier or raises exception on error    
     def self.open(idx)      
       SDL2.joystick_open!(idx)
-    end    
+    end
     ##
     # Returns the name of a joystick
     def self.name(idx)
@@ -69,6 +69,17 @@ module SDL2
     def get_guid()
       SDL2.joystick_get_guid!(self)
     end
+    ##
+    # Event state
+    # @param - state 
+    #   == SDL2::Event::STATE::QUERY [default]: Returns current state
+    #   == SDL2::Event::STATE::IGNORE : Disables event dispatching
+    #   == SDL2::Event::STATE::ENABLE : Enables event dispatching
+    # @returns - true if events enabled
+    def event_state(state = SDL2::Event::STATE::QUERY)
+      SDL2.joystick_event_state(state)
+    end    
+    
   end
 
   # A structure that encodes the stable unique id for a joystick device

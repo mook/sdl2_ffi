@@ -55,6 +55,15 @@ describe SDL2 do
       @joysticks.each{|j|j.name.should be_a(String)}
     end 
     
+    it 'should have an event state' do
+      @joysticks.each do |joystick|
+        joystick.event_state(:IGNORE)
+        joystick.event_state.should == false
+        joystick.event_state(:ENABLE)
+        joystick.event_state.should == true
+      end
+    end
+    
     describe SDL2::Joystick::Buttons do            
       it 'should return a state for each button on each joystick' do
         @joysticks.delete_if{|js|js.buttons.count < 1}
