@@ -1,7 +1,7 @@
 require_relative 'lazy_foo_helper'
 
 require 'sdl2/mixer'
-require 'sdl2/application'
+require 'bad_sdl/application'
 require 'sdl2/ttf'
 
 #ORIGINAL: http://lazyfoo.net/SDL_tutorials/lesson11/index.php
@@ -9,7 +9,7 @@ require 'sdl2/ttf'
 
 describe "LazyFoo.net: Lesson 11: Playing sounds" do
 
-  class PlayingSoundsEngine < SDL2::Engine
+  class PlayingSoundsEngine < BadSdl::Engine
 
     def initialize(opts = {})
       # Initialize our engine
@@ -97,7 +97,7 @@ describe "LazyFoo.net: Lesson 11: Playing sounds" do
 
   before do
 
-    @app = Application.new(title: subject)
+    @app = BadSdl::Application.new(title: subject)
     @app.engines << PlayingSoundsEngine.new()
     
     @app.window.title = "Monitor Music"

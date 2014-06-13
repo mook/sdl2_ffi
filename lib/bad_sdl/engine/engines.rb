@@ -1,6 +1,7 @@
-require 'sdl2/engine'
+require 'bad_sdl/engine'
+require 'sdl2/debug'
 
-module SDL2
+module BadSdl
   class Engine
     # An engine multiplexor.
     # Only has one focus, but that focus can change.
@@ -21,10 +22,10 @@ module SDL2
       def handle_event(event)
         return true if super(event) # self swallowed event.
         if current_engine
-          puts "Passing to current engine."if SDL2::PrintDebug
+          Debug.log(self){"Passing to current engine."}
           return true if current_engine.handle_event(event)
         end
-        puts "Unable to handle"if SDL2::PrintDebug
+        SDL2::Debug.log(self){"Unable to handle"}
         return false # if we get to here.
       end
   

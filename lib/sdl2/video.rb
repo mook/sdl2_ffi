@@ -125,7 +125,7 @@ module SDL2
 	api :SDL_GetWindowPixelFormat, [Window.by_ref], :uint32
   ##
 	#
-	api :SDL_CreateWindow, [:string, :int, :int, :int, :int, :window_flags], Window.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :SDL_CreateWindow, [:string, :int, :int, :int, :int, :window_flags], Window.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	#
 	api :SDL_CreateWindowFrom, [:pointer], Window.auto_ptr

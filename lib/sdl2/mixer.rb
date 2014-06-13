@@ -47,7 +47,7 @@ module SDL2
     #   Mix_Init(flags)
     #   init(flags)
     #   init!(flags)
-    api :Mix_Init, [:init_flags], :int, {error: true, filter: TRUE_WHEN_NOT_ZERO}
+    api :Mix_Init, [:init_flags], :int, {error: true, filter: OK_WHEN_NOT_ZERO}
 
     ##
     # Unloads libraries loaded with Mix_Init
@@ -152,13 +152,13 @@ module SDL2
       Mixer::load_wav_rw(RWops.from_file(filename, "rb"), 1)
     end
 
-    returns_error :load_wav, TRUE_WHEN_NOT_NULL
+    returns_error :load_wav, OK_WHEN_NOT_NULL
 
     ##
     # Load a wave file or a music (.mod .s3m .it .xm) file
     # :call-seq:
     #   load_mus(filepath)
-    api :Mix_LoadMUS, [:string], Music.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+    api :Mix_LoadMUS, [:string], Music.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
 
     ##
     # Load a music file from an SDL_RWop object (Ogg and MikMod specific currently)
@@ -601,7 +601,7 @@ module SDL2
     api :Mix_ResumeMusic, [], :void
     api :Mix_RewindMusic, [], :void
     api :Mix_PausedMusic, [], :int
-    boolean? :paused_music, TRUE_WHEN_NOT_ZERO
+    boolean? :paused_music, OK_WHEN_NOT_ZERO
     
 
     ##
@@ -616,10 +616,10 @@ module SDL2
     # Check the status of a specific channel.
     # If the specified channel is -1, check all channels.
     api :Mix_Playing, [:int], :int
-    boolean? :playing, TRUE_WHEN_ONE
+    boolean? :playing, OK_WHEN_ONE
 
     api :Mix_PlayingMusic, [], :int
-    boolean? :playing_music, TRUE_WHEN_ONE
+    boolean? :playing_music, OK_WHEN_ONE
 
     ##
     # Stop music and set external music playback command

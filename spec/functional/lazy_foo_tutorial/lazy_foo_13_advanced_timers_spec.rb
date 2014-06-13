@@ -1,8 +1,8 @@
 require_relative 'lazy_foo_helper'
 require_relative 'timer'
 
-require 'sdl2/application'
-require 'sdl2/engine/block_engine'
+require 'bad_sdl/application'
+require 'bad_sdl/engine/block_engine'
 require 'sdl2/ttf'
 
 #ORIGINAL: http://lazyfoo.net/SDL_tutorials/lesson13/index.php
@@ -13,8 +13,8 @@ describe "LazyFoo.net: Lesson 03: Advanced Timers" do
 
   before do
 
-    @app = Application.new title: subject
-    @engine = Engine::BlockEngine.new
+    @app = BadSdl::Application.new title: subject
+    @engine = BadSdl::Engine::BlockEngine.new
     @app.engines << @engine
       
     TTF::init!

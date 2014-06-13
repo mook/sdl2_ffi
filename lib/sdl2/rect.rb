@@ -16,13 +16,12 @@ module SDL2
     def self.cast(something)
 
       if something.kind_of?(Array)
-        something.map!(&:to_i)
         result = Rect.new
         case something.count
           when 4
-            result.x, result.y, result.w, result.h = something
+            result.x, result.y, result.w, result.h = something.map(&:to_i)
           when 2
-            result.x, result.y = something
+            result.x, result.y = something.map(&:to_i)
           else
             raise "#{self}#cast cannot convert array length #{something.count} of: #{something.inspect}"
         end

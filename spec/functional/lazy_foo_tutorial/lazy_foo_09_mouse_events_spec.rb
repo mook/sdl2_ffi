@@ -1,8 +1,9 @@
 require_relative 'lazy_foo_helper'
 
-require 'sdl2/application'
+require 'bad_sdl/application'
+require 'bad_sdl/engine'
 
-class ButtonEngine < Engine
+class ButtonEngine < BadSdl::Engine
   OVER = 0
   OUT = 1
   DOWN = 2
@@ -23,10 +24,10 @@ class ButtonEngine < Engine
 
       offset = Point.cast([event.motion.x, event.motion.y])
       if @box.enclose_points(offset)
-        puts "Mouse OVER"if SDL2::PrintDebug
+        SDL2::Debug.log(self){"Mouse OVER"}
         @clip = @clips[OVER]
       else
-        puts "Mouse OUT" if SDL2::PrintDebug
+        SDL2::Debug.log(self){"Mouse OUT"}
         @clip = @clips[OUT]
       end
     end#on :MOUSEMOTION
@@ -51,7 +52,7 @@ class ButtonEngine < Engine
 
   def paint_to(surface)
     if @clip
-      puts "Painting"if SDL2::PrintDebug
+      SDL2::Debug.log(self){"Painting"}
 
       @button_sheet.blit_out(surface, @box, @clip) if @clip
       @clip = nil
@@ -69,7 +70,7 @@ end#ButtonEngine
 describe "LazyFoo.net: Lesson 09: Mouse Events" do
 
   before do
-    @application = Application.new()
+    @application = BadSdl::Application.new()
     @application.window.title = subject
     @button = ButtonEngine.new(x: 170, y: 120, w: 320, h: 240)
     @application.engines << @button

@@ -190,7 +190,7 @@ module SDL2
 
   ##
 	#
-	api :SDL_CreateRGBSurface, [:surface_flags, :int, :int, :int, :uint32, :uint32, :uint32, :uint32], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :SDL_CreateRGBSurface, [:surface_flags, :int, :int, :int, :uint32, :uint32, :uint32, :uint32], Surface.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	#
 	api :SDL_FreeSurface, [Surface.by_ref], :void
@@ -212,7 +212,7 @@ module SDL2
     SDL2.load_bmp_rw(RWops.from_file(file, 'rb'), 1)
   end
 
-  returns_error(:load_bmp,TRUE_WHEN_NOT_NULL)
+  returns_error(:load_bmp,OK_WHEN_NOT_NULL)
 
   ##
 	#
@@ -232,7 +232,7 @@ module SDL2
 	#
 	api :SDL_GetColorKey, [Surface.by_ref, TypedPointer::UInt32.by_ref], :uint32, {error: true}
   # Could mean an SDL error... or maybe not?
-  boolean? :get_color_key, TRUE_WHEN_ZERO
+  boolean? :get_color_key, OK_WHEN_ZERO
   ##
 	#
 	api :SDL_SetSurfaceColorMod, [Surface.by_ref, :uint8, :uint8, :uint8], :int
@@ -259,7 +259,7 @@ module SDL2
 	api :SDL_GetClipRect, [Surface.by_ref, Rect.by_ref], :int, {error: true}
   ##
 	#
-	api :SDL_ConvertSurface, [Surface.by_ref, PixelFormat.by_ref, :surface_flags], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :SDL_ConvertSurface, [Surface.by_ref, PixelFormat.by_ref, :surface_flags], Surface.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	#
 	api :SDL_ConvertSurfaceFormat, [Surface.by_ref, :pixel_format, :surface_flags], Surface.auto_ptr
@@ -282,7 +282,7 @@ module SDL2
     upper_blit(src, srcrect, dst, dstrect)
   end
 
-  returns_error(:blit_surface, TRUE_WHEN_ZERO)
+  returns_error(:blit_surface, OK_WHEN_ZERO)
 
   ##
 	#
@@ -299,7 +299,7 @@ module SDL2
     upper_blit_scaled(src, srcrect, dst, dstrect)
   end
 
-  returns_error(:blit_scaled, TRUE_WHEN_ZERO)
+  returns_error(:blit_scaled, OK_WHEN_ZERO)
 
   ##
 	#

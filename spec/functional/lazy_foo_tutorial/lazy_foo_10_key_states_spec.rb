@@ -1,6 +1,6 @@
 require_relative 'lazy_foo_helper'
 
-require 'sdl2/application'
+require 'bad_sdl/application'
 
 #ORIGINAL: http://lazyfoo.net/SDL_tutorials/lesson10/index.php
 # Adapted for Ruby & SDL 2.0 as functional test by BadQuanta
@@ -9,7 +9,7 @@ describe "LazyFoo.net: Lesson 10: Key States" do
   
   before do
     
-    @application = Application.new
+    @application = BadSdl::Application.new
     
     
     #binding.pry

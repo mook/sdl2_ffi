@@ -42,7 +42,7 @@ module SDL2
 	#
 	api :SDL_WasInit, [:init_flag], :uint32
     
-  boolean? :was_init, TRUE_WHEN_NOT_ZERO
+  boolean? :was_init, OK_WHEN_NOT_ZERO
 
   ##
 	#

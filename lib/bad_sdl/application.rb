@@ -1,7 +1,8 @@
+require 'bad_sdl'
 require 'sdl2'
-require 'sdl2/engine/engines'
+require 'bad_sdl/engine/engines'
 
-module SDL2
+module BadSdl
   ##
   # A Top-Level SDL Application:
   # An application
@@ -38,14 +39,14 @@ module SDL2
     # What makes an engine an "Application" is that it takes control of event
     # polling.  There should only ever be one "Application"
     def poll(cnt = poll_count_limit)
-      puts "Poll Start" if SDL2::PrintDebug
+      Debug.log(self){"Poll Start"}
       times = 0
       while (event = Event.poll()) and (cnt.nil? or (times+=1 < cnt))
-        puts "GOT: #{event.type}"if SDL2::PrintDebug
+        Debug.log(self){"GOT: #{event.type}"}
         handle_event(event)
       end
   
-      puts "Poll End"if SDL2::PrintDebug
+      Debug.log(self){"Poll End"}
     end
   
     attr_accessor :loop_count_limit

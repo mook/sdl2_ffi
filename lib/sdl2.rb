@@ -2,17 +2,13 @@ require 'sdl2/sdl_module'
 require 'active_support/inflector'
 require 'enumerable_constants'
 require 'sdl2/stdinc'
-
+require 'sdl2/debug'
 # The SDL2 Map of API Prototypes
 module SDL2
   extend FFI::Library
   extend Library
   ffi_lib SDL_MODULE
 
-  ##
-  # This controls some development debugging.
-  # TODO: THIS HAS TO BE REMOVED & IMPROVED
-  PrintDebug = true
   ##
   # A struct helper provides member_reader/member_writer helpers for quickly accessing those damn members.
   # This is extended into sdl2_ffi's usage of Structs, ManagedStructs, and Unions. Do I know exatcly what I'm
@@ -110,42 +106,37 @@ module SDL2
     # Otherwise all values must match between structures.
     # TODO: CLEAN UP THIS COMPARISON CODE!!!
     def ==(other)
-      if PrintDebug
-        @@rec ||= -1
-        @@rec += 1
-        pad = "\t"*@@rec
-
-        puts
-        puts " #{pad}COMPARING #{self} to #{other}"
-      end
+      Debug.log(self){
+        "COMPARING #{self} to #{other}"
+      }
 
       result = catch(:result) do
         unless self.class == other.class or other.kind_of? Hash
-          puts "Class Mismatch" if PrintDebug
+          Debug.log(self){"Class Mismatch"}
           throw :result, false
         end
 
         if (other.kind_of? Hash) and (other.keys - members).any?
-          puts "Extra Keys: #{other.keys-members}"
+          Debug.log(self){"Extra Keys: #{other.keys-members}"}
           thorw :result, false
         end
 
         if (other.respond_to?:null?) and (self.null? or other.null?)
           unless self.null? and other.null?
-            puts "AHHHAOne is null and the other is not" if PrintDebug
+            Debug.log(self){"AHHHAOne is null and the other is not"}
             throw :result, false
           end
         else
           fields = other.kind_of?(Hash) ? members & other.keys : members
           fields.each do |field|
-            print "#{pad} #{field}:#{self[field].class} = " if PrintDebug
+            Debug.log(self){"#{field}:#{self[field].class} = "}
 
             unless self[field] == other[field]
 
-              puts "NO MATCH: #{self[field].to_s} #{other[field].to_s}" if PrintDebug
+              Debug.log(self){"NO MATCH: #{self[field].to_s} #{other[field].to_s}"}
               throw :result, false
             end
-            puts "MATCH" if PrintDebug
+            Debug.log(self){"MATCH"}
           end
         end
 
@@ -153,11 +144,9 @@ module SDL2
         throw :result, true
 
       end
-      if PrintDebug
-        @@rec += -1
-        puts
-        puts "#{pad}RESULT = #{result}"
-      end
+      Debug.log(self){
+        "RESULT = #{result}"
+      }
       return result
     end
 

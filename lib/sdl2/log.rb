@@ -39,6 +39,7 @@ module SDL2
       RESERVED10    = next_const_value      
       CUSTOM        = next_const_value
     end
+    
     def self.<<(msg, *args)
       SDL2.log(msg, *args)
     end
@@ -69,6 +70,11 @@ module SDL2
 
     def self.get_priority(category)
       SDL2.log_get_priority(category)
+    end
+    
+    def self.with_temp_priority(level)
+      raise "Block required" unless block_given?
+      old_cat = self.get_priority(category)
     end
   end
 

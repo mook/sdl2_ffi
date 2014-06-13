@@ -1,9 +1,9 @@
 require_relative 'lazy_foo_helper'
 
 require 'sdl2/ttf'
-require 'sdl2/application'
+require 'bad_sdl/application'
 #binding.pry
-require 'sdl2/engine/block_engine'
+require 'bad_sdl/engine/block_engine'
 
 #ORIGINAL: http://lazyfoo.net/SDL_tutorials/lesson12/index.php
 # Adapted for Ruby & SDL 2.0 as functional test by BadQuanta
@@ -11,9 +11,9 @@ require 'sdl2/engine/block_engine'
 describe "LazyFoo.net: Lesson 12: Timing" do
 
   before do
-    @app = SDL2::Application.new()
+    @app = BadSdl::Application.new()
 
-    @app.engines << @engine = SDL2::Engine::BlockEngine.new
+    @app.engines << @engine = BadSdl::Engine::BlockEngine.new
 
     @running = true
     @start = SDL2::get_ticks()

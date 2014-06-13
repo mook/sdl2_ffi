@@ -208,13 +208,13 @@ module SDL2
 	api :SDL_MasksToPixelFormatEnum, [:int, :uint32, :uint32, :uint32, :uint32], :pixel_format
   ##
 	#
-	api :SDL_AllocFormat, [:pixel_format], PixelFormat.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :SDL_AllocFormat, [:pixel_format], PixelFormat.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	#
 	api :SDL_FreeFormat, [PixelFormat.by_ref], :void
   ##
 	#
-	api :SDL_AllocPalette, [:count], Palette.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :SDL_AllocPalette, [:count], Palette.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	#
 	api :SDL_SetPixelFormatPalette, [PixelFormat.by_ref, Palette.by_ref], :int

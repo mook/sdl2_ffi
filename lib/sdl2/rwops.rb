@@ -162,25 +162,25 @@ module SDL2
 	# Load from a file
   #   *  file - filename string (existing)
   #   *  mode - mode string
-	api :SDL_RWFromFile, [:string, :string], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :SDL_RWFromFile, [:string, :string], RWops.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	# Load from a file pointer
 	#   *  fp - a file pointer
   #   *  autoclose - boolean
-	api :SDL_RWFromFP, [:pointer, :bool], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :SDL_RWFromFP, [:pointer, :bool], RWops.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	# Load from any pointer in memory
 	#   *  mem - pointer
 	#   *  size - integer
-	api :SDL_RWFromMem, [:pointer, :count], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :SDL_RWFromMem, [:pointer, :count], RWops.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	# Load from "constant" memory
 	#   *  mem - constant pointer
 	#   *  size - integer
-	api :SDL_RWFromConstMem, [:pointer, :count], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :SDL_RWFromConstMem, [:pointer, :count], RWops.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	# Allocate a RWops structure
-	api :SDL_AllocRW, [], RWops.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :SDL_AllocRW, [], RWops.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	# Release a RWops structure
 	api :SDL_FreeRW, [RWops.by_ref], :void

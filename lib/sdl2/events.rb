@@ -560,7 +560,7 @@ module SDL2
   ##
   #
   api :SDL_PollEvent, [Event.by_ref], :int
-  boolean? :poll_event, TRUE_WHEN_ONE
+  boolean? :poll_event, OK_WHEN_ONE
   ##
   #
   api :SDL_WaitEvent, [Event.by_ref], :int
@@ -569,7 +569,7 @@ module SDL2
   api :SDL_WaitEventTimeout, [Event.by_ref, :count], :int
   ##
   #
-  api :SDL_PushEvent, [Event.by_ref], :int, {error: true, filter: TRUE_WHEN_ONE}
+  api :SDL_PushEvent, [Event.by_ref], :int, {error: true, filter: OK_WHEN_ONE}
 
   ##
   # callback event_filter #=> Proc.new do |pointer, event|; return int; end

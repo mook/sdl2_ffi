@@ -1,6 +1,8 @@
+require 'bad_sdl'
 require 'sdl2'
 
-module SDL2
+
+module BadSdl
 	
   # Input/Output engine.
   class Engine

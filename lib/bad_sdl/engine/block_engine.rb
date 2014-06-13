@@ -1,6 +1,6 @@
-require 'sdl2/engine'
+require 'bad_sdl/engine'
 
-module SDL2
+module BadSdl
 
   class Engine
 
