@@ -311,5 +311,20 @@ module SDL2
       SDL2.render_set_logical_size!(self, *wh)
       wh
     end
+    
+    ##
+    # Get the scale of the renderer, returns [x,y] floats
+    def scale
+      scale = 2.times.map{SDL2::TypedPointer::Float.new}
+      SDL2.render_get_scale(self, *scale)
+      scale.map(&:value)
+    end
+    
+    ##
+    # Set the scale of the renderer, expects [x,y] floats
+    def scale=(scale)
+      SDL2.render_set_scale!(self, *scale)
+      scale
+    end
   end
 end

@@ -247,7 +247,14 @@ describe SDL2 do
       @renderer.logical_size = [128, 128]
       @renderer.logical_size.should == [128, 128]
     end
-      
+    
+    it 'should have a scale' do
+      @renderer.should respond_to(:scale)
+      @renderer.should respond_to(:scale=)
+      @renderer.scale.should == [1.0, 1.0]
+      @renderer.scale = [2.0, 3.0]
+      @renderer.scale.should == [2.0, 3.0]
+    end
     after :each do
       SDL2.quit
     end
