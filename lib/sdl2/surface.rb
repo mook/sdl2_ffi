@@ -21,6 +21,7 @@ module SDL2
     :format, PixelFormat.by_ref,
     :w, :int,
     :h, :int,
+    :pitch, :int,
     :pixels, :pointer,
     :userdata, :pointer,
     :locked, :int,

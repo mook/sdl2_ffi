@@ -407,7 +407,29 @@ module SDL2
     def fullscreen=(flags)
       SDL2.set_window_fullscreen(self, flags)
     end
+    ##
     
+    ##
+    # Returns the renderer associated with this window
+    def renderer
+      SDL2.get_renderer(self)
+    end
+    # Utility function that returns an SDL2::Surface of a given render.
+    # Defaults to the renderer returned by SDL_GetRenderer(window=self)
+    # Added by BadQuanta originally for approval testing.
+    def renderer_to_surface(renderer = renderer)
+      w, h = renderer.output_size
+      fmt = surface.format
+      surface = SDL2::Surface.create_rgb(0,w,h,
+        fmt.bits_per_pixel,
+        fmt.r_mask,
+        fmt.g_mask,
+        fmt.b_mask,
+        fmt.a_mask
+      )
+      SDL2.render_read_pixels!(renderer, nil, fmt.format, surface.pixels, surface.pitch)
+      surface
+    end
   end
 
 end

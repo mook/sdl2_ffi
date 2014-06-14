@@ -44,8 +44,56 @@ module SDL2
       end
     end
 
-    layout :blank, :uint8 # Ignore Structure?
-
+    #layout :blank, :uint8 # Ignore Structure?
+    layout :magic, :pointer,
+      :window_event, :pointer,
+      :get_output_size, :pointer,
+      :create_texture, :pointer,
+      :set_texture_color_mod, :pointer,
+      :set_texture_alpha_mod, :pointer,
+      :set_texture_blend_mode, :pointer,
+      :update_texture, :pointer,
+      :update_texture_yuv, :pointer,
+      :lock_texture, :pointer,
+      :unlock_texture, :pointer,
+      :set_render_target, :pointer,
+      :update_viewport, :pointer,
+      :update_clip_rect, :pointer,
+      :render_clear, :pointer,
+      :render_draw_points, :pointer,
+      :render_draw_lines, :pointer,
+      :render_fill_rects, :pointer,
+      :render_copy, :pointer,
+      :render_copy_ex, :pointer,
+      :render_read_pixels, :pointer,
+      :render_present, :pointer,
+      :destroy_texture, :pointer,
+      :destroy_renderer, :pointer,
+      :gl_bind_texture, :pointer,
+      :gl_unbind_texture, :pointer,
+      :info, SDL2::RendererInfo.ptr,
+      :window, SDL2::Window.ptr,
+      :hidden, :bool,
+      :logical_w, :int,
+      :logical_h, :int,
+      :logical_w_backup, :int,
+      :logical_h_backup, :int,
+      :viewport, SDL2::Rect.ptr,
+      :viewport_backup, SDL2::Rect.ptr,
+      :clip_rect, SDL2::Rect.ptr,
+      :clip_rect_backup, SDL2::Rect.ptr,
+      :scale, [:float, 2],
+      :scale_backup, [:float, 2],
+      :texture, :pointer,
+      :target, :pointer,
+      :r, :uint8,
+      :g, :uint8,
+      :b, :uint8,
+      :a, :uint8,
+      :blend_mode, :int,
+      :driverdata, :pointer
+      
+      
     ##
     # Constructs a Renderer for a window.
     # @param flags: Combination of RENDERER flags requested
@@ -130,14 +178,12 @@ module SDL2
       wh = 2.times.map{SDL2::TypedPointer::Int.new}
       SDL2.get_renderer_output_size!(self, *wh)
       wh.map(&:value)
-    end
-    
+    end    
     ##
-    #
+    # This writes draw_color to entire rendering volume
     def clear
       SDL2.render_clear(self)
-    end
-
+    end        
   end
 
 end

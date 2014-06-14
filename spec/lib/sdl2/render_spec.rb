@@ -110,6 +110,15 @@ describe SDL2 do
       @renderer.target.should be_nil
     end
     
+    it 'should be able to clear' do
+      @renderer.should respond_to(:clear)
+      @renderer.draw_color = SDL2::Color.create(g: 255)
+      @renderer.clear           
+      SDL2.render_present(@renderer)
+      
+      verify(format: :png){@window.renderer_to_surface}
+    end
+    
     after :each do
       SDL2.quit
     end
