@@ -189,6 +189,19 @@ describe SDL2 do
       SDL2.render_present(@renderer)
       verify(){@window.renderer_to_surface}
     end
+    
+    
+    it 'should be able to draw many rectangles at once' do
+      @renderer.should respond_to(:draw_rects)
+      # Should be able to handle many kinds of cords.
+      cords = [[10,10,100,100],{x: 40, y: 40, w: 64, h: 128},SDL2::Rect.cast({x: 100, y: 100, w: 128, h: 64})]
+      @renderer.draw_color = {r: 255, g: 255, b: 255}
+      @renderer.draw_rects(*cords)
+      SDL2.render_present(@renderer)
+      verify(){@window.renderer_to_surface}
+    end
+    
+    
     after :each do
       SDL2.quit
     end

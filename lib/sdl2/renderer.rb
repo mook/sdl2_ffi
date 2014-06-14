@@ -258,6 +258,21 @@ module SDL2
       rect = SDL2::Rect.cast(cords)
       SDL2.render_draw_rect(self, rect)
     end
+    ##
+    # Draw many rectangles at once..  each parameter should be something that
+    # SDL2::Renderer#draw_rect can take, however this routine sends all points
+    # to SDL directly.
+    def draw_rects(*cords)
+      count = cords.count
+      ptr_array = FFI::MemoryPointer.new(SDL2::Rect, count)
+      cords.each_with_index do |cord, idx|
+        pointer = ptr_array + (idx * SDL2::Rect.size)
+        this_point = SDL2::Rect.new(pointer)
+        this_point.update_members(cord)
+      end
+      rects_array = SDL2::Rect.new(ptr_array)
+      result = SDL2.render_draw_rects!(self, rects_array, count)
+      rects_array.free
+    end
   end
-
 end
