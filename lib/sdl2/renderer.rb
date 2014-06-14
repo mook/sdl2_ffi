@@ -249,6 +249,15 @@ module SDL2
       ptr_array.free
       result
     end
+    ##
+    # Draw a rectangle.
+    # Should be able to accept an: SDL2::Rect,
+    # A hash with :x, :y, :w, :h
+    # An array with 2 or 4 integer values.
+    def draw_rect(cords)
+      rect = SDL2::Rect.cast(cords)
+      SDL2.render_draw_rect(self, rect)
+    end
   end
 
 end

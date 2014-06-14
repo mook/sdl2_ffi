@@ -178,6 +178,17 @@ describe SDL2 do
       verify(){@window.renderer_to_surface}
     end
     
+    it 'should be able to draw a single rectangle' do
+      @renderer.should respond_to(:draw_rect)
+      @renderer.draw_color = {r: 255}
+      @renderer.draw_rect([10,10,100,100])
+      @renderer.draw_color = {g: 255}
+      @renderer.draw_rect({x: 40, y: 40, w: 64, h: 128})
+      @renderer.draw_color = {b: 255}
+      @renderer.draw_rect(SDL2::Rect.cast({x: 100, y: 100, w: 128, h: 64}))
+      SDL2.render_present(@renderer)
+      verify(){@window.renderer_to_surface}
+    end
     after :each do
       SDL2.quit
     end
