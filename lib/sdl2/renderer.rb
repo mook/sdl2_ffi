@@ -228,6 +228,27 @@ module SDL2
       ptr_array.free
       result # Ensure we pass the result back to maintain compatability
     end
+    ##
+    # Draw a point
+    def draw_point(x,y)
+      SDL2.render_draw_point!(self, x, y)
+    end
+    ##
+    # Draw each specified point.  Each argument must be an X/Y point,
+    # either as an arrray [2,3], hash {x: 2, y: 3} or an SDL2::Point
+    def draw_points(*points)
+      count = points.count
+      ptr_array = FFI::MemoryPointer.new(SDL2::Point, count)
+      points.each_with_index do |src_point, idx|
+        pointer = ptr_array + (idx * SDL2::Point.size)
+        this_point = SDL2::Point.new(pointer)
+        this_point.update_members(src_point)
+      end
+      points_array = SDL2::Point.new(ptr_array)
+      result = SDL2.render_draw_points!(self, points_array,count)
+      ptr_array.free
+      result
+    end
   end
 
 end

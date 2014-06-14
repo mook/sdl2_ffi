@@ -160,7 +160,24 @@ describe SDL2 do
 
       verify(){@window.renderer_to_surface}
     end
-      
+    
+    it 'should be able to draw a point' do
+      @renderer.should respond_to(:draw_point)
+      @renderer.draw_color = SDL2::Color.create(r: 255)
+      @renderer.draw_point(160,120)
+      SDL2.render_present(@renderer)
+      verify(){@window.renderer_to_surface}
+    end
+    
+    it 'should be able to draw points' do
+      # You can pass many kinds of points.
+      points = [[88,44],SDL2::Point.cast([128,40]),{x: 300, y: 444}]
+      @renderer.draw_color = SDL2::Color.create(b: 255)
+      @renderer.draw_points(*points)
+      SDL2.render_present(@renderer)
+      verify(){@window.renderer_to_surface}
+    end
+    
     after :each do
       SDL2.quit
     end
