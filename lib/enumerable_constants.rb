@@ -77,7 +77,7 @@ module EnumerableConstants
       # Get the last defined value.
       def self.last_const_value
         if self.constants.empty?
-          return 0
+          return -1
         else
           return self.const_get(self.constants.last)
         end

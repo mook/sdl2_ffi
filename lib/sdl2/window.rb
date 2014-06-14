@@ -152,6 +152,8 @@ module SDL2
       @data = Data.new(self)
     end
 
+    ##
+    # These are the defaults a Window is created with unless overridden
     DEFAULT = {
      title: "SDL2::Window",
      x: :CENTERED,
@@ -332,10 +334,9 @@ module SDL2
     # Get the window's current size
     # @return Array => [<width>, <height>]
     def current_size()
-      w_struct, h_struct = TypedPointer::Int.new, TypedPointer::Int.new
-      SDL2::get_window_size(self, w_struct, h_struct)
-      w, h = w_struct[:value], h_struct[:value]
-      [w, h]
+      size = 2.times.map{TypedPointer::Int.new}
+      SDL2::get_window_size(self, *size)
+      size.map(&:value)    
     end
     
     def width
@@ -356,10 +357,9 @@ module SDL2
     # Get the window's maximum_size
     # @return Array => [<width>, <height>]
     def maximum_size
-      w_struct, h_struct = TypedPointer::Int.new, TypedPointer::Int.new
-      SDL2::get_window_maximum_size(self, w_struct, h_struct)
-      w, h = w_struct[:value], h_struct[:value]
-      [w, h]
+      size = 2.times.map{TypedPointer::Int.new}
+      SDL2::get_window_maximum_size(self, *size)
+      size.map(&:value)
     end
 
     # Set the window's maximum size
@@ -371,10 +371,9 @@ module SDL2
     # Get the window's minimum size
     # @return Array => [<width>, <height>]
     def minimum_size
-      w_struct, h_struct = TypedPointer::Int.new, TypedPointer::Int.new
-      SDL2::get_window_minimum_size(self, w_struct, h_struct)
-      w, h = w_struct[:value], h_struct[:value]
-      [w, h]
+      size = 2.times.map{TypedPointer::Int.new}
+      SDL2::get_window_minimum_size(self, *size)
+      size.map(&:value)
     end
 
     # Set the window's minimum size

@@ -100,7 +100,7 @@ module SDL2
   api :SDL_RenderTargetSupported, [Renderer.by_ref], :bool
   ##
   #
-  api :SDL_GetRenderTarget, [Renderer.by_ref], Texture.by_ref
+  api :SDL_GetRenderTarget,  [Renderer.by_ref], Texture.by_ref
   ##
   #
   api :SDL_SetRenderTarget, [Renderer.by_ref, Texture.by_ref], :int,{error: true, filter: OK_WHEN_ZERO}

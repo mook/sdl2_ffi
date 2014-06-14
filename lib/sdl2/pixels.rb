@@ -1,6 +1,6 @@
 require 'sdl2/error'
 require 'sdl2/color'
-require 'sdl2/pixel_format'
+
 
 # SDL_pixels.h API
 module SDL2
@@ -196,7 +196,10 @@ module SDL2
     UYVY =          SDL2.define_pixelfourcc('U', 'Y', 'V', 'Y')
     YVYU =          SDL2.define_pixelfourcc('Y', 'V', 'Y', 'U')
   end
-
+  
+  enum :pixel_format, PIXELFORMAT.flatten_consts
+  
+  require 'sdl2/pixel_format'
   ##
 	#
 	api :SDL_GetPixelFormatName, [:pixel_format], :string
