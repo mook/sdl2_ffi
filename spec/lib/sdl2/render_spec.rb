@@ -239,6 +239,14 @@ describe SDL2 do
       @renderer.present
       verify(){@window.renderer_to_surface}
     end
+    
+    it 'should have a logical size' do
+      @renderer.should respond_to(:logical_size)
+      @renderer.should respond_to(:logical_size=)
+      @renderer.logical_size.should == [0, 0]
+      @renderer.logical_size = [128, 128]
+      @renderer.logical_size.should == [128, 128]
+    end
       
     after :each do
       SDL2.quit

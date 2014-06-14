@@ -1,5 +1,15 @@
 module SDL2
   class StructArray
+    
+    def self.clone_from(array, struct_class)
+      cloned_array = self.new(struct_class, array.count)
+      array.each_with_index do |item, idx|
+        cloned_array[idx].update_members(item)
+      end
+      cloned_array
+    end
+      
+    
     def initialize(struct_class, count)
       @count = count
       @struct_class = struct_class

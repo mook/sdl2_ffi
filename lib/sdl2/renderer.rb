@@ -230,10 +230,7 @@ module SDL2
     # Each individual point should either be an SDL2::Point or
     # something that can be cast into one.
     def draw_lines(*cords)
-      points = SDL2::StructArray.new(SDL2::Point, cords.count)
-      cords.each_with_index do |cord, idx|
-        points[idx].update_members(cord)
-      end
+      points = SDL2::StructArray.clone_from(cords, SDL2::Point)
       SDL2.render_draw_lines!(self, points.first, points.count)
     end
 
@@ -247,10 +244,7 @@ module SDL2
     # Draw each specified point.  Each argument must be an X/Y point,
     # either as an arrray [2,3], hash {x: 2, y: 3} or an SDL2::Point
     def draw_points(*cords)
-      points = SDL2::StructArray.new(SDL2::Point, cords.count)
-      cords.each_with_index do |cord, idx|
-        points[idx].update_members(cord)
-      end
+      points = SDL2::StructArray.clone_from(cords, SDL2::Point)
       SDL2.render_draw_points!(self, points.first, points.count)
     end
 
@@ -269,10 +263,7 @@ module SDL2
     # SDL2::Renderer#draw_rect can take, however this routine sends all points
     # to SDL directly.
     def draw_rects(*cords)
-      rects = SDL2::StructArray.new(SDL2::Rect, cords.count)
-      cords.each_with_index do |cord, idx|
-        rects[idx].update_members(cord)
-      end
+      rects = SDL2::StructArray.clone_from(cords, SDL2::Rect)
       SDL2.render_draw_rects!(self, rects.first(), rects.count)
     end
 
@@ -286,10 +277,7 @@ module SDL2
     ##
     # Fill many rectangles at once
     def fill_rects(*cords)
-      rects = SDL2::StructArray.new(SDL2::Rect, cords.count)
-      cords.each_with_index do |cord, idx|
-        rects[idx].update_members(cord)
-      end
+      rects = SDL2::StructArray.clone_from(cords, SDL2::Rect)
       SDL2.render_fill_rects!(self, rects.first(), rects.count)
     end
     
@@ -307,6 +295,21 @@ module SDL2
       rect = SDL2::Rect.cast(cords)
       SDL2.render_set_clip_rect!(self, rect)
       rect
+    end
+    
+    ##
+    # Get the logical size of the renderer, returns [w, h]
+    def logical_size
+      size = 2.times.map{SDL2::TypedPointer::Int.new}
+      SDL2.render_get_logical_size(self, *size)
+      size.map(&:value)
+    end
+    
+    ##
+    # Set the logical size of the renderer, expects [w, h]
+    def logical_size=(wh)
+      SDL2.render_set_logical_size!(self, *wh)
+      wh
     end
   end
 end
