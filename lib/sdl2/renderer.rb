@@ -206,6 +206,28 @@ module SDL2
       center_point = SDL2::Point.cast(center_cords)
       SDL2.render_copy_ex(self, texture, src_rect, dst_rect, angle, center_point, flip)
     end
+    ##
+    # Draw a single pixel line
+    def draw_line(x1, y1, x2, y2)
+      SDL2.render_draw_line!(self, x1, y1, x2, y2)
+    end
+    ##
+    # Draw lines connecting all points specified.
+    # Each individual point should either be an SDL2::Point or
+    # something that can be cast into one.
+    def draw_lines(*points)
+      count = points.count
+      ptr_array = FFI::MemoryPointer.new(SDL2::Point, count)
+      points.each_with_index do |src_point, idx|
+        pointer = ptr_array + (idx * SDL2::Point.size)
+        this_point = SDL2::Point.new(pointer)
+        this_point.update_members(src_point)        
+      end
+      points_array = SDL2::Point.new(ptr_array)
+      result = SDL2.render_draw_lines!(self, points_array,count)
+      ptr_array.free
+      result # Ensure we pass the result back to maintain compatability
+    end
   end
 
 end

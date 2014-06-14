@@ -194,6 +194,10 @@ module SDL2
         common.each do |field|
           self[field] = values[field]
         end
+      elsif values.kind_of? self.class
+        members.each do |member|
+          self[member] = values[member]
+        end
       else
         raise "#{self}#update_members unable to update from #{values.inspect}"
       end

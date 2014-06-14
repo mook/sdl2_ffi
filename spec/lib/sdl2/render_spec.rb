@@ -140,6 +140,27 @@ describe SDL2 do
       verify(){@window.renderer_to_surface}
     end
     
+    it 'should be able to draw a single pixel line' do
+      @renderer.should respond_to(:draw_line)
+      @renderer.draw_color = SDL2::Color.create(r: 255,g: 255,b: 255)
+      @renderer.draw_line(100,100,200,200)
+      SDL2.render_present(@renderer)
+      verify(){@window.renderer_to_surface}
+    end
+    
+    it 'should be able to draw a line connecting many points' do
+      @renderer.should respond_to(:draw_lines)
+      points = [[5,5],[1,123],[290,33],[27,222]]
+      @renderer.draw_color = SDL2::Color.create(g: 255)
+      # draw lines expects each point to be specified as an argument,
+      # no limit to the number of points that can be specified at once
+      # that I know of using this method.
+      @renderer.draw_lines(*points)
+      SDL2.render_present(@renderer)
+
+      verify(){@window.renderer_to_surface}
+    end
+      
     after :each do
       SDL2.quit
     end
