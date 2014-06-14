@@ -183,7 +183,19 @@ module SDL2
     # This writes draw_color to entire rendering volume
     def clear
       SDL2.render_clear(self)
-    end        
+    end  
+    ##
+    # Create a texture from a surface
+    def texture_from_surface(surface)
+      SDL2.create_texture_from_surface!(self, surface)
+    end       
+    ##
+    # Render a Texture
+    def copy(texture, src_cords = nil, dst_cords = nil)
+      src_rect = SDL2::Rect.cast(src_cords)
+      dst_rect = SDL2::Rect.cast(dst_cords)
+      SDL2.render_copy!(self, texture, src_rect, dst_rect)
+    end
   end
 
 end
