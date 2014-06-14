@@ -326,5 +326,21 @@ module SDL2
       SDL2.render_set_scale!(self, *scale)
       scale
     end
+    
+    ##
+    # Get the viewport rect
+    def viewport
+      viewport = SDL2::Rect.new
+      SDL2.render_get_viewport(self, viewport)
+      viewport
+    end
+    
+    ##
+    # Set the viewport rect
+    def viewport=(cords)
+      viewport = SDL2::Rect.cast(cords)
+      SDL2.render_set_viewport!(self, viewport)
+      viewport
+    end
   end
 end

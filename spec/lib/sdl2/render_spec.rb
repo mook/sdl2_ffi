@@ -255,6 +255,18 @@ describe SDL2 do
       @renderer.scale = [2.0, 3.0]
       @renderer.scale.should == [2.0, 3.0]
     end
+    
+    it 'should have a viewport' do
+      @renderer.should respond_to(:viewport)
+      @renderer.should respond_to(:viewport=)
+      @renderer.viewport.should == SDL2::Rect.cast([0,0,*@window.current_size])
+      @renderer.viewport = {x: 20, y: 20, w: 128, h: 128}
+      @renderer.viewport.x.should == 20
+      @renderer.viewport.y.should == 20
+      @renderer.viewport.w.should == 128
+      @renderer.viewport.h.should == 128
+    end
+    
     after :each do
       SDL2.quit
     end
