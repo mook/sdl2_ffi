@@ -48,6 +48,7 @@ describe SDL2 do
       :set_render_draw_blend_mode!,
       :set_render_draw_color!,
       :set_render_target!,
+      :render_set_clip_rect!,
       :set_texture_alpha_mod!,
       :set_texture_blend_mode!,
       :set_texture_color_mod!,
@@ -201,7 +202,44 @@ describe SDL2 do
       verify(){@window.renderer_to_surface}
     end
     
+    it 'should be able to draw a single filled rectangle' do
+      @renderer.should respond_to(:fill_rect)
+      rect = {x: 123, y: 132, w: 200, h: 200}
+      @renderer.fill_rect(rect)
+      @renderer.present
+      verify(){@window.renderer_to_surface}
+    end
     
+    it 'should be able to draw many filled rectangles' do
+      rects = [
+        [21,32,124,200],
+        [64,11,15,66],
+        [222,100,80,100]
+      ]
+      @renderer.fill_rects(*rects)
+      @renderer.present
+      verify(){@window.renderer_to_surface}
+    end
+    
+    it 'should have a clip rect' do
+      @renderer.should respond_to(:clip_rect)
+      @renderer.should respond_to(:clip_rect=)
+      @renderer.clip_rect.should be_a(SDL2::Rect)
+      @renderer.clip_rect.x.should == 0
+      @renderer.clip_rect.y.should == 0
+      @renderer.clip_rect.w.should == 0
+      @renderer.clip_rect.h.should == 0
+      @renderer.clip_rect = {x: 128, y: 128, w: 64, h: 32}
+      
+      @renderer.clip_rect.x.should == 128
+      @renderer.clip_rect.y.should == 128
+      @renderer.clip_rect.w.should == 64
+      @renderer.clip_rect.h.should == 32      
+      @renderer.fill_rect x: 100, y: 100, w: 100, h: 100
+      @renderer.present
+      verify(){@window.renderer_to_surface}
+    end
+      
     after :each do
       SDL2.quit
     end

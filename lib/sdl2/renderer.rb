@@ -46,54 +46,53 @@ module SDL2
 
     #layout :blank, :uint8 # Ignore Structure?
     layout :magic, :pointer,
-      :window_event, :pointer,
-      :get_output_size, :pointer,
-      :create_texture, :pointer,
-      :set_texture_color_mod, :pointer,
-      :set_texture_alpha_mod, :pointer,
-      :set_texture_blend_mode, :pointer,
-      :update_texture, :pointer,
-      :update_texture_yuv, :pointer,
-      :lock_texture, :pointer,
-      :unlock_texture, :pointer,
-      :set_render_target, :pointer,
-      :update_viewport, :pointer,
-      :update_clip_rect, :pointer,
-      :render_clear, :pointer,
-      :render_draw_points, :pointer,
-      :render_draw_lines, :pointer,
-      :render_fill_rects, :pointer,
-      :render_copy, :pointer,
-      :render_copy_ex, :pointer,
-      :render_read_pixels, :pointer,
-      :render_present, :pointer,
-      :destroy_texture, :pointer,
-      :destroy_renderer, :pointer,
-      :gl_bind_texture, :pointer,
-      :gl_unbind_texture, :pointer,
-      :info, SDL2::RendererInfo.ptr,
-      :window, SDL2::Window.ptr,
-      :hidden, :bool,
-      :logical_w, :int,
-      :logical_h, :int,
-      :logical_w_backup, :int,
-      :logical_h_backup, :int,
-      :viewport, SDL2::Rect.ptr,
-      :viewport_backup, SDL2::Rect.ptr,
-      :clip_rect, SDL2::Rect.ptr,
-      :clip_rect_backup, SDL2::Rect.ptr,
-      :scale, [:float, 2],
-      :scale_backup, [:float, 2],
-      :texture, :pointer,
-      :target, :pointer,
-      :r, :uint8,
-      :g, :uint8,
-      :b, :uint8,
-      :a, :uint8,
-      :blend_mode, :int,
-      :driverdata, :pointer
-      
-      
+    :window_event, :pointer,
+    :get_output_size, :pointer,
+    :create_texture, :pointer,
+    :set_texture_color_mod, :pointer,
+    :set_texture_alpha_mod, :pointer,
+    :set_texture_blend_mode, :pointer,
+    :update_texture, :pointer,
+    :update_texture_yuv, :pointer,
+    :lock_texture, :pointer,
+    :unlock_texture, :pointer,
+    :set_render_target, :pointer,
+    :update_viewport, :pointer,
+    :update_clip_rect, :pointer,
+    :render_clear, :pointer,
+    :render_draw_points, :pointer,
+    :render_draw_lines, :pointer,
+    :render_fill_rects, :pointer,
+    :render_copy, :pointer,
+    :render_copy_ex, :pointer,
+    :render_read_pixels, :pointer,
+    :render_present, :pointer,
+    :destroy_texture, :pointer,
+    :destroy_renderer, :pointer,
+    :gl_bind_texture, :pointer,
+    :gl_unbind_texture, :pointer,
+    :info, SDL2::RendererInfo.ptr,
+    :window, SDL2::Window.ptr,
+    :hidden, :bool,
+    :logical_w, :int,
+    :logical_h, :int,
+    :logical_w_backup, :int,
+    :logical_h_backup, :int,
+    :viewport, SDL2::Rect.ptr,
+    :viewport_backup, SDL2::Rect.ptr,
+    :clip_rect, SDL2::Rect.ptr,
+    :clip_rect_backup, SDL2::Rect.ptr,
+    :scale, [:float, 2],
+    :scale_backup, [:float, 2],
+    :texture, :pointer,
+    :target, :pointer,
+    :r, :uint8,
+    :g, :uint8,
+    :b, :uint8,
+    :a, :uint8,
+    :blend_mode, :int,
+    :driverdata, :pointer
+
     ##
     # Constructs a Renderer for a window.
     # @param flags: Combination of RENDERER flags requested
@@ -118,6 +117,12 @@ module SDL2
     # Release a render
     def self.release(pointer)
       SDL2.destroy_renderer(pointer)
+    end
+
+    ##
+    # Present the renderer (AKA: Draw/Flip/Update/Flush)
+    def present
+      SDL2.render_present(self)
     end
 
     ##
@@ -158,12 +163,14 @@ module SDL2
       target = SDL2.get_render_target(self)
       target.null? ? nil : target
     end
+
     ##
     # Set the target
     #
     def target=(texture)
       SDL2.set_render_target!(self, texture)
     end
+
     ##
     # Retrive the Render Driver Info for this Renderer
     def info
@@ -171,6 +178,7 @@ module SDL2
       SDL2.get_renderer_info!(self, render_info)
       render_info
     end
+
     ##
     # Get the output size
     # @returns the [width, height]
@@ -178,17 +186,20 @@ module SDL2
       wh = 2.times.map{SDL2::TypedPointer::Int.new}
       SDL2.get_renderer_output_size!(self, *wh)
       wh.map(&:value)
-    end    
+    end
+
     ##
     # This writes draw_color to entire rendering volume
     def clear
       SDL2.render_clear(self)
-    end  
+    end
+
     ##
     # Create a texture from a surface
     def texture_from_surface(surface)
       SDL2.create_texture_from_surface!(self, surface)
-    end       
+    end
+
     ##
     # Render a Texture or a portion of a texture to the rendering target
     def copy(texture, src_cords = nil, dst_cords = nil)
@@ -196,9 +207,10 @@ module SDL2
       dst_rect = SDL2::Rect.cast(dst_cords)
       SDL2.render_copy!(self, texture, src_rect, dst_rect)
     end
+
     ##
     # Render a Texture or a portion of a texture to the rendering target
-    # optionally rotating it by an angle around the given center 
+    # optionally rotating it by an angle around the given center
     # and also flipping it top-bottom and/or left-right
     def copy_ex(texture, src_cords = nil, dst_cords = nil, angle = 0.0, center_cords = nil, flip = :NONE)
       src_rect = SDL2::Rect.cast(src_cords)
@@ -206,49 +218,42 @@ module SDL2
       center_point = SDL2::Point.cast(center_cords)
       SDL2.render_copy_ex(self, texture, src_rect, dst_rect, angle, center_point, flip)
     end
+
     ##
     # Draw a single pixel line
     def draw_line(x1, y1, x2, y2)
       SDL2.render_draw_line!(self, x1, y1, x2, y2)
     end
+
     ##
     # Draw lines connecting all points specified.
     # Each individual point should either be an SDL2::Point or
     # something that can be cast into one.
-    def draw_lines(*points)
-      count = points.count
-      ptr_array = FFI::MemoryPointer.new(SDL2::Point, count)
-      points.each_with_index do |src_point, idx|
-        pointer = ptr_array + (idx * SDL2::Point.size)
-        this_point = SDL2::Point.new(pointer)
-        this_point.update_members(src_point)        
+    def draw_lines(*cords)
+      points = SDL2::StructArray.new(SDL2::Point, cords.count)
+      cords.each_with_index do |cord, idx|
+        points[idx].update_members(cord)
       end
-      points_array = SDL2::Point.new(ptr_array)
-      result = SDL2.render_draw_lines!(self, points_array,count)
-      ptr_array.free
-      result # Ensure we pass the result back to maintain compatability
+      SDL2.render_draw_lines!(self, points.first, points.count)
     end
+
     ##
     # Draw a point
     def draw_point(x,y)
       SDL2.render_draw_point!(self, x, y)
     end
+
     ##
     # Draw each specified point.  Each argument must be an X/Y point,
     # either as an arrray [2,3], hash {x: 2, y: 3} or an SDL2::Point
-    def draw_points(*points)
-      count = points.count
-      ptr_array = FFI::MemoryPointer.new(SDL2::Point, count)
-      points.each_with_index do |src_point, idx|
-        pointer = ptr_array + (idx * SDL2::Point.size)
-        this_point = SDL2::Point.new(pointer)
-        this_point.update_members(src_point)
+    def draw_points(*cords)
+      points = SDL2::StructArray.new(SDL2::Point, cords.count)
+      cords.each_with_index do |cord, idx|
+        points[idx].update_members(cord)
       end
-      points_array = SDL2::Point.new(ptr_array)
-      result = SDL2.render_draw_points!(self, points_array,count)
-      ptr_array.free
-      result
+      SDL2.render_draw_points!(self, points.first, points.count)
     end
+
     ##
     # Draw a rectangle.
     # Should be able to accept an: SDL2::Rect,
@@ -258,21 +263,50 @@ module SDL2
       rect = SDL2::Rect.cast(cords)
       SDL2.render_draw_rect(self, rect)
     end
+
     ##
     # Draw many rectangles at once..  each parameter should be something that
     # SDL2::Renderer#draw_rect can take, however this routine sends all points
     # to SDL directly.
     def draw_rects(*cords)
-      count = cords.count
-      ptr_array = FFI::MemoryPointer.new(SDL2::Rect, count)
+      rects = SDL2::StructArray.new(SDL2::Rect, cords.count)
       cords.each_with_index do |cord, idx|
-        pointer = ptr_array + (idx * SDL2::Rect.size)
-        this_point = SDL2::Rect.new(pointer)
-        this_point.update_members(cord)
+        rects[idx].update_members(cord)
       end
-      rects_array = SDL2::Rect.new(ptr_array)
-      result = SDL2.render_draw_rects!(self, rects_array, count)
-      rects_array.free
+      SDL2.render_draw_rects!(self, rects.first(), rects.count)
+    end
+
+    ##
+    # Fill a rectangle
+    def fill_rect(cord)
+      rect = SDL2::Rect.cast(cord)
+      SDL2.render_fill_rect!(self, rect)
+    end
+
+    ##
+    # Fill many rectangles at once
+    def fill_rects(*cords)
+      rects = SDL2::StructArray.new(SDL2::Rect, cords.count)
+      cords.each_with_index do |cord, idx|
+        rects[idx].update_members(cord)
+      end
+      SDL2.render_fill_rects!(self, rects.first(), rects.count)
+    end
+    
+    ##
+    # Get the clipping rectangle 
+    def clip_rect
+      rect = SDL2::Rect.new
+      SDL2.render_get_clip_rect(self, rect)
+      rect
+    end
+    
+    ##
+    # Set the clipping rectangle 
+    def clip_rect=(cords)
+      rect = SDL2::Rect.cast(cords)
+      SDL2.render_set_clip_rect!(self, rect)
+      rect
     end
   end
 end

@@ -213,6 +213,8 @@ module SDL2
       "<#{self.class.to_s} #{null ? 'NULL' : values.join(' ')}>"
     end
   end
+  
+  autoload(:StructArray, File.expand_path('../struct_array.rb', __FILE__))
 
   ##
   # FFI::ManagedStruct possibly with useful additions.
