@@ -113,5 +113,6 @@ describe SDL2 do
     after :each do
       SDL2.quit
     end
+
   end
 end
