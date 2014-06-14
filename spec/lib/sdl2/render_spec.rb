@@ -133,6 +133,13 @@ describe SDL2 do
       verify(){@window.renderer_to_surface}
     end
     
+    it 'should be able to rotate and flip while rendering textures' do
+      @renderer.should respond_to(:copy_ex)
+      txt_hello = @renderer.texture_from_surface(@window.surface.convert(SDL2.load_bmp!(img_path('hello.bmp'))))
+      @renderer.copy_ex(txt_hello, nil, nil, 12, {x: 12, y: 12}, :BOTH )
+      verify(){@window.renderer_to_surface}
+    end
+    
     after :each do
       SDL2.quit
     end

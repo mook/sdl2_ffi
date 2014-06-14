@@ -30,6 +30,7 @@ module SDL2
     NONE = 0x00000000
     HORIZONTAL = 0x00000001
     VERTICAL = 0x00000002
+    BOTH = HORIZONTAL | VERTICAL
   end
   enum :renderer_flip, FLIP.flatten_consts
 

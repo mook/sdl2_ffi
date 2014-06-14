@@ -190,11 +190,21 @@ module SDL2
       SDL2.create_texture_from_surface!(self, surface)
     end       
     ##
-    # Render a Texture
+    # Render a Texture or a portion of a texture to the rendering target
     def copy(texture, src_cords = nil, dst_cords = nil)
       src_rect = SDL2::Rect.cast(src_cords)
       dst_rect = SDL2::Rect.cast(dst_cords)
       SDL2.render_copy!(self, texture, src_rect, dst_rect)
+    end
+    ##
+    # Render a Texture or a portion of a texture to the rendering target
+    # optionally rotating it by an angle around the given center 
+    # and also flipping it top-bottom and/or left-right
+    def copy_ex(texture, src_cords = nil, dst_cords = nil, angle = 0.0, center_cords = nil, flip = :NONE)
+      src_rect = SDL2::Rect.cast(src_cords)
+      dst_rect = SDL2::Rect.cast(dst_cords)
+      center_point = SDL2::Point.cast(center_cords)
+      SDL2.render_copy_ex(self, texture, src_rect, dst_rect, angle, center_point, flip)
     end
   end
 
