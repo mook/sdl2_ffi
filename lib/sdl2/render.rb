@@ -89,5 +89,6 @@ module SDL2
   api :SDL_DestroyRenderer, [Renderer.by_ref], :void
   api :SDL_GL_BindTexture, [Texture.by_ref, TypedPointer::Float.by_ref, TypedPointer::Float.by_ref], :int
   api :SDL_GL_UnbindTexture, [Texture.by_ref], :int
+ 
 
 end

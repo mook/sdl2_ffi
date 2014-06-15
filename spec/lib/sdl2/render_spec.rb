@@ -267,6 +267,12 @@ describe SDL2 do
       @renderer.viewport.h.should == 128
     end
     
+    it 'should signal if target rendering is supported' do
+      @renderer.should respond_to(:target_supported?)
+      # TODO: How else should we test this?
+    end    
+    
+    
     after :each do
       SDL2.quit
     end

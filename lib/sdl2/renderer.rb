@@ -342,5 +342,12 @@ module SDL2
       SDL2.render_set_viewport!(self, viewport)
       viewport
     end
+    
+    ##
+    # Indicates if Targeted Rendering is supported.
+    def target_supported?
+      SDL2.render_target_supported?(self)
+    end
+    
   end
 end
