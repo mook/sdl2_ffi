@@ -65,7 +65,7 @@ module SDL2
   # System Window
   # A rectangular area you can blit into.
   class Window < Struct
-    
+    ##
     # Window Flags Constants
     module FLAGS
       include EnumerableConstants
@@ -84,7 +84,6 @@ module SDL2
       FOREIGN            = 0x00000800
     end
     
-
     layout :magic, :pointer,
     :id, :uint32,
     :title, :string,
@@ -110,48 +109,41 @@ module SDL2
     :driverdata, :pointer,
     :prev, :pointer,
     :next, :pointer
-
+    ##
     # A simple wrapper for data objects associated with a window.
     class Data
-
       ##
       # Create a data object manager for a given window
       def initialize(for_window)
         @for_window = for_window
       end
-
       ##
       # Return the data named
       def named(name)
         SDL2.get_window_data(@for_window, name.to_s)
       end
-
       ##
       #
       alias_method :[], :named
-
       ##
       # Set the data named to value specified.
       def named=(name, value)
         SDL2.set_window_data(@for_window, name.to_s, value.to_s)
       end
-
       ##
       #
       alias_method :[]=, :named=
     end
-
     ##
     # The Window's data manager.
-    attr_reader :data
-
+    def data
+      @data ||= Data.new(self)
+    end
     ##
     # Construct a new window.
     def initialize(*args, &block)
       super(*args, &block)
-      @data = Data.new(self)
     end
-
     ##
     # These are the defaults a Window is created with unless overridden
     DEFAULT = {
@@ -170,33 +162,33 @@ module SDL2
     #   *  w: The width of the window
     #   *  h: The height of the window
     #   *  flags: Window Flags to use in construction
-    def self.create(options = {})      
+    def self.create(options = {})            
       o = DEFAULT.merge(options)
+      Debug.log(self){"Creating with options: #{o.inspect}"}
       # TODO: Log unused option keys      
       SDL2.create_window!(o[:title], o[:x], o[:y], o[:width], o[:height], o[:flags])
     end
-
     ##
     # Constructs a new window from arbitrary system-specific structure
     #   *  data: Some system-specific pointer
     # See SDL Documentation
     def self.create_from(data)
+      Debug.log(self){"Creating from data: #{data.inspect}"}
       create_window_from!(data)
     end
-
     ##
     # Returns the identified window already created
     #   *  id: The window identifier to retrieve
     def self.from_id(id)
       get_window_from_id!(id)
     end
-
     ##
     # Constructs both a window and a renderer
     #   *  w: The Width of the pair to create
     #   *  h: The Height of the pair to create
     #   *  flags: Window flags to utilize in creation
     def self.create_with_renderer(w, h, flags)
+      
       window = Window.new
       renderer = Renderer.new
       if SDL2.create_window_and_renderer(w,h,flags,window,renderer) == 0
@@ -205,24 +197,22 @@ module SDL2
         nil
       end
     end
-
     ##
     # Release memory utilized by structure
     def self.release(pointer)
-      SDL2::destroy_window(self.new(pointer))
+      fc = caller.first      
+      Debug.log(self){"Release ignored from #{fc}"}
     end
-    
-    
     ##
-    #    
+    # Tell SDL we are done with the window.  Any further use could result in a crash.   
     def destroy
-      SDL2::destroy_window(self)
+      unless self.null?
+        SDL2.destroy_window(self)        
+      else
+        Debug.log(self){"Destruction of window null window requested."}
+      end
     end
     
-    
-    ##
-    #
-    alias_method :destroy, :free
 
     ##
     # Return the brightness level
@@ -232,18 +222,15 @@ module SDL2
 
     # Set the brightness level
     def brightness=(level)
+      Debug.log(self){"Setting brightness to: #{level}"}
       SDL2.set_window_brightness(self, level.to_f)
     end
 
     # Get a copy of the DisplayMode structure
     def display_mode
       dm = SDL2::Display::Mode.new
-      if SDL2.get_window_display_mode(self, dm) == 0
-        return dm
-      else
-        dm.pointer.free
-        return nil
-      end
+      SDL2.get_window_display_mode!(self, dm)
+      dm
     end
 
     # Get the display index associated with this window

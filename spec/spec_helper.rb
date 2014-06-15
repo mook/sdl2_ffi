@@ -20,6 +20,8 @@ def fixture(filename)
   return path
 end
 
-at_exit do
-  SDL2.quit()
-end
+#SDL2::Debug.enable(SDL2::Struct)
+
+#at_exit do
+#  SDL2.quit()
+#end
