@@ -39,6 +39,7 @@ module SDL2
     class Pointer < TypedPointer
       type :pointer
     end
+        
 
   end
 end

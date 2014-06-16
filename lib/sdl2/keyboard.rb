@@ -27,6 +27,8 @@ module SDL2
   #   get_keyboard_focus!
 	api :SDL_GetKeyboardFocus, [], Window.by_ref
 	  
+	  
+	  
   ##
 	#  brief Get a snapshot of the current state of the keyboard.
   #
@@ -43,9 +45,8 @@ module SDL2
   #    if state[SDL2::SCANCODE::RETURN]
   #      puts("<RETURN> is pressed.\n");
 	#    end
-	api :SDL_GetKeyboardState, [:pointer], :pointer
-	  
-  
+	api :SDL_GetKeyboardState, [TypedPointer::Int.by_ref], :pointer
+	
   ##
 	#
 	api :SDL_GetModState, [], :keymod
@@ -97,9 +98,11 @@ module SDL2
 	  
 	  # Get a snapshot of the current state of the keyboard.  
     def self.get_state()      
-      count = FFI::MemoryPointer.new :int, 1
-      state = FFI::Pointer.new :uint8, SDL2::get_keyboard_state(count)
-      result = state.get_array_of_int(0, count.get_int(0))      
+      count = SDL2::TypedPointer::Int.new
+      
+      state = SDL2::get_keyboard_state(count)
+      #binding.pry
+      result = state.get_array_of_uint8(:uint8, :get_uint8, count.value)      
       count.free
       state.free
       return result
@@ -114,8 +117,6 @@ module SDL2
     # @note This does not change the keyboard state, only the key modifier flags.
     def self.set_mod(modstate)
       SDL2::set_mod_state(modstate)
-    end
-    
-   
+    end 
 	end
 end

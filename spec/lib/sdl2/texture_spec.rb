@@ -49,6 +49,14 @@ module SDL2
     it 'can be locked' do
       @texture.should respond_to(:lock)
       @texture.should respond_to(:unlock)
+      skip 'need to mess with streaming textures'
+      @texture.lock
+      @texture.unlock
+    end
+    
+    it 'can be queried' do
+      query = @texture.query
+      query.length.should == 4      
     end
     
     

@@ -21,6 +21,7 @@ describe "LazyFoo.net: Lesson 10: Key States" do
   end
   
   it "can get the key states" do
+    skip "TODO: SDL2::Keyboard#get_state"
     @state = Keyboard.get_state
     expect(@state.count).to eq(512)    
   end

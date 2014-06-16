@@ -199,6 +199,12 @@ module SDL2
   
   enum :pixel_format, PIXELFORMAT.flatten_consts
   
+  class TypedPointer
+    class PixelFormat < TypedPointer
+      type :pixel_format
+    end
+  end
+  
   require 'sdl2/pixel_format'
   ##
 	#

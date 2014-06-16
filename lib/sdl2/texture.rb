@@ -86,13 +86,30 @@ module SDL2
     def lock(rect = nil)
       pointer = SDL2::TypedPointer::Pointer.new
       pitch   = SDL2::TypedPointer::Int.new
-      SDL2.lock_texture!()
-      [pointer, pitch]
+      SDL2.lock_texture!(self, rect, pointer, pitch)
+      [pointer.value, pitch.value]
     end
     ##
     # Unlock 
     def unlock()
       SDL2.unlock_texture(self)
+    end
+    ##
+    # Query the texture about itself:
+    # Returns: [format, access, w, h]
+    #   format - An SDL2::PIXELFORMAT value
+    #   access - AN SDL2::TEXTUREACCESS value
+    #   w      - an integer representing the width
+    #   h      - an integer representing the height
+    def query()
+      query = [
+        SDL2::TypedPointer::PixelFormat.new,
+        SDL2::TypedPointer::TextureAccess.new,
+        SDL2::TypedPointer::Int.new,
+        SDL2::TypedPointer::Int.new
+      ]
+      SDL2.query_texture!(self, *query)
+      query.map(&:value)
     end
   end
 end

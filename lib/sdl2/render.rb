@@ -14,6 +14,12 @@ module SDL2
     TARGET
   end
   enum :texture_access, TEXTUREACCESS.flatten_consts
+  
+  class TypedPointer
+    class TextureAccess < TypedPointer
+      type :texture_access
+    end
+  end
 
   # The texture channel modulation used in #render_copy
   module TEXTUREMODULATE
@@ -46,7 +52,7 @@ module SDL2
   api :SDL_GetRendererOutputSize, [Renderer.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_CreateTexture, [Renderer.by_ref, :pixel_format, :texture_access, :int, :int], Texture.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   api :SDL_CreateTextureFromSurface, [Renderer.by_ref, Surface.by_ref], Texture.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
-  api :SDL_QueryTexture, [Texture.by_ref, TypedPointer::UInt32.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
+  api :SDL_QueryTexture, [Texture.by_ref, TypedPointer::PixelFormat.by_ref, TypedPointer::TextureAccess.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_SetTextureColorMod, [Texture.by_ref, :uint8, :uint8, :uint8], :int,{error: true, filter: OK_WHEN_ZERO}
   api :SDL_GetTextureColorMod, [Texture.by_ref, TypedPointer::UInt8.by_ref, TypedPointer::UInt8.by_ref, TypedPointer::UInt8.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_SetTextureAlphaMod, [Texture.by_ref, :uint8], :int,{error: true, filter: OK_WHEN_ZERO}

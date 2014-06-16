@@ -2,9 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/sdl2_ffi.png)](http://badge.fury.io/rb/sdl2_ffi)
 
-The sdl2_ffi gem provides structured access to the SDL2 shared library to ruby via FFI.
-The interface is intended to be ruby-like and follow ruby's conventions.  The goal is to
-produce an easy to comprehend tool for prototyping and teaching.
+A Ruby interface to the SDL2 dynamic libraries, with support for SDL2_ttf, SDL2_mixer(with smpeg2), SDL2_image.
 
 # Documentation/API Reference:
 
@@ -13,9 +11,48 @@ For the latest released gem, [rubydoc.info](http://rubydoc.info/) has the
 
 Otherwise, you can use RDoc to generate current source documentation.
  
-# How to start:
+## Major Sections:
 
-    
+### Full Initialization & Shutdown
+
+SDL2 requires initialization and shutdown.  A call to `SDL2.init` is required as in:
+
+	require 'sdl2_ffi'
+	SDL2.init!(:EVERYTHING)
+	// do some SDL work
+	SDL2.quit()
+	
+The exclamation (!) mark represents the routine could fail and to handle that failure with an exception.  All failing methods attached directly to the SDL2 module should have a
+bang, meaning error handling, alternative.  The `:EVERYTHING` symbol represents the same value as: `SDL2::INIT::EVERYTHING`, so doing the following is equivalent:
+
+	require 'sdl2_ffi'
+	SDL2.init!(SDL2::INIT::EVERYTHING)
+	// do some SDL work
+	SDL2.quit
+	
+You can combine `SDL2::INIT` values, for example:
+
+	SDL2.init!(SDL2::INIT::VIDEO | SDL2::INIT::AUDIO | SDL2::INIT::JOYSTICK | SDL2::INIT::EVENT)
+	
+### Subsystem Initialization & Shutdown
+
+SDL2 allows subsystems to be initialized and shutdown after SDL2 has been initialized through `SDL2#init_sub_system` and `SDL2#quit_sub_system`, for example:
+
+	require 'sdl2_ffi`
+	SDL2.init!(:VIDEO)
+	// do video 
+	SDL2.init_sub_system!(:AUDIO)
+	// do audio & video
+	SDL2.init_sub_system!(:JOYSTICK)
+	// do audio, video, and joystick work
+	SDL2.quit_sub_system(:AUDIO)
+	// do video and joystick work
+	SDL2.quit_sub_system(:VIDEO)
+	// do joystick work
+	SDL2.quit
+	// all done
+
+
 ## Testing
 
 Minitests are being written to validate functionality. Not SDL's functionality, but that the GEM has been linked properly and that the Object Oriented wrapper functions as intended.
