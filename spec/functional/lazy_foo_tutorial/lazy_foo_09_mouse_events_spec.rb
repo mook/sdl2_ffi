@@ -70,6 +70,7 @@ end#ButtonEngine
 describe "LazyFoo.net: Lesson 09: Mouse Events" do
 
   before do
+    SDL2.init!(:EVERYTHING)
     @application = BadSdl::Application.new()
     @application.window.title = subject
     @button = ButtonEngine.new(x: 170, y: 120, w: 320, h: 240)
@@ -79,6 +80,7 @@ describe "LazyFoo.net: Lesson 09: Mouse Events" do
 
   after do
     @application.quit()
+    SDL2.quit
   end
 
   it 'has a button sheet' do

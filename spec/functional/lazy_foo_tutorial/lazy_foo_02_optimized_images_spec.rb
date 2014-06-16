@@ -12,11 +12,12 @@ describe "LazyFoo.net: Lesson 02: Optimized Images" do
   HEIGHT = 480
   # BPP = 32 #  TODO: Is this still needed?
   before do
+    init(:VIDEO)
     @window = Window.create(title: subject, width: WIDTH, height: HEIGHT, flags: :SHOWN)
     @screen = @window.surface
     
     def load_image(file)
-      @screen.convert(SDL2.load_bmp!(file))
+      @screen.convert(SDL2::Image.load!(file))
     end
     
     @background = load_image(img_path('background.bmp'))
@@ -33,8 +34,6 @@ describe "LazyFoo.net: Lesson 02: Optimized Images" do
   
   after do
 
-    @background.free
-    @message.free
     
     quit
     

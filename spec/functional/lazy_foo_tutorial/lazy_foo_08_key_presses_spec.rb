@@ -8,6 +8,7 @@ describe "LazyFoo.net: Lesson 08: Key Presses" do
 
   before do
     SDL2.init!(:EVERYTHING)
+    SDL2::TTF.init
     @window = Window.create(title: subject, width: 640, height: 480)
     @screen = @window.surface
 
@@ -102,7 +103,8 @@ describe "LazyFoo.net: Lesson 08: Key Presses" do
 
 
   after do
-    quit()
+    SDL2.quit()
+    SDL2::TTF.quit
   end
 
 end

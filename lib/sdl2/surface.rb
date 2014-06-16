@@ -191,7 +191,7 @@ module SDL2
 
   ##
 	#
-	api :SDL_CreateRGBSurface, [:surface_flags, :int, :int, :int, :uint32, :uint32, :uint32, :uint32], Surface.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
+	api :SDL_CreateRGBSurface, [:surface_flags, :int, :int, :int, :uint32, :uint32, :uint32, :uint32], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	#
 	api :SDL_FreeSurface, [Surface.by_ref], :void
@@ -206,7 +206,7 @@ module SDL2
 	api :SDL_UnlockSurface, [Surface.by_ref], :void
   ##
 	#
-	api :SDL_LoadBMP_RW, [RWops.by_ref, :int], Surface.auto_ptr
+	api :SDL_LoadBMP_RW, [RWops.by_ref, :int], Surface.ptr
 
   # Redefine SDL_LoadBMP macro:
   def self.load_bmp(file)
@@ -260,10 +260,10 @@ module SDL2
 	api :SDL_GetClipRect, [Surface.by_ref, Rect.by_ref], :int, {error: true}
   ##
 	#
-	api :SDL_ConvertSurface, [Surface.by_ref, PixelFormat.by_ref, :surface_flags], Surface.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
+	api :SDL_ConvertSurface, [Surface.by_ref, PixelFormat.by_ref, :surface_flags], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	#
-	api :SDL_ConvertSurfaceFormat, [Surface.by_ref, :pixel_format, :surface_flags], Surface.auto_ptr
+	api :SDL_ConvertSurfaceFormat, [Surface.by_ref, :pixel_format, :surface_flags], Surface.ptr
   ##
 	#
 	api :SDL_ConvertPixels, [:int, :int, :pixel_format, :pointer, :int, :pixel_format, :pointer, :int], :int, {error: true}

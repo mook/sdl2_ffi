@@ -39,13 +39,13 @@ module SDL2
   api :SDL_GetNumRenderDrivers, [], :int, {error: true, filter: OK_WHEN_GTE_ZERO}
   api :SDL_GetRenderDriverInfo, [:render_driver_index, RendererInfo.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_CreateWindowAndRenderer, [:int, :int, :window_flags, Window.by_ref, Renderer.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
-  api :SDL_CreateRenderer, [Window.by_ref, :render_driver_index, :renderer_flags], Renderer.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
-  api :SDL_CreateSoftwareRenderer, [Surface.by_ref], Renderer.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
-  api :SDL_GetRenderer, [Window.by_ref], Renderer.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
+  api :SDL_CreateRenderer, [Window.by_ref, :render_driver_index, :renderer_flags], Renderer.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
+  api :SDL_CreateSoftwareRenderer, [Surface.by_ref], Renderer.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
+  api :SDL_GetRenderer, [Window.by_ref], Renderer.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   api :SDL_GetRendererInfo, [Renderer.by_ref, RendererInfo.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_GetRendererOutputSize, [Renderer.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
-  api :SDL_CreateTexture, [Renderer.by_ref, :pixel_format, :texture_access, :int, :int], Texture.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
-  api :SDL_CreateTextureFromSurface, [Renderer.by_ref, Surface.by_ref], Texture.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
+  api :SDL_CreateTexture, [Renderer.by_ref, :pixel_format, :texture_access, :int, :int], Texture.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
+  api :SDL_CreateTextureFromSurface, [Renderer.by_ref, Surface.by_ref], Texture.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   api :SDL_QueryTexture, [Texture.by_ref, TypedPointer::UInt32.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_SetTextureColorMod, [Texture.by_ref, :uint8, :uint8, :uint8], :int,{error: true, filter: OK_WHEN_ZERO}
   api :SDL_GetTextureColorMod, [Texture.by_ref, TypedPointer::UInt8.by_ref, TypedPointer::UInt8.by_ref, TypedPointer::UInt8.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
@@ -54,7 +54,7 @@ module SDL2
   api :SDL_SetTextureBlendMode, [Texture.by_ref, :blend_mode], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_GetTextureBlendMode, [Texture.by_ref, BlendModeStruct.by_ref], :int,{error: true, filter: OK_WHEN_ZERO}
   api :SDL_UpdateTexture, [Texture.by_ref, Rect.by_ref, :pointer, :int], :int, {error: true, filter: OK_WHEN_ZERO}
-  api :SDL_LockTexture, [Texture.by_ref, Rect.by_ref, :pointer, TypedPointer::Int.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
+  api :SDL_LockTexture, [Texture.by_ref, Rect.by_ref, TypedPointer::Pointer.by_ref, TypedPointer::Int.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_UnlockTexture, [Texture.by_ref], :void
   api :SDL_RenderTargetSupported, [Renderer.by_ref], :bool
   api :SDL_GetRenderTarget, [Renderer.by_ref], Texture.by_ref

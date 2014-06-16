@@ -8,6 +8,10 @@ describe SDL2::Color do
     @color = SDL2::Color.new
   end
   
+  after :each do
+    SDL2.quit
+  end
+  
   it 'looks RED when it should' do
     @color.set(255,0,0,255)
   end

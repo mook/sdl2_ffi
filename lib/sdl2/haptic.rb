@@ -444,7 +444,7 @@ module SDL2
 	api :SDL_HapticName, [:int], :string
   ##
 	#
-	api :SDL_HapticOpen, [:int], Haptic.auto_ptr
+	api :SDL_HapticOpen, [:int], Haptic.ptr
   ##
 	#
 	api :SDL_HapticOpened, [:int], :int
@@ -456,13 +456,13 @@ module SDL2
 	api :SDL_MouseIsHaptic, [], :int
   ##
 	#
-	api :SDL_HapticOpenFromMouse, [], Haptic.auto_ptr
+	api :SDL_HapticOpenFromMouse, [], Haptic.ptr
   ##
 	#
 	api :SDL_JoystickIsHaptic, [Joystick.by_ref], :int
   ##
 	#
-	api :SDL_HapticOpenFromJoystick, [Joystick.by_ref], Haptic.auto_ptr
+	api :SDL_HapticOpenFromJoystick, [Joystick.by_ref], Haptic.ptr
   ##
 	#
 	api :SDL_HapticClose, [Haptic.by_ref], :void

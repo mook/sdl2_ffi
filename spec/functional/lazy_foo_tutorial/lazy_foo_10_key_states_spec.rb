@@ -8,7 +8,7 @@ require 'bad_sdl/application'
 describe "LazyFoo.net: Lesson 10: Key States" do
   
   before do
-    
+    SDL2.init!(:EVERYTHING)
     @application = BadSdl::Application.new
     
     
@@ -17,7 +17,7 @@ describe "LazyFoo.net: Lesson 10: Key States" do
   
   after do
     @application.quit
-    
+    SDL2.quit()
   end
   
   it "can get the key states" do

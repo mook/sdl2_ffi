@@ -142,10 +142,10 @@ module SDL2
 	api :SDL_GetWindowDisplayIndex, [Window.by_ref], :int
 	api :SDL_SetWindowDisplayMode, [Window.by_ref, :uint32], :int
 	api :SDL_GetWindowDisplayMode, [Window.by_ref, Display::Mode.by_ref], :int
-	api :SDL_GetWindowPixelFormat, [Window.by_ref], :uint32
-	api :SDL_CreateWindow, [:string, :int, :int, :int, :int, :window_flags], Window.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
-	api :SDL_CreateWindowFrom, [:pointer], Window.auto_ptr
-	api :SDL_GetWindowFromID, [:uint32], Window.by_ref
+	api :SDL_GetWindowPixelFormat, [Window.by_ref], :pixel_format
+	api :SDL_CreateWindow, [:string, :int, :int, :int, :int, :window_flags], Window.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
+	api :SDL_CreateWindowFrom, [:pointer], Window.ptr
+	api :SDL_GetWindowFromID, [:uint32], Window.ptr
 	api :SDL_GetWindowID, [Window.by_ref], :uint32
 	api :SDL_GetWindowFlags, [Window.by_ref], :uint32
 	api :SDL_GetWindowTitle, [Window.by_ref], :string

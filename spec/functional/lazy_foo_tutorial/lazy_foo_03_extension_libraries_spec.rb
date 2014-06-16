@@ -26,7 +26,7 @@ describe "LazyFoo.net: Lesson 03: Extension Libraries" do
   end
   
   after do
-    
+    quit
   end
   
 end

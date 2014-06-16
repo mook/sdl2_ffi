@@ -12,7 +12,7 @@ require 'sdl2/ttf'
 describe "LazyFoo.net: Lesson 03: Advanced Timers" do
 
   before do
-
+    SDL2.init(:EVERYTHING)
     @app = BadSdl::Application.new title: subject
     @engine = BadSdl::Engine::BlockEngine.new
     @app.engines << @engine
@@ -73,7 +73,7 @@ describe "LazyFoo.net: Lesson 03: Advanced Timers" do
   after do
 
     @app.quit()
-
+    SDL2.quit
   end
 
   it "works" do

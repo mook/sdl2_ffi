@@ -33,13 +33,13 @@ module SDL2
 	api :SDL_GetRelativeMouseMode, [], :bool
   ##
 	#
-	api :SDL_CreateCursor, [:pointer, :pointer, :int, :int, :int, :int], Cursor.auto_ptr
+	api :SDL_CreateCursor, [:pointer, :pointer, :int, :int, :int, :int], Cursor.ptr
   ##
 	#
-	api :SDL_CreateColorCursor, [Surface.by_ref, :int, :int], Cursor.auto_ptr
+	api :SDL_CreateColorCursor, [Surface.by_ref, :int, :int], Cursor.ptr
   ##
 	#
-	api :SDL_CreateSystemCursor, [:system_cursor], Cursor.auto_ptr
+	api :SDL_CreateSystemCursor, [:system_cursor], Cursor.ptr
   ##
 	#
 	api :SDL_GetCursor, [], Cursor.by_ref

@@ -1,4 +1,0 @@
-
-(xfwm4:8250): GLib-WARNING **: (/build/buildd/glib2.0-2.38.1/./glib/gerror.c:390):g_error_new_valist: runtime check failed: (domain != 0)
-
-(xfwm4:8250): xfwm4-WARNING **: Failed to connect to session manager: Failed to connect to the session manager: SESSION_MANAGER environment variable not defined

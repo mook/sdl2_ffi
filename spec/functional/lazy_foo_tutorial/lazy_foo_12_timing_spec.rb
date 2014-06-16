@@ -11,6 +11,7 @@ require 'bad_sdl/engine/block_engine'
 describe "LazyFoo.net: Lesson 12: Timing" do
 
   before do
+    SDL2.init!(:EVERYTHING)
     @app = BadSdl::Application.new()
 
     @app.engines << @engine = BadSdl::Engine::BlockEngine.new
@@ -46,7 +47,7 @@ describe "LazyFoo.net: Lesson 12: Timing" do
   end
 
   after do
-
+    SDL2.quit
   end
 
   it "works" do

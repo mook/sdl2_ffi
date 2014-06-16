@@ -35,6 +35,10 @@ module SDL2
     class UInt8 < TypedPointer
       type :uint8
     end
+    
+    class Pointer < TypedPointer
+      type :pointer
+    end
 
   end
 end

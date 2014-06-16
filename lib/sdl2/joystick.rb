@@ -92,12 +92,12 @@ module SDL2
 
   api :SDL_NumJoysticks, [], :int, {error: true, filter: OK_WHEN_GTE_ZERO}
   api :SDL_JoystickNameForIndex, [:int], :string, {error: true, filter: OK_WHEN_NOT_NULL}
-  api :SDL_JoystickOpen, [:int], Joystick.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
+  api :SDL_JoystickOpen, [:int], Joystick.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   api :SDL_JoystickName, [Joystick.by_ref], :string
-  api :SDL_JoystickGetDeviceGUID, [:int], JoystickGUID.auto_ptr
-  api :SDL_JoystickGetGUID, [Joystick.by_ref], JoystickGUID.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
+  api :SDL_JoystickGetDeviceGUID, [:int], JoystickGUID.ptr
+  api :SDL_JoystickGetGUID, [Joystick.by_ref], JoystickGUID.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   api :SDL_JoystickGetGUIDString, [JoystickGUID.by_value, :pointer, :int], :void
-  api :SDL_JoystickGetGUIDFromString, [:string], JoystickGUID.auto_ptr
+  api :SDL_JoystickGetGUIDFromString, [:string], JoystickGUID.ptr
   api :SDL_JoystickGetAttached, [Joystick.by_ref], :bool
   api :SDL_JoystickInstanceID, [Joystick.by_ref], :joystick_id, {error: true, filter: OK_WHEN_GTE_ZERO}
   api :SDL_JoystickNumAxes, [Joystick.by_ref], :int, {error: true, filter: OK_WHEN_GTE_ZERO}

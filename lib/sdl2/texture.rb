@@ -34,6 +34,11 @@ module SDL2
       SDL2.create_texture!(renderer, format, access, w, h)
     end
     ##
+    # Destroy this texture
+    def destroy
+      SDL2.destroy_texture(self)
+    end
+    ##
     # Returns the alpha modulation (0~255)
     def alpha_mod
       alpha = SDL2::TypedPointer::UInt8.new
@@ -72,6 +77,22 @@ module SDL2
       raise "At least 3 for RGB, not #{colors.count}" if colors.count < 3
       SDL2.set_texture_color_mod!(self, *colors.first(3))
       colors
+    end
+    ##
+    # Lock a portion (or all) of a texture for write access
+    # Returns: [pointer, pitch]
+    #   pointer - An FFI::Pointer to the locked pixels
+    #   pitch - An integer pitch value 
+    def lock(rect = nil)
+      pointer = SDL2::TypedPointer::Pointer.new
+      pitch   = SDL2::TypedPointer::Int.new
+      SDL2.lock_texture!()
+      [pointer, pitch]
+    end
+    ##
+    # Unlock 
+    def unlock()
+      SDL2.unlock_texture(self)
     end
   end
 end

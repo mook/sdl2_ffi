@@ -46,7 +46,7 @@ describe "LazyFoo.net: Lesson 16: Motion" do
   end#class Dot
 
   before do
-
+    SDL2.init!(:EVERYTHING)
     @app = BadSdl::Application.new title: subject
     @dot = Dot.new(
     x: @app.window.surface.w / 2,
@@ -85,6 +85,7 @@ describe "LazyFoo.net: Lesson 16: Motion" do
   
   after do 
     @app.quit
+    SDL2.quit
   end
   
   it "works" do

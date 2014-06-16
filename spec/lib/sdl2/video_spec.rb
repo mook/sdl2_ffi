@@ -93,10 +93,14 @@ end
 
 describe SDL2::Video do
   before do
-    SDL2.init
+    SDL2::Debug.enable(SDL2::Struct)
+    SDL2.init(:VIDEO)
+  end
+  after do
+    SDL2.quit
   end
   it 'can be initialized and shut down with default drivers' do
-    SDL2::Video.init
+    SDL2::Video.init("x11")
     SDL2::Video.quit
   end
 
@@ -110,6 +114,12 @@ describe SDL2::Video do
 end
 
 describe SDL2::Video::Drivers do
+  before do
+    SDL2.init(:VIDEO)
+  end
+  after do
+    SDL2.quit
+  end
   it 'can list the video drivers' do
     SDL2::Video::Drivers.num.should >= 1
     SDL2::Video::Drivers.each do |driver|
@@ -141,8 +151,8 @@ describe SDL2::ScreenSaver do
 end
 
 describe SDL2::Display do
-  before(:each){SDL2::Video.init}
-  after(:each){SDL2::Video.quit}
+  before(:each){SDL2.init!(:VIDEO)}
+  after(:each){SDL2.quit}
   it 'can count the displays attached' do
     sdl_count = SDL2.get_num_video_displays()
     SDL2::Display.count.should == sdl_count

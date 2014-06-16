@@ -65,13 +65,13 @@ module SDL2
     
     it 'should be able to create textures from surfaces' do
       @renderer.should respond_to(:texture_from_surface)
-      sur_hello = @window.surface.convert(SDL2.load_bmp!(img_path('hello.bmp')))
+      sur_hello = @window.surface.convert(SDL2::Image.load!(img_path('hello.bmp')))
       @renderer.texture_from_surface(sur_hello).should be_a(SDL2::Texture)      
     end
     
     it 'should be able to render textures' do
       @renderer.should respond_to(:copy)  
-      txt_hello = @renderer.texture_from_surface(@window.surface.convert(SDL2.load_bmp!(img_path('hello.bmp'))))
+      txt_hello = @renderer.texture_from_surface(@window.surface.convert(SDL2::Image.load!(img_path('hello.bmp'))))
       @renderer.copy(txt_hello, {w: 200, h: 200}, {x: 100, y: 100, w: 100, h: 100})
       SDL2.render_present(@renderer)
       verify(){@window.renderer_to_surface}
@@ -79,7 +79,7 @@ module SDL2
     
     it 'should be able to rotate and flip while rendering textures' do
       @renderer.should respond_to(:copy_ex)
-      txt_hello = @renderer.texture_from_surface(@window.surface.convert(SDL2.load_bmp!(img_path('hello.bmp'))))
+      txt_hello = @renderer.texture_from_surface(@window.surface.convert(SDL2::Image.load!(img_path('hello.bmp'))))
       @renderer.copy_ex(txt_hello, nil, nil, 12, {x: 12, y: 12}, :BOTH )
       verify(){@window.renderer_to_surface}
     end

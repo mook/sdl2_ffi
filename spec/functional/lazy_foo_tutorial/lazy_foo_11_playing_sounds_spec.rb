@@ -96,7 +96,7 @@ describe "LazyFoo.net: Lesson 11: Playing sounds" do
   end
 
   before do
-
+    SDL2.init!(:EVERYTHING)
     @app = BadSdl::Application.new(title: subject)
     @app.engines << PlayingSoundsEngine.new()
     
@@ -113,7 +113,7 @@ describe "LazyFoo.net: Lesson 11: Playing sounds" do
     #TTF::quit()
 
     #SDL2::quit()
-
+    SDL2.quit()
   end
 
   it 'loads' do

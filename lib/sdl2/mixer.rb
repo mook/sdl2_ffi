@@ -35,7 +35,7 @@ module SDL2
     ##
     # This function gets the version of the dynamically linked SDL_mixer library.
     # :method: linked_version
-    api :Mix_Linked_Version, [], Version.auto_ptr
+    api :Mix_Linked_Version, [], Version.ptr
 
     enum :init_flags, INIT.flatten_consts
 
@@ -144,7 +144,7 @@ module SDL2
     # Load a wave file
     # :call-seq:
     #   load_wav_rw(src_rwops, freesrc)
-    api :Mix_LoadWAV_RW, [RWops.by_ref, :int], Chunk.auto_ptr
+    api :Mix_LoadWAV_RW, [RWops.by_ref, :int], Chunk.ptr
 
     ##
     # Load a wave file or a music (.mod .s3m .it .xm) file
@@ -158,24 +158,24 @@ module SDL2
     # Load a wave file or a music (.mod .s3m .it .xm) file
     # :call-seq:
     #   load_mus(filepath)
-    api :Mix_LoadMUS, [:string], Music.auto_ptr, {error: true, filter: OK_WHEN_NOT_NULL}
+    api :Mix_LoadMUS, [:string], Music.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
 
     ##
     # Load a music file from an SDL_RWop object (Ogg and MikMod specific currently)
     # Matt Campbell (matt@campbellhome.dhs.org) April 2000
-    api :Mix_LoadMUS_RW, [RWops.by_ref, :int], Music.auto_ptr
+    api :Mix_LoadMUS_RW, [RWops.by_ref, :int], Music.ptr
 
     ##
     # Load a music file from an SDL_RWop object assuming a specific format
-    api :Mix_LoadMUSType_RW, [RWops.by_ref, :music_type, :int], Music.auto_ptr
+    api :Mix_LoadMUSType_RW, [RWops.by_ref, :music_type, :int], Music.ptr
 
     ##
     # Load a wave file of the mixer format from a memory buffer
-    api :Mix_QuickLoad_WAV, [:pointer], Chunk.auto_ptr
+    api :Mix_QuickLoad_WAV, [:pointer], Chunk.ptr
 
     ##
     # Load raw audio data of the mixer format from a memory buffer
-    api :Mix_QuickLoad_RAW, [:pointer, :uint32], Chunk.auto_ptr
+    api :Mix_QuickLoad_RAW, [:pointer, :uint32], Chunk.ptr
 
     ##
     # Free an audio chunk previously loaded

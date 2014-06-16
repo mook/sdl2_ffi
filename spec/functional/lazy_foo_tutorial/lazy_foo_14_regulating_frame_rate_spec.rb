@@ -11,6 +11,7 @@ FRAMES_PER_SECOND = 20
 
 describe "LazyFoo.net: Lesson 14: Advanced Timers" do
   before do
+    SDL2.init!(:EVERYTHING)
     @app = BadSdl::Application.new
     @frame = 0
     @cap = true
@@ -56,6 +57,7 @@ describe "LazyFoo.net: Lesson 14: Advanced Timers" do
 
   after do
     @app.quit
+    SDL2.quit
   end
 
   it "works" do

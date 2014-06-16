@@ -8,14 +8,13 @@ require 'sdl2/ttf'
 describe "LazyFoo.net: Lesson 01: Hello World" do
 
   before do
-    #expect(init(:EVERYTHING)).to eq(0)
+    expect(init(:EVERYTHING)).to eq(0)
 
     @window = Window.create(title: subject, width: 640, height: 480, flags: :SHOWN)
 
     @screen = @window.surface
     @screen.fill_rect(@screen.rect, [0,0,0,SDL2::ALPHA_OPAQUE])
-
-    @hello = @screen.convert(SDL2.load_bmp!(img_path('hello.bmp')))
+    @hello = @screen.convert(SDL2::Image.load!(img_path('hello.bmp')))
     @screen.blit_in(@hello)
     @hello.blit_out(@screen)
     @window.update_surface
@@ -39,7 +38,6 @@ describe "LazyFoo.net: Lesson 01: Hello World" do
   end
 
   after do
-    @hello.free
     quit()
   end
 

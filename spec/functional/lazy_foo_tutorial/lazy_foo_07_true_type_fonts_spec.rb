@@ -40,6 +40,7 @@ describe "LazyFoo.net: Lesson 07: True Type Fonts" do
     @background.free
     @message.free
     @font.free
+    TTF.quit
     quit()
   end
 

@@ -2,8 +2,13 @@ require_relative 'sdl2_helper'
 
 describe SDL2::Window do
 
-  before do
+  before :each do
+    SDL2.init!(:VIDEO)
     @window = SDL2::Window.create()
+  end
+  
+  after :each do
+    SDL2.quit
   end
 
   it 'has a title' do

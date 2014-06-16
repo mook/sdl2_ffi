@@ -51,6 +51,7 @@ describe SDL2 do
       @joysticks = joy_count.times.map {|idx| SDL2::Joystick.open(idx)}
     end
     
+    
     it 'should have a name' do
       @joysticks.each{|j|j.name.should be_a(String)}
     end 
