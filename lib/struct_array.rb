@@ -25,8 +25,14 @@ module SDL2
       @struct_class.new(pointer + (idx*@struct_class.size))
     end    
     
-    def first
-      self[0]
+    def first(count = nil)
+      if count.nil?
+        self[0]
+      else
+        count.times.map do |idx|
+          self[idx]
+        end
+      end        
     end
     
     def last

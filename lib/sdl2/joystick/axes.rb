@@ -1,7 +1,7 @@
 require 'sdl2/joystick/components'
 module SDL2
   ##
-  # - Button componments
+  # A joystick may have many Axes
   class Joystick
     ##
     # Enumerates axes on a joystick.

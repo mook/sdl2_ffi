@@ -5,11 +5,13 @@ module SDL2
     extend StructHelper
     # Allows create and use the struct within a block.
     def initialize(*args, &block)
+      SDL2::Debug.log(self){"Initializing with: #{args.inspect}"}
       super(*args)
       if block_given?
         yield self
       end
     end
 
+    
   end
 end

@@ -80,8 +80,6 @@ module SDL2
     def self.state(type,state=:QUERY)
       SDL2.event_state(type,state)
     end
-    
-
     ##
     # Polls for currently pending events.
     # @returns SDL2::Event or nil if there are no events.
@@ -93,19 +91,105 @@ module SDL2
       end
       return tmp_event # May be nil if SDL2.poll_event fails.
     end
-
+    ##
+    # Use this function to filter events on current event Que
+    # removing any events for which this filter returns 0 (Zero)
+    # If called without arguments, it will check and return any
+    # currently defined global filters and associated user data
+    # as: [filter, data]
+    def self.filter(user_data = nil, &event_filter)
+      if event_filter
+        SDL2.filter_events(event_filter, user_data)
+      else
+        event_filter = SDL2::TypedPointer::EventFilter.new
+        user_data = SDL2::TypedPointer::Pointer.new
+        if SDL2.get_event_filter?(event_filter, user_data)
+          [event_filter.value, user_data.value]
+        else
+          false
+        end
+      end
+    end
+    ##
+    # This routine sets the global event filter, it expects
+    # either a single lambda parameter or an array with
+    # or paired with a user_data_pointer
+    def self.filter=(filter_lambda, user_data_pointer = nil)
+      SDL2.set_event_filter(filter_lambda, user_data_pointer)    
+    end  
+    ##
+    # Check if this event type, or a range of event types exist
+    def self.has?(type, type_end = nil)
+      unless type_end
+        SDL2.has_event?(type)
+      else
+        SDL2.has_events?(type, type_end)
+      end
+    end
+    ##
+    # Flush this kind of event (or this range of event types) from the que
+    def self.flush(type, type_end = nil)
+      unless type_end
+        SDL2.flush_event(type)
+      else
+        SDL2.flush_events(type, type_end)
+      end
+    end
+    ##
+    # Add an event to the que
     def self.push(event)
       event = Event.cast(event) unless event.kind_of? Event
       SDL2.push_event!(event)
     end
-
+    ##
+    # General Utility for Peek/Get/Del/Add many events
+    def self.peep(events = nil, num_events = nil, action = :PEEK, first_event = :FIRST, last_event = :LAST)
+      if events.is_a?(Array)
+        events = SDL2::StructArray.clone_from(events, SDL2::Event)
+      end
+      num_events ||= events.try(:count)
+      raise 'num_events must be specified unless events responds to count' if num_events.nil?
+      events ||= SDL2::StructArray.new(SDL2::Event, num_events)      
+      returned = SDL2.peep_events!(events.first, num_events, action, first_event, last_event)
+      events.first(returned)      
+    end
+    ##
+    # Peek at events, default maximum to return at once is 10
+    def self.peek(count = 10, f = :FIRST, l = :LAST)
+      self.peep(nil, count, :PEEK, f, l)
+    end
+    ##
+    # Add a bunch of events, expects them as arguments so
+    # make sure you add that astrik/star: `SDL2::Event.add(*array)`
+    def self.add(*events)
+      self.peep(events, nil, :ADD, f, l)
+    end
+    ##
+    # Get a bunch of events, defaults to 10 at once
+    def self.get(count = 10, f = :FIRST, l = :LAST)
+      self.peep(nil, count, :GET, f, l)
+    end
+    ##
+    # Pump the events.
+    def self.pump
+      SDL2.pump_events()
+    end
+    ##
+    # Indicates if a Quit event is waiting in the que.
+    def self.quit_requested?
+      SDL2.quit_requested?
+    end
+    ##
+    # Coerce some value into an Event
     def self.cast(something)
+      SDL2::Debug.log(self){"Casting Something: #{something.inspect}"}
       if something.kind_of? Abstract
-        return self.new(something.pointer)
+        return something.to_event
       elsif something.kind_of? Hash
         raise "Must have type : #{something.inspect}" unless something.has_key? :type
         tmp = self.new
         fields = members & something.keys
+        SDL2::Debug.log(self){"Using fields: #{fields.inspect}"}
         fields.each do |field|
           if tmp[field].kind_of? Struct and something[field].kind_of? Hash
             tmp[field].update_members(something[field])

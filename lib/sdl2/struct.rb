@@ -154,7 +154,11 @@ module SDL2
           ignored_keys.empty? ? "All hash keys mapped to struct members." : "Ignored these value keys: #{ignored_keys.inspect}"
         }
         common.each do |field|
-          self[field] = values[field]
+          unless self[field].kind_of?(Struct)
+            self[field] = values[field]
+          else
+            self[field] = self[field].class.cast(values[field])
+          end
         end
       elsif values.kind_of? self.class
         Debug.log(self){'Coping values from another instance.'}

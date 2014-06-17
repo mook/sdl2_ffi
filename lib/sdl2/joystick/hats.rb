@@ -1,7 +1,7 @@
 require 'sdl2/joystick/components'
 module SDL2
   ##
-  # A Joystick may have many buttons.
+  # A Joystick may have many hats.
   class Joystick
     ##
     # Enumerates hats on a joystick.

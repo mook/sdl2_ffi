@@ -19,11 +19,11 @@ module SDL2
   require 'sdl2/event'
   
   
-  api :SDL_PeepEvents, [Event.by_ref, :count, :eventaction, :uint32, :uint32], :int
-  api :SDL_HasEvent, [:uint32], :bool
-  api :SDL_HasEvents, [:uint32, :uint32], :bool
-  api :SDL_FlushEvent, [:uint32], :void
-  api :SDL_FlushEvents, [:uint32, :uint32], :void
+  api :SDL_PeepEvents, [Event.by_ref, :count, :eventaction, :event_type, :event_type], :int, {error: true, filter: OK_WHEN_GTE_ZERO}
+  api :SDL_HasEvent, [:event_type], :bool
+  api :SDL_HasEvents, [:event_type, :event_type], :bool
+  api :SDL_FlushEvent, [:event_type], :void
+  api :SDL_FlushEvents, [:event_type, :event_type], :void
   api :SDL_PumpEvents, [], :void
   api :SDL_PollEvent, [Event.by_ref], :int
   boolean? :poll_event, OK_WHEN_ONE
@@ -34,6 +34,10 @@ module SDL2
   ##
   # callback event_filter #=> Proc.new do |pointer, event|; return int; end
   callback :event_filter, [:pointer, Event.by_ref], :int
+    
+  class TypedPointer::EventFilter < TypedPointer
+    type :event_filter
+  end
 
   # This simple structure is used for getting the event filter
   class EventFilterStruct < Struct
@@ -41,7 +45,7 @@ module SDL2
   end
 
   api :SDL_SetEventFilter, [:event_filter, :pointer], :void
-  api :SDL_GetEventFilter, [:pointer, :pointer], :bool
+  api :SDL_GetEventFilter, [TypedPointer::EventFilter.by_ref, TypedPointer::Pointer.by_ref], :bool
   api :SDL_AddEventWatch, [:event_filter, :pointer], :void
   api :SDL_DelEventWatch, [:event_filter, :pointer], :void
   api :SDL_FilterEvents, [:event_filter, :pointer], :void
