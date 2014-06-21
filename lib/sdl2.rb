@@ -39,6 +39,8 @@ module SDL2
   
 
   autoload(:TTF, 'sdl2/ttf')
+  autoload(:Image, 'sdl2/image')
+  autoload(:Mixer, 'sdl2/mixer')
   # Simple typedef to represent array sizes.
   typedef :int, :count
 
