@@ -25,9 +25,9 @@ describe SDL2::Window do
     @window.maximum_size = [1024,  1024]
     expect(@window.minimum_size).to eq([ 320, 320])
     expect(@window.maximum_size).to eq([ 1024, 1024])
-    @window.should respond_to :width
+    @window.should(respond_to(:width))
     @window.width.should == 320
-    @window.should respond_to :height
+    @window.should(respond_to(:height))
     @window.height.should == 320
   end
   
