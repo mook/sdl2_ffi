@@ -4,7 +4,7 @@ module SDL2
       SHARED = [:type, :event_type, :timestamp, :uint32]
 
       def to_event
-        SDL2::Event.cast(self.pointer)
+        SDL2::Event.new(self.pointer)
       end
     end
   end

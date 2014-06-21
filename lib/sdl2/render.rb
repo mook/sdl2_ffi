@@ -58,7 +58,7 @@ module SDL2
   api :SDL_SetTextureAlphaMod, [Texture.by_ref, :uint8], :int,{error: true, filter: OK_WHEN_ZERO}
   api :SDL_GetTextureAlphaMod, [Texture.by_ref, TypedPointer::UInt8.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_SetTextureBlendMode, [Texture.by_ref, :blend_mode], :int, {error: true, filter: OK_WHEN_ZERO}
-  api :SDL_GetTextureBlendMode, [Texture.by_ref, BlendModeStruct.by_ref], :int,{error: true, filter: OK_WHEN_ZERO}
+  api :SDL_GetTextureBlendMode, [Texture.by_ref, SDL2::TypedPointer::BlendMode.by_ref], :int,{error: true, filter: OK_WHEN_ZERO}
   api :SDL_UpdateTexture, [Texture.by_ref, Rect.by_ref, :pointer, :int], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_LockTexture, [Texture.by_ref, Rect.by_ref, TypedPointer::Pointer.by_ref, TypedPointer::Int.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_UnlockTexture, [Texture.by_ref], :void
@@ -77,7 +77,7 @@ module SDL2
   api :SDL_SetRenderDrawColor, [Renderer.by_ref, :uint8, :uint8, :uint8, :uint8], :int,{error: true, filter: OK_WHEN_ZERO}
   api :SDL_GetRenderDrawColor, [Renderer.by_ref, TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_SetRenderDrawBlendMode, [Renderer.by_ref, :blend_mode], :int,{error: true, filter: OK_WHEN_ZERO}
-  api :SDL_GetRenderDrawBlendMode, [Renderer.by_ref, BlendModeStruct.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
+  api :SDL_GetRenderDrawBlendMode, [Renderer.by_ref, SDL2::TypedPointer::BlendMode.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_RenderClear, [Renderer.by_ref], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_RenderDrawPoint, [Renderer.by_ref, :int, :int], :int, {error: true, filter: OK_WHEN_ZERO}
   api :SDL_RenderDrawPoints, [Renderer.by_ref, Point.by_ref, :count], :int, {error: true, filter: OK_WHEN_ZERO}

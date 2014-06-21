@@ -9,38 +9,33 @@ module SDL2
   extend Library
   ffi_lib SDL_MODULE
   
+  ##
+  # StructHelper defines a couple of handy macros, useful in structures and unions.
   autoload(:StructHelper, 'sdl2/struct_helper')  
 
   ##
-  # BadQuanta: I Augmented for compares with anything that can be an array
+  # FFI::Struct::InlineArray is modified to allow == operations, may not be effecient but seems to work.
   class FFI::Struct::InlineArray
     def ==(other)
       self.to_a == other.to_a
     end
   end
   
+  ##
+  # Struct is locally defined, inheriting from FFI::Struct
+  # The original FFI::Struct is unmodified
   autoload(:Struct, 'sdl2/struct')  
+  ##
+  # StructArray is a helper for Pointer of Structs.
   autoload(:StructArray, File.expand_path('../struct_array.rb', __FILE__))
+  ##
+  # TOOD: ManagedStruct is currently unused, and may not be.
+  # I have run into trouble using FFI::Struct.auto_ptr
   autoload(:ManagedStruct, 'sdl2/managed_struct')
   autoload(:Union, 'sdl2/union')
   autoload(:TypedPointer, 'sdl2/typed_pointer')
   
-  module BLENDMODE
-    include EnumerableConstants
-    NONE = 0x00000000
-    BLEND = 0x00000001
-    ADD = 0x00000002
-    MOD = 0x00000004
-  end
-  # TODO: Review if this is the best place to put it.
-  # BlendMode is defined in a header file that is always included, so I'm
-  # defineing again here.
-  enum :blend_mode, BLENDMODE.flatten_consts
-
-  class BlendModeStruct < SDL2::TypedPointer
-    layout :value, :blend_mode
-  end
-
+  autoload(:BLENDMODE, 'sdl2/blendmode')
   
 
   # Simple typedef to represent array sizes.
@@ -48,6 +43,7 @@ module SDL2
 
 end
 
+require 'sdl2/blendmode'
 require 'sdl2/init'
 
 #TODO: require 'sdl2/assert'

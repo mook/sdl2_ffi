@@ -54,7 +54,7 @@ module SDL2
     # Returns the blend mode 
     #NOTE: This will be a symbol of the constant value.
     def blend_mode
-      blend_mode = SDL2::BlendModeStruct.new
+      blend_mode = SDL2::TypedPointer::BlendMode.new
       SDL2.get_texture_blend_mode!(self, blend_mode)
       blend_mode.value
     end

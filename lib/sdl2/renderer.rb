@@ -133,7 +133,7 @@ module SDL2
     ##
     # Return the Draw Blend Mode
     def draw_blend_mode
-      blend_mode = BlendModeStruct.new
+      blend_mode = SDL2::TypedPointer::BlendMode.new
       SDL2.get_render_draw_blend_mode!(self, blend_mode)
       blend_mode.value
     end

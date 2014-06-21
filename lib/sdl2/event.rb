@@ -143,19 +143,19 @@ module SDL2
     end
     ##
     # General Utility for Peek/Get/Del/Add many events
-    def self.peep(events = nil, num_events = nil, action = :PEEK, first_event = :FIRST, last_event = :LAST)
+    def self.peep(events = nil, num_events = nil, action = :PEEK, first_event = :FIRSTEVENT, last_event = :LASTEVENT)
       if events.is_a?(Array)
         events = SDL2::StructArray.clone_from(events, SDL2::Event)
       end
       num_events ||= events.try(:count)
       raise 'num_events must be specified unless events responds to count' if num_events.nil?
-      events ||= SDL2::StructArray.new(SDL2::Event, num_events)      
-      returned = SDL2.peep_events!(events.first, num_events, action, first_event, last_event)
-      events.first(returned)      
+      events ||= SDL2::StructArray.new(SDL2::Event, num_events) unless num_events == 0     
+      returned = SDL2.peep_events!(events.nil? ? nil : events.first, num_events, action, first_event, last_event)
+      events.nil? ? Array.new(returned, nil) : events.first(returned)      
     end
     ##
     # Peek at events, default maximum to return at once is 10
-    def self.peek(count = 10, f = :FIRST, l = :LAST)
+    def self.peek(count = 10, f = :FIRSTEVENT, l = :LASTEVENT)
       self.peep(nil, count, :PEEK, f, l)
     end
     ##
@@ -166,7 +166,7 @@ module SDL2
     end
     ##
     # Get a bunch of events, defaults to 10 at once
-    def self.get(count = 10, f = :FIRST, l = :LAST)
+    def self.get(count = 10, f = :FIRSTEVENT, l = :LASTEVENT)
       self.peep(nil, count, :GET, f, l)
     end
     ##
@@ -177,7 +177,10 @@ module SDL2
     ##
     # Indicates if a Quit event is waiting in the que.
     def self.quit_requested?
-      SDL2.quit_requested?
+      self.pump()
+      # Peek into the event que and return the count of quit events.
+      # Return true if that is greater than zero.
+      self.peep(nil,0,:PEEK,:QUIT,:QUIT).count > 0
     end
     ##
     # Coerce some value into an Event

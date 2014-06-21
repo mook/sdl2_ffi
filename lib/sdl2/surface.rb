@@ -251,7 +251,7 @@ module SDL2
 	api :SDL_SetSurfaceBlendMode, [Surface.by_ref, :blend_mode], :int, {error: true}
   ##
 	#
-	api :SDL_GetSurfaceBlendMode, [Surface.by_ref, BlendModeStruct.by_ref], :int, {error: true}
+	api :SDL_GetSurfaceBlendMode, [Surface.by_ref, SDL2::TypedPointer::BlendMode.by_ref], :int, {error: true}
   ##
 	#
 	api :SDL_SetClipRect, [Surface.by_ref, Rect.by_ref], :int, {error: true}
