@@ -26,4 +26,4 @@ class Approvals::Writers::PngWriter < Approvals::Writers::BinaryWriter
   
 end
 
-Approvals::Writers::PngWriter.instance # Should register writer.
+Approvals::Writers::PngWriter.new # Should register writer.
