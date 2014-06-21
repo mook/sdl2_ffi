@@ -61,7 +61,7 @@ describe "LazyFoo.net: Lesson 14: Advanced Timers" do
   end
 
   it "works" do
-    pending "Don't know how to test this"
+    skip "Don't know how to test this"
     @app.loop nil #, #delay: 100
   end
 end

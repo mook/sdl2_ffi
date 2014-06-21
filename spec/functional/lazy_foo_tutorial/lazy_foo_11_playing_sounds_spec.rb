@@ -118,7 +118,7 @@ describe "LazyFoo.net: Lesson 11: Playing sounds" do
 
   it 'loads' do
     #@app.loop(nil, delay: 1000)
-    pending "Don't know how to test this."
+    skip "Don't know how to test this."
   end
 
 end

@@ -89,7 +89,7 @@ describe "LazyFoo.net: Lesson 16: Motion" do
   end
   
   it "works" do
-    pending 'refine later'
+    skip 'refine later'
     @app.loop()
   end
 end

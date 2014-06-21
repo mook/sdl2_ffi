@@ -51,7 +51,7 @@ describe "LazyFoo.net: Lesson 12: Timing" do
   end
 
   it "works" do
-    pending "don't know how I should test this..."
+    skip "don't know how I should test this..."
     @app.loop(nil, delay: 1000)
   end
 

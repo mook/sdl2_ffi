@@ -12,7 +12,7 @@ end
 
 describe SDL2::Cursor do
   it 'can create color cursors' do
-    pending 'supported yet?' do
+    skip 'supported yet?' do
       SDL2::Cursor.should respond_to(:create_color_cursor)
       finger = SDL2::Image.load(img_path('finger.png'))
       @cursor = SDL2::Cursor.create_color_cursor(finger,finger.w/2,finger.h/2)

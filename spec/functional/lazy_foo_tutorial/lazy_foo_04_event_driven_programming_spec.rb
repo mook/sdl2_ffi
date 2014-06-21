@@ -45,7 +45,7 @@ describe "LazyFoo.net: Lesson 04: Event Driven Programming" do
   end
 
   it 'set the quit flag' do
-    expect(@quit).to be_true
+    expect(@quit).to be_truthy
   end
 
   after do

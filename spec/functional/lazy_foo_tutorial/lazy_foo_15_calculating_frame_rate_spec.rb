@@ -43,6 +43,6 @@ describe "LazyFoo.net: Lesson 15: Advanced Timers" do
   
   it "works" do
     @app.loop(1)
-    pending "don't know how to test this"
+    skip "don't know how to test this"
   end
 end

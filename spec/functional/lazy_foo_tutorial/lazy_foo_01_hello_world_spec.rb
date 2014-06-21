@@ -29,7 +29,7 @@ describe "LazyFoo.net: Lesson 01: Hello World" do
 
   it 'created a window surface' do
     expect(@window).to be_a(Window)
-    expect(@window.null?).to be_false
+    expect(@window.null?).to be_falsey
   end
 
   it 'draws hello to the window surface' do
