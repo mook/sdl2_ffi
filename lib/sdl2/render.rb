@@ -4,7 +4,19 @@ require 'sdl2/renderer'
 require 'sdl2/texture'
 require 'sdl2/point'
 
-module SDL2
+##
+# == 2D Accelerated Rendering
+# API Supports these primitives:
+# * Single Pixel Points
+# * Single Pixel Lines
+# * Filled Rectangles
+# * Texture Images
+# Rendered in Opaque, Blended, or Additive modes.
+# Textures have additional tint or alpha modulation,
+# and the API supports stretching, rotation, or
+# mirroring.
+# NOTE: THIS API IS NOT THREAD SAFE
+module SDL2  
   enum :renderer_flags, RENDERER.flatten_consts
   # The access pattern allowed for a texture
   module TEXTUREACCESS
