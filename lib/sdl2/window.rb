@@ -11,8 +11,10 @@ module SDL2
   # Used to indicate that you don't care what the window position is.
   module WINDOWPOS
     include EnumerableConstants
+    ##
+    # Used to indicate the position is undefined on a certain screen.
     UNEDFINED_MASK = 0x1FFF0000
-
+    ##
     # Used to generate the UNDEFINED constant,
     # which if I understand correctly is just UNDEFINED_MASK anyways.
     # I think this is to encourage divers/applications to write specific
@@ -20,45 +22,84 @@ module SDL2
     def self.undefined_display(x)
       self::UNEDFINED_MASK|x
     end
-
+    ##
+    # Undefined position within display zero
     UNDEFINED = undefined_display(0)
-
+    ##
     # SDL_video.h doesn't have much documentation on this,
     # I think it is used internally, but may be useful for applications.
     def self.is_undefined(x)
       (((x)&0xFFFFF00000) == self::UNDEFINED_MASK)
     end
-
+    ##
+    # Used to indicate the position is centered on a certain screen
     CENTERED_MASK = 0x2FFF0000
-
+    ##
+    # Used to generate the CENTERED constant for display 0
     def self.centered_display(x)
       self::CENTERED_MASK | x
     end
-
+    ##
+    # Centered within display zero
     CENTERED = centered_display(0)
-
+    ##
+    # Test if the position represents centered on any screen
     def self.is_centered(x)
       (((x)&0xFFFF0000) == self::CENTERED_MASK)
     end
   end
-
-  # Event subtype for window events
+  ##
+  # An enumeration of window events
   module WINDOWEVENT
     include EnumerableConstants
+    ##
+    # Never used
     NONE    = next_const_value
+    ##
+    # Window has been shown
     SHOWN   = next_const_value
+    ##
+    # Window has been hidden
     HIDDEN  = next_const_value
+    ##
+    # Window has been exposed and should be redrawn
     EXPOSED = next_const_value
+    ##
+    # Window has been moved to data1, data2
     MOVED   = next_const_value
+    ##
+    # Window has been resized to data1 x data 2,
+    # this event is always preceded by SIZE_CHANGED
     RESIZED = next_const_value
+    ##
+    # window size has changed, either as a result of an
+    # API call or through the system or user changing the 
+    # window size; this event is followed by
+    # RESIZED if the size was changed by an external event
     SIZE_CHANGED  = next_const_value
+    ##
+    # Window has been minimized
     MINIMIZED     = next_const_value
+    ##
+    # Window has been maximized
     MAXIMIZED     = next_const_value
+    ##
+    # Window has been restored to normal size and position
     RESTORED      = next_const_value
+    ##
+    # Window has gained mouse focus
     ENTER         = next_const_value
+    ##
+    # Window has lost mouse focus
     LEAVE         = next_const_value
+    ##
+    # Window has gained keyboard focus
     FOCUS_GAINED  = next_const_value
+    ##
+    # Window has lost keyboard focus
     FOCUS_LOST    = next_const_value
+    ##
+    # The window manager requests that the window be closed
     CLOSE         = next_const_value
   end
 
@@ -69,19 +110,49 @@ module SDL2
     # Window Flags Constants
     module FLAGS
       include EnumerableConstants
+      ##
+      # Fullscreen window
       FULLSCREEN         = 0x00000001
+      ##
+      # Window usable with OpenGL context
       OPENGL             = 0x00000002
+      ##
+      # Window is visible
       SHOWN              = 0x00000004
+      ##
+      # Window is not visisble
       HIDDEN             = 0x00000008
+      ##
+      # No Window decoration
       BORDERLESS         = 0x00000010
+      ##
+      # Window can be resized
       RESIZABLE          = 0x00000020
+      ##
+      # Window is minimized
       MINIMIZED          = 0x00000040
+      ##
+      # Window is maximized
       MAXIMIZED          = 0x00000080
+      ##
+      # Window has grabbed input focus
       INPUT_GRABBED      = 0x00000100
+      ##
+      # Window has input focus
       INPUT_FOCUS        = 0x00000200
+      ##
+      # Window has mouse focus
       MOUSE_FOCUS        = 0x00000400
+      ##
+      # Fullscreen window at the current desktop resolution
       FULLSCREEN_DESKTOP = ( FULLSCREEN | 0x00001000 )
+      ##
+      # Window was not created by SDL
       FOREIGN            = 0x00000800
+      ##
+      # Window should be created in high-DPI mode if supported
+      # NOTE: >= SDL 2.0.1
+      ALLOW_HIGHDPI        = 0x00002000       
     end
     
     layout :magic, :pointer,
@@ -123,7 +194,7 @@ module SDL2
         SDL2.get_window_data(@for_window, name.to_s)
       end
       ##
-      #
+      # Hash-like reader to named data
       alias_method :[], :named
       ##
       # Set the data named to value specified.
@@ -131,7 +202,7 @@ module SDL2
         SDL2.set_window_data(@for_window, name.to_s, value.to_s)
       end
       ##
-      #
+      # Hash-like writter for named data
       alias_method :[]=, :named=
     end
     ##

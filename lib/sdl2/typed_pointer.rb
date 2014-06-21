@@ -2,18 +2,21 @@ module SDL2
   ##
   # BadQuanta says: "Typed pointes let you get to the value."
   class TypedPointer < Struct
+    ##
+    # Set the "type" of the value
     def self.type(kind)
       layout :value, kind
     end
-
+    ##
+    # Give access to that value
     def value
       self[:value]
     end
-
+    ##
+    # Alias value as deref so this can be treated like a pointer
     alias_method :deref, :value
-
-    # Simple Type Structures to interface 'typed-pointers'
-    # TODO: Research if this is the best way to handle 'typed-pointers'
+    ##
+    # A float-typed pointer
     class Float < TypedPointer
       type :float
     end
@@ -23,23 +26,25 @@ module SDL2
       type :int
     end
 
-    #
+    ##
+    # UInt16 typed pointer
     class UInt16 < TypedPointer
       type :uint16
     end
-
+    ##
+    # UInt32 typed pointer
     class UInt32 < TypedPointer
       type :uint32
     end
-
+    ##
+    # Uint8 typed pointer
     class UInt8 < TypedPointer
       type :uint8
     end
-    
+    ##
+    # Pointer typed pointer
     class Pointer < TypedPointer
       type :pointer
     end
-        
-
   end
 end

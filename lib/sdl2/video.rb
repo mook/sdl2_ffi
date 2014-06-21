@@ -19,10 +19,12 @@ module SDL2
   
   typedef :pointer, :gl_context
 
+  ##
   # OpenGL configuration attributes
+  # For use with GlAttribute[xxx]
   module GLattr
     include EnumerableConstants
-    RED_SIZE			                   = next_const_value    
+    RED_SIZE			                   = next_const_value
     GREEN_SIZE			                 = next_const_value
     BLUE_SIZE			                   = next_const_value
     ALPHA_SIZE			                 = next_const_value
@@ -39,32 +41,47 @@ module SDL2
     MULTISAMPLESAMPLES               = next_const_value                
     ACCELERATED_VISUAL               = next_const_value              
     RETAINED_BACKING	               = next_const_value
-    CONTEXT_MAJOR_VERSION	          = next_const_value
-    CONTEXT_MINOR_VERSION	    = next_const_value
-    CONTEXT_EGL= next_const_value
-    CONTEXT_FLAGS= next_const_value
-    CONTEXT_PROFILE_MASK			= next_const_value
-    SHARE_WITH_CURRENT_CONTEXT= next_const_value
+    CONTEXT_MAJOR_VERSION	           = next_const_value
+    CONTEXT_MINOR_VERSION	           = next_const_value
+    CONTEXT_EGL                      = next_const_value
+    CONTEXT_FLAGS                    = next_const_value
+    CONTEXT_PROFILE_MASK			       = next_const_value
+    SHARE_WITH_CURRENT_CONTEXT       = next_const_value
   end
   
   # lines 165~190
   enum :gl_attr, GLattr.flatten_consts
-  
-  # OpenGL Profile Values
+  ##
+  # An enumeration of OpenGL profiles
   module GLprofile
     include EnumerableConstants
+    ##
+    # OpenGL core profile - deprecated functions are disabled
     CORE = 0x0001
+    ##
+    # OpenGL compatibility profile - depreciated functions are allowed
     COMPATIBILITY = 0x0002
+    ##
+    # OpenGL ES profile - only a subset of the base OpenGL functionality is available
     ES = 0x0004
   end
   enum :gl_profile, GLprofile.flatten_consts
-  
-  # OpenGL Context Values
+  ##
+  # An enumeration of OpenGL Context configuration flags
+  # See: https://wiki.libsdl.org/SDL_GLcontextFlag
   module GLcontextFlag
     include EnumerableConstants
+    ##
+    # See: https://wiki.libsdl.org/SDL_GLcontextFlag
     DEBUG = 0x001
+    ##
+    # See: https://wiki.libsdl.org/SDL_GLcontextFlag
     FORWARD_COMPATIBLE = 0x0002
+    ##
+    # See: https://wiki.libsdl.org/SDL_GLcontextFlag
     ROBUST_ACCESS = 0x0004
+    ##
+    # See: https://wiki.libsdl.org/SDL_GLcontextFlag
     RESET_ISOLATION = 0x0008
   end
   # lines 199~205
@@ -114,13 +131,21 @@ module SDL2
     end
   end
   
+  ##
+  # Interface to ScreenSaver control
   module ScreenSaver
+    ##
+    # Returns true if the ScreenSaver is enabled
     def self.enabled?
       SDL2.is_screen_saver_enabled?
     end
+    ##
+    # Attempts to turn off the ScreenSaver
     def self.disable
       SDL2.disable_screen_saver
     end
+    ##
+    # Attempts to restore the ScreenSaver
     def self.enable
       SDL2.enable_screen_saver
     end
