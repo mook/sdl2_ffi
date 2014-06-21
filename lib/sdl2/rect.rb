@@ -40,23 +40,6 @@ module SDL2
 
     # SDL Defines a macro that is roughly the same as Struct#==
     alias_method :equals, :==
-    # TODO: Review for removal.  Originally this was a MACRO reimplementation, 
-    # but has since been replaced with a working #== methond on SDL2::Struct
-    #
-    #    def equals(other)
-    #      return false if other.nil?
-    #      return false unless other.kind_of? Rect
-    #
-    #      if self.null? or other.null? # Either null?
-    #        return (self.null? and other.null?) # Equal if both are null!
-    #      else
-    #        members.each do |field| # Compare our fields.
-    #          return false unless self[field] == other[field]
-    #        end
-    #      end
-    #      return true # if we made it this far
-    #    end
-
     
     # Determine whether two rectangles intersect.
     #   *  Another rectangle to test against.

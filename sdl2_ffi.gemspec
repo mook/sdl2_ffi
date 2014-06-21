@@ -12,9 +12,9 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Object Oriented wrapper for SDL2.  Help me test & debug my interface.}
   spec.homepage      = 'https://github.com/BadQuanta/sdl2_ffi'
   spec.license       = 'MIT'
-
+  # TODO: Remove RSpec fixtures files from bundle
   spec.files         = `git ls-files`.split($/)
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  #spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
   

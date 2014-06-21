@@ -1,5 +1,3 @@
-# TODO: Review stdinc stub.
-
 require 'enumerable_constants'
 require 'sdl2/library'
 

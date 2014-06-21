@@ -100,7 +100,7 @@ module SDL2
     ##
     # Use this function to determine whether a surface must be locked for access
     # Macro, redefined here for use.  Seems to just check if RLEACCEL is true.
-    def mustlock?
+    def must_lock?
       self[:flags] & RLEACCEL != 0
     end
 

@@ -140,6 +140,30 @@ describe SDL2::Surface do
     @foo.blit_out_scaled(@screen)
   end
   
+  require 'benchmark'
+  it 'should allow RLE optimization' do
+    @foo.color_key = [0, 255, 255]
+    @foo.alpha_mod = 64
+    @foo.blend_mode = :BLEND
+    # Clone it twice
+    foo1 = @screen.convert(@foo)
+    foo2 = @screen.convert(@foo)
+    foo2.must_lock?.should == false
+    foo2.rle = SDL2::Surface::RLEACCEL
+    
+    bm1 = Benchmark.measure do 
+      255.times do |idx|
+        foo1.blit_out(@screen, x: idx, y: idx)
+      end
+    end
+    bm2 = Benchmark.measure do
+      255.times do |idx|
+        foo2.blit_out(@screen, x: 128+idx, y: idx)
+      end
+    end  
+    bm2.real < bm1.real 
+  end
+  
   after :each do
     @window.update_surface
     verify(format: :png){@screen}    

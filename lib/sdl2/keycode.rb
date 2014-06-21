@@ -6,7 +6,6 @@ module SDL2
   #typedef :int32, :keycode
   typedef :int32, :scancode
 
-  # TODO: Review if I translated lines 44~45 right.
   SCANCODE_MASK = 1<<30
 
   def self.scancode_to_keycode(scancode)
