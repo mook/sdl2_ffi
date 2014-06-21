@@ -9,7 +9,7 @@ describe "LazyFoo.net: Lesson 04: Event Driven Programming" do
   before do
     SDL2.init!(:EVERYTHING)
 
-    @window = Window.create(subject, :CENTERED, :CENTERED, 640, 480)
+    @window = Window.create(title: subject, width: 640, height: 480)
 
     @screen = @window.surface
     @screen.fill_rect(@screen.rect, [0,0,0,SDL2::ALPHA_OPAQUE])
@@ -29,7 +29,7 @@ describe "LazyFoo.net: Lesson 04: Event Driven Programming" do
         end
       end
 
-      my_quit_event = Event.cast(QuitEvent.cast(type: :QUIT))
+      my_quit_event = Event.cast(Event::Quit.cast(type: :QUIT))
       
 
       SDL2.push_event!(my_quit_event)

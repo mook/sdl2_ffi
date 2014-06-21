@@ -21,6 +21,7 @@ module SDL2
     :format, PixelFormat.by_ref,
     :w, :int,
     :h, :int,
+    :pitch, :int,
     :pixels, :pointer,
     :userdata, :pointer,
     :locked, :int,
@@ -128,7 +129,7 @@ module SDL2
     alias_method :rle=, :set_rle
 
     # Sets the color key for this surface.
-    # @param key may be 1) A pixel value encoded for this surface's format
+    #   *  key may be 1) A pixel value encoded for this surface's format
     # 2) Anything that Color::cast can handle.
     # 3) Nil, which will disable the color key for this surface.
     def set_color_key(key)
@@ -149,7 +150,7 @@ module SDL2
     # Gets the color key for this surface.
     # @returns Nil, indicating no color keying, or the encoded pixel value used.
     def get_color_key()
-      key_s = UInt32Struct.new
+      key_s = TypedPointer::UInt32.new
       if SDL2.get_color_key?(self, key_s)
         result = key_s[:value]
       else
@@ -190,7 +191,7 @@ module SDL2
 
   ##
 	#
-	api :SDL_CreateRGBSurface, [:surface_flags, :int, :int, :int, :uint32, :uint32, :uint32, :uint32], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :SDL_CreateRGBSurface, [:surface_flags, :int, :int, :int, :uint32, :uint32, :uint32, :uint32], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	#
 	api :SDL_FreeSurface, [Surface.by_ref], :void
@@ -205,14 +206,14 @@ module SDL2
 	api :SDL_UnlockSurface, [Surface.by_ref], :void
   ##
 	#
-	api :SDL_LoadBMP_RW, [RWops.by_ref, :int], Surface.auto_ptr
+	api :SDL_LoadBMP_RW, [RWops.by_ref, :int], Surface.ptr
 
   # Redefine SDL_LoadBMP macro:
   def self.load_bmp(file)
     SDL2.load_bmp_rw(RWops.from_file(file, 'rb'), 1)
   end
 
-  returns_error(:load_bmp,TRUE_WHEN_NOT_NULL)
+  returns_error(:load_bmp,OK_WHEN_NOT_NULL)
 
   ##
 	#
@@ -230,27 +231,27 @@ module SDL2
 	api :SDL_SetColorKey, [Surface.by_ref, :bool, :uint32], :int, {error: true}
   ##
 	#
-	api :SDL_GetColorKey, [Surface.by_ref, UInt32Struct.by_ref], :uint32, {error: true}
+	api :SDL_GetColorKey, [Surface.by_ref, TypedPointer::UInt32.by_ref], :uint32, {error: true}
   # Could mean an SDL error... or maybe not?
-  boolean? :get_color_key, TRUE_WHEN_ZERO
+  boolean? :get_color_key, OK_WHEN_ZERO
   ##
 	#
 	api :SDL_SetSurfaceColorMod, [Surface.by_ref, :uint8, :uint8, :uint8], :int
   ##
 	#
-	api :SDL_GetSurfaceColorMod, [Surface.by_ref, UInt8Struct.by_ref,UInt8Struct.by_ref,UInt8Struct.by_ref], :int
+	api :SDL_GetSurfaceColorMod, [Surface.by_ref, TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref,TypedPointer::UInt8.by_ref], :int
   ##
 	#
 	api :SDL_SetSurfaceAlphaMod, [Surface.by_ref, :uint8], :int, {error: true}
   ##
 	#
-	api :SDL_GetSurfaceAlphaMod, [Surface.by_ref,UInt8Struct.by_ref], :int, {error: true}
+	api :SDL_GetSurfaceAlphaMod, [Surface.by_ref,TypedPointer::UInt8.by_ref], :int, {error: true}
   ##
 	#
 	api :SDL_SetSurfaceBlendMode, [Surface.by_ref, :blend_mode], :int, {error: true}
   ##
 	#
-	api :SDL_GetSurfaceBlendMode, [Surface.by_ref, BlendModeStruct.by_ref], :int, {error: true}
+	api :SDL_GetSurfaceBlendMode, [Surface.by_ref, SDL2::TypedPointer::BlendMode.by_ref], :int, {error: true}
   ##
 	#
 	api :SDL_SetClipRect, [Surface.by_ref, Rect.by_ref], :int, {error: true}
@@ -259,10 +260,10 @@ module SDL2
 	api :SDL_GetClipRect, [Surface.by_ref, Rect.by_ref], :int, {error: true}
   ##
 	#
-	api :SDL_ConvertSurface, [Surface.by_ref, PixelFormat.by_ref, :surface_flags], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :SDL_ConvertSurface, [Surface.by_ref, PixelFormat.by_ref, :surface_flags], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
   ##
 	#
-	api :SDL_ConvertSurfaceFormat, [Surface.by_ref, :pixel_format, :surface_flags], Surface.auto_ptr
+	api :SDL_ConvertSurfaceFormat, [Surface.by_ref, :pixel_format, :surface_flags], Surface.ptr
   ##
 	#
 	api :SDL_ConvertPixels, [:int, :int, :pixel_format, :pointer, :int, :pixel_format, :pointer, :int], :int, {error: true}
@@ -282,7 +283,7 @@ module SDL2
     upper_blit(src, srcrect, dst, dstrect)
   end
 
-  returns_error(:blit_surface, TRUE_WHEN_ZERO)
+  returns_error(:blit_surface, OK_WHEN_ZERO)
 
   ##
 	#
@@ -299,7 +300,7 @@ module SDL2
     upper_blit_scaled(src, srcrect, dst, dstrect)
   end
 
-  returns_error(:blit_scaled, TRUE_WHEN_ZERO)
+  returns_error(:blit_scaled, OK_WHEN_ZERO)
 
   ##
 	#

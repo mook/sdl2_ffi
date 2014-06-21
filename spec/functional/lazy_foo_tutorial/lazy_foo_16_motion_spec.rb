@@ -3,11 +3,11 @@ require_relative 'timer'
 #ORIGINAL: http://lazyfoo.net/SDL_tutorials/lesson16/index.php
 # Adapted for Ruby & SDL 2.0 as functional test by BadQuanta
 
-require 'sdl2/application'
-require 'sdl2/engine/block_engine'
+require 'bad_sdl/application'
+require 'bad_sdl/engine/block_engine'
 require 'sdl2/ttf'
 
-describe "LazyFoo.net: Lesson 15: Advanced Timers" do
+describe "LazyFoo.net: Lesson 16: Motion" do
 
   class Dot
 
@@ -46,8 +46,8 @@ describe "LazyFoo.net: Lesson 15: Advanced Timers" do
   end#class Dot
 
   before do
-
-    @app = SDL2::Application.new title: subject
+    SDL2.init!(:EVERYTHING)
+    @app = BadSdl::Application.new title: subject
     @dot = Dot.new(
     x: @app.window.surface.w / 2,
     y: @app.window.surface.h / 2,
@@ -85,6 +85,7 @@ describe "LazyFoo.net: Lesson 15: Advanced Timers" do
   
   after do 
     @app.quit
+    SDL2.quit
   end
   
   it "works" do

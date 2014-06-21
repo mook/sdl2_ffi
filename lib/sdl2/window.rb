@@ -7,23 +7,6 @@ require 'sdl2/display/mode'
 
 module SDL2
 
-  # Window Flags Constants
-  module WINDOW
-    include EnumerableConstants
-    FULLSCREEN         = 0x00000001
-    OPENGL             = 0x00000002
-    SHOWN              = 0x00000004
-    HIDDEN             = 0x00000008
-    BORDERLESS         = 0x00000010
-    RESIZABLE          = 0x00000020
-    MINIMIZED          = 0x00000040
-    MAXIMIZED          = 0x00000080
-    INPUT_GRABBED      = 0x00000100
-    INPUT_FOCUS        = 0x00000200
-    MOUSE_FOCUS        = 0x00000400
-    FULLSCREEN_DESKTOP = ( FULLSCREEN | 0x00001000 )
-    FOREIGN            = 0x00000800
-  end
 
   # Used to indicate that you don't care what the window position is.
   module WINDOWPOS
@@ -62,28 +45,45 @@ module SDL2
   # Event subtype for window events
   module WINDOWEVENT
     include EnumerableConstants
-    NONE    
-    SHOWN   
-    HIDDEN  
-    EXPOSED 
-    MOVED   
-    RESIZED 
-    SIZE_CHANGED  
-    MINIMIZED     
-    MAXIMIZED     
-    RESTORED      
-    ENTER         
-    LEAVE         
-    FOCUS_GAINED  
-    FOCUS_LOST    
-    CLOSE         
+    NONE    = next_const_value
+    SHOWN   = next_const_value
+    HIDDEN  = next_const_value
+    EXPOSED = next_const_value
+    MOVED   = next_const_value
+    RESIZED = next_const_value
+    SIZE_CHANGED  = next_const_value
+    MINIMIZED     = next_const_value
+    MAXIMIZED     = next_const_value
+    RESTORED      = next_const_value
+    ENTER         = next_const_value
+    LEAVE         = next_const_value
+    FOCUS_GAINED  = next_const_value
+    FOCUS_LOST    = next_const_value
+    CLOSE         = next_const_value
   end
 
   # System Window
   # A rectangular area you can blit into.
   class Window < Struct
-    include WINDOW
-
+    ##
+    # Window Flags Constants
+    module FLAGS
+      include EnumerableConstants
+      FULLSCREEN         = 0x00000001
+      OPENGL             = 0x00000002
+      SHOWN              = 0x00000004
+      HIDDEN             = 0x00000008
+      BORDERLESS         = 0x00000010
+      RESIZABLE          = 0x00000020
+      MINIMIZED          = 0x00000040
+      MAXIMIZED          = 0x00000080
+      INPUT_GRABBED      = 0x00000100
+      INPUT_FOCUS        = 0x00000200
+      MOUSE_FOCUS        = 0x00000400
+      FULLSCREEN_DESKTOP = ( FULLSCREEN | 0x00001000 )
+      FOREIGN            = 0x00000800
+    end
+    
     layout :magic, :pointer,
     :id, :uint32,
     :title, :string,
@@ -109,68 +109,86 @@ module SDL2
     :driverdata, :pointer,
     :prev, :pointer,
     :next, :pointer
-
+    ##
     # A simple wrapper for data objects associated with a window.
     class Data
-
+      ##
       # Create a data object manager for a given window
       def initialize(for_window)
         @for_window = for_window
       end
-
+      ##
       # Return the data named
       def named(name)
         SDL2.get_window_data(@for_window, name.to_s)
       end
-
+      ##
+      #
       alias_method :[], :named
-
+      ##
       # Set the data named to value specified.
       def named=(name, value)
         SDL2.set_window_data(@for_window, name.to_s, value.to_s)
       end
-
+      ##
+      #
       alias_method :[]=, :named=
     end
-
+    ##
     # The Window's data manager.
-    attr_reader :data
-
+    def data
+      @data ||= Data.new(self)
+    end
+    ##
     # Construct a new window.
     def initialize(*args, &block)
       super(*args, &block)
-      @data = Data.new(self)
     end
-
+    ##
+    # These are the defaults a Window is created with unless overridden
+    DEFAULT = {
+     title: "SDL2::Window",
+     x: :CENTERED,
+     y: :CENTERED,
+     width: 320,
+     height: 240,
+     flags: 0
+    }
+    ##
     # Construct a new window with given:
-    # @param title: The caption to use for the window
-    # @param x: The x-position of the window
-    # @param y: The y-position of the window
-    # @param w: The width of the window
-    # @param h: The height of the window
-    # @param flags: Window Flags to use in construction
-    def self.create(title = self.to_s, x = :CENTERED, y = :CENTERED, w = 640, h = 480, flags = 0)      
-      SDL2.create_window!(title, x, y, w, h, flags)
+    #   *  title: The caption to use for the window
+    #   *  x: The x-position of the window
+    #   *  y: The y-position of the window
+    #   *  w: The width of the window
+    #   *  h: The height of the window
+    #   *  flags: Window Flags to use in construction
+    def self.create(options = {})            
+      o = DEFAULT.merge(options)
+      Debug.log(self){"Creating with options: #{o.inspect}"}
+      # TODO: Log unused option keys      
+      SDL2.create_window!(o[:title], o[:x], o[:y], o[:width], o[:height], o[:flags])
     end
-
+    ##
     # Constructs a new window from arbitrary system-specific structure
-    # @param data: Some system-specific pointer
+    #   *  data: Some system-specific pointer
     # See SDL Documentation
     def self.create_from(data)
+      Debug.log(self){"Creating from data: #{data.inspect}"}
       create_window_from!(data)
     end
-
+    ##
     # Returns the identified window already created
-    # @param id: The window identifier to retrieve
+    #   *  id: The window identifier to retrieve
     def self.from_id(id)
       get_window_from_id!(id)
     end
-
+    ##
     # Constructs both a window and a renderer
-    # @param w: The Width of the pair to create
-    # @param h: The Height of the pair to create
-    # @param flags: Window flags to utilize in creation
+    #   *  w: The Width of the pair to create
+    #   *  h: The Height of the pair to create
+    #   *  flags: Window flags to utilize in creation
     def self.create_with_renderer(w, h, flags)
+      
       window = Window.new
       renderer = Renderer.new
       if SDL2.create_window_and_renderer(w,h,flags,window,renderer) == 0
@@ -179,18 +197,24 @@ module SDL2
         nil
       end
     end
-
+    ##
     # Release memory utilized by structure
     def self.release(pointer)
-      SDL2::destroy_window(self.new pointer)
+      fc = caller.first      
+      Debug.log(self){"Release ignored from #{fc}"}
     end
-        
+    ##
+    # Tell SDL we are done with the window.  Any further use could result in a crash.   
     def destroy
-      SDL2::destroy_window(self)
+      unless self.null?
+        SDL2.destroy_window(self)        
+      else
+        Debug.log(self){"Destruction of window null window requested."}
+      end
     end
     
-    alias_method :destroy, :free
 
+    ##
     # Return the brightness level
     def brightness
       SDL2.get_window_brightness(self)
@@ -198,18 +222,15 @@ module SDL2
 
     # Set the brightness level
     def brightness=(level)
+      Debug.log(self){"Setting brightness to: #{level}"}
       SDL2.set_window_brightness(self, level.to_f)
     end
 
     # Get a copy of the DisplayMode structure
     def display_mode
       dm = SDL2::Display::Mode.new
-      if SDL2.get_window_display_mode(self, dm) == 0
-        return dm
-      else
-        dm.pointer.free
-        return nil
-      end
+      SDL2.get_window_display_mode!(self, dm)
+      dm
     end
 
     # Get the display index associated with this window
@@ -300,14 +321,22 @@ module SDL2
     # Get the window's current size
     # @return Array => [<width>, <height>]
     def current_size()
-      w_struct, h_struct = IntStruct.new, IntStruct.new
-      SDL2::get_window_size(self, w_struct, h_struct)
-      w, h = w_struct[:value], h_struct[:value]
-      [w, h]
+      size = 2.times.map{TypedPointer::Int.new}
+      SDL2::get_window_size(self, *size)
+      size.map(&:value)    
+    end
+    
+    def width
+      current_size[0]
+    end
+    
+    def height
+      current_size[1]
     end
 
+
     # Set the window's current size
-    # @param size: A array containing the [width,height]
+    #   *  size: A array containing the [width,height]
     def current_size=(size)
       SDL2.set_window_size(self, size[0], size[1])
     end
@@ -315,14 +344,13 @@ module SDL2
     # Get the window's maximum_size
     # @return Array => [<width>, <height>]
     def maximum_size
-      w_struct, h_struct = IntStruct.new, IntStruct.new
-      SDL2::get_window_maximum_size(self, w_struct, h_struct)
-      w, h = w_struct[:value], h_struct[:value]
-      [w, h]
+      size = 2.times.map{TypedPointer::Int.new}
+      SDL2::get_window_maximum_size(self, *size)
+      size.map(&:value)
     end
 
     # Set the window's maximum size
-    # @param size: A array containing the [width,height]
+    #   *  size: A array containing the [width,height]
     def maximum_size=(size)
       SDL2.set_window_maximum_size(self, size[0], size[1])
     end
@@ -330,14 +358,13 @@ module SDL2
     # Get the window's minimum size
     # @return Array => [<width>, <height>]
     def minimum_size
-      w_struct, h_struct = IntStruct.new, IntStruct.new
-      SDL2::get_window_minimum_size(self, w_struct, h_struct)
-      w, h = w_struct[:value], h_struct[:value]
-      [w, h]
+      size = 2.times.map{TypedPointer::Int.new}
+      SDL2::get_window_minimum_size(self, *size)
+      size.map(&:value)
     end
 
     # Set the window's minimum size
-    # @param size: A array containing the [width,height]
+    #   *  size: A array containing the [width,height]
     def minimum_size=(size)
       SDL2.set_window_minimum_size(self, size[0], size[1])
     end
@@ -345,7 +372,7 @@ module SDL2
     # Get the window's position
     # @return Array => [<x>, <y>]
     def position
-      position = [IntStruct.new, IntStruct.new]
+      position = [TypedPointer::Int.new, TypedPointer::Int.new]
       SDL2::get_window_position(self, position[0], position[1])
       x, y = position[0][:value], position[1][:value]
       position.each(&:free)
@@ -353,7 +380,7 @@ module SDL2
     end
 
     # Set the window's position
-    # @param size: A array containing the [x,y]
+    #   *  size: A array containing the [x,y]
     def position=(location)
       SDL2::set_window_position(self, location[0],location[1])
     end
@@ -366,6 +393,29 @@ module SDL2
     # Set the window's FULLSCREEN mode flags.
     def fullscreen=(flags)
       SDL2.set_window_fullscreen(self, flags)
+    end
+    ##
+    
+    ##
+    # Returns the renderer associated with this window
+    def renderer
+      SDL2.get_renderer(self)
+    end
+    # Utility function that returns an SDL2::Surface of a given render.
+    # Defaults to the renderer returned by SDL_GetRenderer(window=self)
+    # Added by BadQuanta originally for approval testing.
+    def renderer_to_surface(renderer = renderer)
+      w, h = renderer.output_size
+      fmt = surface.format
+      surface = SDL2::Surface.create_rgb(0,w,h,
+        fmt.bits_per_pixel,
+        fmt.r_mask,
+        fmt.g_mask,
+        fmt.b_mask,
+        fmt.a_mask
+      )
+      SDL2.render_read_pixels!(renderer, nil, fmt.format, surface.pixels, surface.pitch)
+      surface
     end
   end
 

@@ -3,15 +3,16 @@ require_relative 'timer'
 #ORIGINAL: http://lazyfoo.net/SDL_tutorials/lesson14/index.php
 # Adapted for Ruby & SDL 2.0 as functional test by BadQuanta
 
-require 'sdl2/application'
-require 'sdl2/engine/block_engine'
+require 'bad_sdl/application'
+require 'bad_sdl/engine/block_engine'
 require 'sdl2/ttf'
 
 FRAMES_PER_SECOND = 20
 
 describe "LazyFoo.net: Lesson 14: Advanced Timers" do
   before do
-    @app = Application.new
+    SDL2.init!(:EVERYTHING)
+    @app = BadSdl::Application.new
     @frame = 0
     @cap = true
     @fps = Timer.new
@@ -56,6 +57,7 @@ describe "LazyFoo.net: Lesson 14: Advanced Timers" do
 
   after do
     @app.quit
+    SDL2.quit
   end
 
   it "works" do

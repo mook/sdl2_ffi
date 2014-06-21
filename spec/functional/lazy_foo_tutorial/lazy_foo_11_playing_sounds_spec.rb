@@ -1,7 +1,7 @@
 require_relative 'lazy_foo_helper'
 
 require 'sdl2/mixer'
-require 'sdl2/application'
+require 'bad_sdl/application'
 require 'sdl2/ttf'
 
 #ORIGINAL: http://lazyfoo.net/SDL_tutorials/lesson11/index.php
@@ -9,7 +9,7 @@ require 'sdl2/ttf'
 
 describe "LazyFoo.net: Lesson 11: Playing sounds" do
 
-  class PlayingSoundsEngine < SDL2::Engine
+  class PlayingSoundsEngine < BadSdl::Engine
 
     def initialize(opts = {})
       # Initialize our engine
@@ -24,7 +24,7 @@ describe "LazyFoo.net: Lesson 11: Playing sounds" do
       @background = Image.load!(img_path('background.png'))
 
       @font = TTF::Font.open(fixture('fonts/GaroaHackerClubeBold.otf'), 30)
-
+            
       @music = Mixer::Music.load(fixture('music/beat.wav'))
 
       @scratch = Mixer::Chunk.load_wav(fixture('sounds/scratch.wav'))
@@ -77,6 +77,14 @@ describe "LazyFoo.net: Lesson 11: Playing sounds" do
         Mix::halt_music!()
         true
       end
+      
+      # Quit the program
+      on({type: :KEYDOWN, key: {keysym: {sym: :Q}}}) do |event|
+        puts "Quit the program."
+        # Emit a QUIT Signal
+        Event.push(SDL2::QuitEvent.cast({type: :QUIT}))
+      end
+        
     end#initialize
 
     def paint_to(surface)
@@ -88,10 +96,10 @@ describe "LazyFoo.net: Lesson 11: Playing sounds" do
   end
 
   before do
-
-    @app = Application.new(title: subject)
+    SDL2.init!(:EVERYTHING)
+    @app = BadSdl::Application.new(title: subject)
     @app.engines << PlayingSoundsEngine.new()
-    @screen = @app.window.surface
+    
     @app.window.title = "Monitor Music"
 
   end
@@ -105,11 +113,11 @@ describe "LazyFoo.net: Lesson 11: Playing sounds" do
     #TTF::quit()
 
     #SDL2::quit()
-
+    SDL2.quit()
   end
 
   it 'loads' do
-    #@app.loop(nil, delay: 100)
+    #@app.loop(nil, delay: 1000)
     pending "Don't know how to test this."
   end
 

@@ -1,29 +1,21 @@
-# sdl2_ffi
+# sdl2_ffi June, 2014
 
 [![Gem Version](https://badge.fury.io/rb/sdl2_ffi.png)](http://badge.fury.io/rb/sdl2_ffi)
 
-The sdl2_ffi makes SDL2 fun and easy, eventually. This is still a new project
-and I am still implementing major sections of it.  Check out the 
-[approvals](https://github.com/BadQuanta/sdl2_ffi/tree/master/spec/fixtures/approvals)
-to get an idea of how much is working.  These are screen-shots of SDL generated
-content.  Approval testing is used to validate functionality.
-
-
-The "Object Oriented" part of this interface has barely started.
+A Ruby interface to the SDL2 dynamic libraries, with support for SDL2_ttf, SDL2_mixer(with smpeg2), SDL2_image.
 
 # Documentation/API Reference:
+
+The API's functionality [RSpecs](https://github.com/BadQuanta/sdl2_ffi/tree/master/spec) can be used as a reference.
 
 For the latest released gem, [rubydoc.info](http://rubydoc.info/) has the
 [automatically generated documentation](http://rubydoc.info/gems/sdl2_ffi/frames).
 
 Otherwise, you can use RDoc to generate current source documentation.
  
-# How to start:
-
-    
 ## Testing
 
-Minitests are being written to validate functionality. Not SDL's functionality, but that the GEM has been linked properly and that the Object Oriented wrapper functions as intended.
+Specs define the scope of what interfaces have been written and tested.
 
 Run the tests with rake:
 
@@ -35,21 +27,19 @@ Or:
     
 ### Approval Testing
 
-This project now uses Approval testing.  At the moment, I'm using a custom
-'approvals' gem which is specified in the Gemfile, as opposed to the Gemspec.
-This is only temporary.  The approved specifications are in the repository 
-and can act as a repository of screen shots. :)
-
+Parts of the API are verified via "Approvals" which are PNG captures of SDL Surfaces,
+on each run of an "Approved" rendering, the dumped PNGs are compared against each other.
+Feel free to update these tests and "approve" the new PNGs.
    
 ### Testing Under *nix & X11
 
 If you are testing under some kind of unix system with X11 and have Xnest available,
-I'd recommend starting up Xnest and changing your testing terminal DISPLAY value
+I'd recommend starting up Xnest or Xephyr and changing your testing terminal DISPLAY value
 so that the tests do not throw around a bunch of Windows on your screen.
 
 ## Usage
 
-When you `require 'sdl2'`, it should give you the same things that
+When you `require 'sdl2_ffi'`, it should give you the same things that
 include 'SDL.h' would have done.  See the specs for examples.  There are C/C++
 tutorials that have been translated as a means of validating functionality.
 
@@ -64,4 +54,4 @@ libSDL 2.0 is licensed under the 'zlib license', listed as compatible with the G
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-I specifically need help writing the minitest code.  
+New Issues welcome.  

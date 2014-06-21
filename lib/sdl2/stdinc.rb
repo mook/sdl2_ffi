@@ -26,28 +26,25 @@ module SDL2
   # These are for internal use mostly, they test the return result
   # of a function that can return an error.  They are designed to
   # return TRUE if there is NOT_AN_ERROR
-    
-  #Filter Proc, True when arg equals zero
-  TRUE_WHEN_ZERO = Proc.new do |result|
-    # Handles both Negative and Positive error values.
-    result == 0
-  end
   
-  TRUE_WHEN_ONE = Proc.new{|result| result == 1}
-  
-  TRUE_WHEN_NOT_ZERO = Proc.new do |result|
-    result != 0
-  end
-  
-  # Filter Proc, True when arg not null?
-  TRUE_WHEN_NOT_NULL = Proc.new do |result|
-    # Anything but nil/null is considered valid.
-    (!result.null?)
-  end
-  
-  TRUE_WHEN_TRUE = Proc.new do |result|
-    result == true
-  end
+  ##  
+  # When the result is zero, everything is ok.
+  OK_WHEN_ZERO = Proc.new { |result| result == 0 }
+  ##
+  # When the result is one, everything is ok
+  OK_WHEN_ONE = Proc.new{|result| result == 1}
+  ##
+  # When the result must be positive
+  OK_WHEN_GTE_ZERO = Proc.new{|result| result >= 0}
+  ##
+  # When result is anything but zero
+  OK_WHEN_NOT_ZERO = Proc.new { |result| result != 0  }
+  ##
+  # When resultnot null?
+  OK_WHEN_NOT_NULL = Proc.new { |result| (!result.nil?) and (!result.null?) } 
+  ##
+  # When result is true
+  OK_WHEN_TRUE = Proc.new { |result| result == true  }
     
   # NOTE: None of the SDL Memory Macros/Externals
     

@@ -5,7 +5,7 @@ require_relative 'lazy_foo_helper'
 describe "LazyFoo.net: Lesson 06: Clip Blitting and Sprite Sheets" do
   before do
     SDL2.init!(:EVERYTHING)
-    @window = Window.create(subject, :CENTERED, :CENTERED, 640, 480)
+    @window = Window.create(title: subject, width: 640, height: 480)
     @screen = @window.surface
     @screen.fill_rect(@screen.rect, [0,0,0,ALPHA_OPAQUE])
 

@@ -17,7 +17,7 @@ module SDL2
 
     ##
 	#
-	api :TTF_Linked_Version, [], Version.auto_ptr
+	api :TTF_Linked_Version, [], Version.ptr
 
     UNICODE_BOM_NATIVE = 0xFEFF
     UNICODE_BOM_SWAPPED = 0xFFFE
@@ -28,19 +28,19 @@ module SDL2
 
     ##
 	#
-	api :TTF_Init, [], :int, {error: true, filter: TRUE_WHEN_ZERO}
+	api :TTF_Init, [], :int, {error: true, filter: OK_WHEN_ZERO}
     ##
 	#
-	api :TTF_OpenFont, [:string, :int], Font.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_OpenFont, [:string, :int], Font.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
     ##
 	#
-	api :TTF_OpenFontIndex, [:string, :int, :long], Font.auto_ptr
+	api :TTF_OpenFontIndex, [:string, :int, :long], Font.ptr
     ##
 	#
-	api :TTF_OpenFontRW, [RWops.by_ref, :int, :int], Font.auto_ptr
+	api :TTF_OpenFontRW, [RWops.by_ref, :int, :int], Font.ptr
     ##
 	#
-	api :TTF_OpenFontIndexRW, [RWops.by_ref, :int, :int, :long], Font.auto_ptr
+	api :TTF_OpenFontIndexRW, [RWops.by_ref, :int, :int, :long], Font.ptr
 
     module STYLE
       include EnumerableConstants
@@ -122,74 +122,74 @@ module SDL2
 	api :TTF_GlyphMetrics, [
       Font.by_ref,
       :uint16,
-      IntStruct.by_ref,
-      IntStruct.by_ref,
-      IntStruct.by_ref,
-      IntStruct.by_ref,
-      IntStruct.by_ref
+      TypedPointer::Int.by_ref,
+      TypedPointer::Int.by_ref,
+      TypedPointer::Int.by_ref,
+      TypedPointer::Int.by_ref,
+      TypedPointer::Int.by_ref
     ], :int
 
     ##
 	#
-	api :TTF_SizeText, [Font.by_ref, :string, IntStruct.by_ref, IntStruct.by_ref], :int
+	api :TTF_SizeText, [Font.by_ref, :string, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int
     ##
 	#
-	api :TTF_SizeUTF8, [Font.by_ref, :string, IntStruct.by_ref, IntStruct.by_ref], :int
+	api :TTF_SizeUTF8, [Font.by_ref, :string, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int
     ##
 	#
-	api :TTF_SizeUNICODE, [Font.by_ref, :string, IntStruct.by_ref, IntStruct.by_ref], :int
+	api :TTF_SizeUNICODE, [Font.by_ref, :string, TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :int
 
     ##
 	#
-	api :TTF_RenderText_Solid, [Font.by_ref, :string, Color.by_value], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderText_Solid, [Font.by_ref, :string, Color.by_value], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
     ##
 	#
-	api :TTF_RenderUTF8_Solid, [Font.by_ref, :string, Color.by_value], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderUTF8_Solid, [Font.by_ref, :string, Color.by_value], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
     ##
 	#
-	api :TTF_RenderUNICODE_Solid, [Font.by_ref, :string, Color.by_value], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderUNICODE_Solid, [Font.by_ref, :string, Color.by_value], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
 
     ##
 	#
-	api :TTF_RenderGlyph_Solid, [Font.by_ref, :uint16, Color.by_value], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderGlyph_Solid, [Font.by_ref, :uint16, Color.by_value], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
 
     ##
 	#
-	api :TTF_RenderText_Shaded, [Font.by_ref, :string, Color.by_value, Color.by_value], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderText_Shaded, [Font.by_ref, :string, Color.by_value, Color.by_value], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
     ##
 	#
-	api :TTF_RenderUTF8_Shaded, [Font.by_ref, :string, Color.by_value, Color.by_value], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderUTF8_Shaded, [Font.by_ref, :string, Color.by_value, Color.by_value], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
     ##
 	#
-	api :TTF_RenderUNICODE_Shaded, [Font.by_ref, :string, Color.by_value, Color.by_value], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderUNICODE_Shaded, [Font.by_ref, :string, Color.by_value, Color.by_value], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
 
     ##
 	#
-	api :TTF_RenderGlyph_Shaded, [Font.by_ref, :uint16, Color.by_value, Color.by_value], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderGlyph_Shaded, [Font.by_ref, :uint16, Color.by_value, Color.by_value], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
 
     ##
 	#
-	api :TTF_RenderText_Blended, [Font.by_ref, :string, Color.by_value], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderText_Blended, [Font.by_ref, :string, Color.by_value], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
     ##
 	#
-	api :TTF_RenderUTF8_Blended, [Font.by_ref, :string, Color.by_value], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderUTF8_Blended, [Font.by_ref, :string, Color.by_value], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
     ##
 	#
-	api :TTF_RenderUNICODE_Blended, [Font.by_ref, :string, Color.by_value], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderUNICODE_Blended, [Font.by_ref, :string, Color.by_value], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
 
     ##
 	#
-	api :TTF_RenderText_Blended_Wrapped, [Font.by_ref, :string, Color.by_value, :uint32], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderText_Blended_Wrapped, [Font.by_ref, :string, Color.by_value, :uint32], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
     ##
 	#
-	api :TTF_RenderUTF8_Blended_Wrapped, [Font.by_ref, :string, Color.by_value, :uint32], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderUTF8_Blended_Wrapped, [Font.by_ref, :string, Color.by_value, :uint32], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
     ##
 	#
-	api :TTF_RenderUNICODE_Blended_Wrapped, [Font.by_ref, :string, Color.by_value, :uint32], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderUNICODE_Blended_Wrapped, [Font.by_ref, :string, Color.by_value, :uint32], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
 
     ##
 	#
-	api :TTF_RenderGlyph_Blended, [Font.by_ref, :uint16, Color.by_value], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL}
+	api :TTF_RenderGlyph_Blended, [Font.by_ref, :uint16, Color.by_value], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL}
 
     ##
 	#

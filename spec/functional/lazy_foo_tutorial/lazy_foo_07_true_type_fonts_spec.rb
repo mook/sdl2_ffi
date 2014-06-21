@@ -10,7 +10,7 @@ describe "LazyFoo.net: Lesson 07: True Type Fonts" do
     
     #binding.pry
     SDL2.init!(:EVERYTHING)
-    @window = Window.create(subject, :CENTERED, :CENTERED, 640, 480)
+    @window = Window.create(title: subject, width: 640, height: 480)
     @screen = @window.surface
     TTF.init!
     
@@ -40,11 +40,12 @@ describe "LazyFoo.net: Lesson 07: True Type Fonts" do
     @background.free
     @message.free
     @font.free
+    TTF.quit
     quit()
   end
 
   it "loads a true type font" do
-    expect(@font).to be_a SDL2::TTF::Font
+    expect(@font).to be_a(SDL2::TTF::Font)
   end
     
   it "writes a message to a surface" do

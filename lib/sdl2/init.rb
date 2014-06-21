@@ -2,7 +2,6 @@ require 'sdl2'
 require 'sdl2/error'
 
 module SDL2
-
   # Enumeration of valid initialization flags.
   module INIT
     include EnumerableConstants
@@ -17,14 +16,12 @@ module SDL2
     NOPARACHUTE    = 0x00100000
     EVERYTHING     = TIMER | AUDIO | VIDEO | EVENTS | JOYSTICK | HAPTIC | GAMECONTROLLER
 
-  end
-  
+  end  
   enum :init_flag, INIT.flatten_consts
   
-
-  ##
-	#
-	api :SDL_Init, [:init_flag], :int, {error: true}
+  
+  
+  api :SDL_Init, [:init_flag], :int, {error: true}
 
 
   ##
@@ -42,7 +39,7 @@ module SDL2
 	#
 	api :SDL_WasInit, [:init_flag], :uint32
     
-  boolean? :was_init, TRUE_WHEN_NOT_ZERO
+  boolean? :was_init, OK_WHEN_NOT_ZERO
 
   ##
 	#

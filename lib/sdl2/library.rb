@@ -9,11 +9,7 @@ module SDL2
     # "xxx_yyyy_zzz" convetion
     def api(func_name, args, type, options = {})
 
-      options = {
-        :error => false,
-        :filter => type == :bool ? TRUE_WHEN_TRUE : TRUE_WHEN_ZERO
-      }.merge(options)
-
+      
       # TODO: Review ugly hack:
       remove_part = case self.to_s
       when "SDL2"
@@ -29,8 +25,13 @@ module SDL2
         /[A-Z][A-Z|0-9]*_/
       end
 
-      camelCaseName = func_name.to_s.gsub(remove_part,'')
-      methodName = ActiveSupport::Inflector.underscore(camelCaseName).to_sym
+      options = {
+        :error => false,
+        :filter => type == :bool ? OK_WHEN_TRUE : OK_WHEN_ZERO,
+        :method_name => ActiveSupport::Inflector.underscore(func_name.to_s.gsub(remove_part,'')).to_sym,
+      }.merge(options)
+
+      methodName = options[:method_name]
 
       attach_function methodName, func_name, args, type
             

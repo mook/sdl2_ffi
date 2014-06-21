@@ -8,7 +8,7 @@ describe "LazyFoo.net: Lesson 05: Color Keying" do
   
   before do
     SDL2::init!(:EVERYTHING)
-    @window = Window.create(subject, :CENTERED, :CENTERED, 640, 480)
+    @window = Window.create(title: subject, width: 640, height: 480)
     @screen = @window.surface
     
     @background = @screen.convert(Image.load!(img_path('background.jpg')))

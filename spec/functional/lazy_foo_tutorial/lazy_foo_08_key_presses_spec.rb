@@ -8,7 +8,8 @@ describe "LazyFoo.net: Lesson 08: Key Presses" do
 
   before do
     SDL2.init!(:EVERYTHING)
-    @window = Window.create(subject, :CENTERED, :CENTERED, 640, 480)
+    SDL2::TTF.init
+    @window = Window.create(title: subject, width: 640, height: 480)
     @screen = @window.surface
 
     @background = @screen.convert(Image.load!(img_path('background.png')))
@@ -23,11 +24,11 @@ describe "LazyFoo.net: Lesson 08: Key Presses" do
 
     # Simulated user events.  If you don't want to simulate, comment line:77
     @events = [
-      SDL2::KeyboardEvent.cast(type: :KEYDOWN, keysym: Keysym.cast(sym: :UP)),
-      SDL2::KeyboardEvent.cast(type: :KEYDOWN, keysym: Keysym.cast(sym: :DOWN)),
-      SDL2::KeyboardEvent.cast(type: :KEYDOWN, keysym: Keysym.cast(sym: :LEFT)),
-      SDL2::KeyboardEvent.cast(type: :KEYDOWN, keysym: Keysym.cast(sym: :RIGHT)),
-      SDL2::QuitEvent.cast(type: :QUIT)
+      SDL2::Event::Keyboard.cast(type: :KEYDOWN, keysym: Keysym.cast(sym: :UP)),
+      SDL2::Event::Keyboard.cast(type: :KEYDOWN, keysym: Keysym.cast(sym: :DOWN)),
+      SDL2::Event::Keyboard.cast(type: :KEYDOWN, keysym: Keysym.cast(sym: :LEFT)),
+      SDL2::Event::Keyboard.cast(type: :KEYDOWN, keysym: Keysym.cast(sym: :RIGHT)),
+      SDL2::Event::Quit.cast(type: :QUIT)
     
     ]
 
@@ -102,7 +103,8 @@ describe "LazyFoo.net: Lesson 08: Key Presses" do
 
 
   after do
-    quit()
+    SDL2.quit()
+    SDL2::TTF.quit
   end
 
 end

@@ -1,10 +1,16 @@
 require 'sdl2'
 
 module SDL2 # SDL_syswm.h
-          
+    
   module SysWM
+    ##
+    # "The custom event structure."
     class Msg < Struct
       
+      private
+      
+      ##
+      #
       class Win < Struct
         layout :hwnd, :pointer,
           :msg, :uint,
@@ -12,23 +18,33 @@ module SDL2 # SDL_syswm.h
           :lparam, :int32
       end      
       
-      
+      ##
+      #
       class X11 < Struct
         layout :dummy, :uint32 # TODO: FIXME: NOT YET SUPPORTED!
       end
       
+      ##
+      #
       class DirectFB < Struct
         layout :event, :uint32 # TODO: FIXME: NOT YET SUPPORTED!
       end
       
+      ##
+      #
       class Cocoa < Struct
-        layout :dummy, :long # SDL2 says 'No Cocoa window events yet'
+        layout :dummy, :long # TODO: REVIEW: SDL2 says 'No Cocoa window events yet'
       end
       
+      
+      ##
+      #
       class UIKit < Struct
-        layout :dummy, :long # SDL2 says 'No UIKit window events yet'
+        layout :dummy, :long # TODO: REVIEW: SDL2 says 'No UIKit window events yet'
       end
       
+      ##
+      #
       class MsgUnion < FFI::Union
         layout :win, Win,
           :x11, X11,
@@ -37,6 +53,8 @@ module SDL2 # SDL_syswm.h
           :uikit, UIKit,
           :dummy, :int
       end
+      
+      public 
       
       layout :version, Version,
         :subsystem, :int,

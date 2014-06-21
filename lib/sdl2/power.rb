@@ -15,6 +15,6 @@ module SDL2
   
   ##
 	#
-	api :SDL_GetPowerInfo, [IntStruct.by_ref, IntStruct.by_ref], :powerstate
+	api :SDL_GetPowerInfo, [TypedPointer::Int.by_ref, TypedPointer::Int.by_ref], :powerstate
 
 end

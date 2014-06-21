@@ -20,10 +20,8 @@ module SDL2
     # If possible, convert argument into a SDL::Color
     def self.cast(something)
       if something.kind_of? Array
-        something.map!(&:to_i)
         result = new
-        result.set(*something)
-
+        result.set(*(something.map(&:to_i)))
         return result
       else
         return super

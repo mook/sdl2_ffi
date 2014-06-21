@@ -23,19 +23,19 @@ module SDL2
     # Loads dynamic libraries and prepares them for use.  Flags should be
     # one or more flags from IMG_InitFlags OR'd together.
     # It returns the flags successfully initialized, or 0 on failure.
-    api :IMG_Init, [:init_flags], :int, {error: true, filter: TRUE_WHEN_NOT_ZERO}
+    api :IMG_Init, [:init_flags], :int, {error: true, filter: OK_WHEN_NOT_ZERO}
     ##
     #
     api :IMG_Quit, [], :void
     ##
     #
-    api :IMG_LoadTyped_RW, [RWops.by_ref, :int, :string], Surface.auto_ptr
+    api :IMG_LoadTyped_RW, [RWops.by_ref, :int, :string], Surface.ptr
     ##
     #
-    api :IMG_Load, [:string], Surface.auto_ptr, {error: true, filter: TRUE_WHEN_NOT_NULL }
+    api :IMG_Load, [:string], Surface.ptr, {error: true, filter: OK_WHEN_NOT_NULL }
     ##
     #
-    api :IMG_Load_RW, [RWops.by_ref, :int], Surface.auto_ptr
+    api :IMG_Load_RW, [RWops.by_ref, :int], Surface.ptr
 
     ##
     #
@@ -82,53 +82,53 @@ module SDL2
 
     ##
     #
-    api :IMG_LoadICO_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadICO_RW, [RWops.by_ref], Surface.ptr
     ##
     #
-    api :IMG_LoadCUR_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadCUR_RW, [RWops.by_ref], Surface.ptr
     ##
     #
-    api :IMG_LoadBMP_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadBMP_RW, [RWops.by_ref], Surface.ptr
     ##
     #
-    api :IMG_LoadGIF_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadGIF_RW, [RWops.by_ref], Surface.ptr
     ##
     #
-    api :IMG_LoadJPG_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadJPG_RW, [RWops.by_ref], Surface.ptr
     ##
     #
-    api :IMG_LoadLBM_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadLBM_RW, [RWops.by_ref], Surface.ptr
     ##
     #
-    api :IMG_LoadPCX_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadPCX_RW, [RWops.by_ref], Surface.ptr
     ##
     #
-    api :IMG_LoadPNG_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadPNG_RW, [RWops.by_ref], Surface.ptr
     ##
     #
-    api :IMG_LoadPNM_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadPNM_RW, [RWops.by_ref], Surface.ptr
     ##
     #
-    api :IMG_LoadTGA_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadTGA_RW, [RWops.by_ref], Surface.ptr
     ##
     #
-    api :IMG_LoadTIF_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadTIF_RW, [RWops.by_ref], Surface.ptr, method_name: :load_TIF_rw
     ##
     #
-    api :IMG_LoadXCF_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadXCF_RW, [RWops.by_ref], Surface.ptr, method_name: :load_XCF_rw
     ##
     #
-    api :IMG_LoadXPM_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadXPM_RW, [RWops.by_ref], Surface.ptr, method_name: :load_XPM_rw
     ##
     #
-    api :IMG_LoadXV_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadXV_RW, [RWops.by_ref], Surface.ptr, method_name: :load_XV_rw
     ##
     #
-    api :IMG_LoadWEBP_RW, [RWops.by_ref], Surface.auto_ptr
+    api :IMG_LoadWEBP_RW, [RWops.by_ref], Surface.ptr
 
     ##
     #
-    api :IMG_ReadXPMFromArray, [:pointer], Surface.auto_ptr
+    api :IMG_ReadXPMFromArray, [:pointer], Surface.ptr
 
     ##
     #

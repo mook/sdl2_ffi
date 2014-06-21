@@ -47,8 +47,8 @@ module SDL2
     # Convert enumerated pixel value format to bpp & RGBA mask values
     # TODO: Review why this is needed?  Why not just read the Struct fields?
     def self.to_masks(format)
-      p = Hash.new(){UInt32Struct.new}
-      p[:bpp] = IntStruct.new
+      p = Hash.new(){TypedPointer::UInt32.new}
+      p[:bpp] = TypedPointer::Int.new
       SDL2.pixel_format_enum_to_masks(format, p[:bpp], p[:Rmask], p[:Bmask],p[:Amask])
       result = []
       p.each_value{|s|result << s[:value]}
@@ -101,7 +101,7 @@ module SDL2
     
     # Get the RGB components (array) from a pixel value
     def get_rgb(pixel)
-      ptr = Hash.new(){UInt8Struct.new}
+      ptr = Hash.new(){TypedPointer::UInt8.new}
       SDL2.get_rgb(pixel, self, ptr[:r], ptr[:g], ptr[:b])
       result = []
       ptr.each_value{|s|result << s[:value]}
@@ -111,7 +111,7 @@ module SDL2
 
     # Get the RGBA components (array) from a pixel value
     def get_rgba(pixel)
-      ptr = Hash.new(){UInt8Struct.new}
+      ptr = Hash.new(){TypedPointer::UInt8.new}
       SDL2.get_rgba(pixel, self, ptr[:r], ptr[:g], ptr[:b], ptr[:a])
       result = []
       ptr.each_value{|s|result << s[:value]}
