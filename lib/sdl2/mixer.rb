@@ -30,7 +30,7 @@ module SDL2
       MP3         = 0x00000008
       OGG         = 0x00000010
       FLUIDSYNTH  = 0x00000020
-
+      ALL         = FLAC | MOD | MODPLUG | MP3 | OGG | FLUIDSYNTH
     end
     ##
     # This function gets the version of the dynamically linked SDL_mixer library.

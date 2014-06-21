@@ -24,10 +24,11 @@ module SDL2
 
     module INIT
       include EnumerableConstants
-      JPG = next_const_value
-      PNG = next_const_value
-      TIF = next_const_value
-      WEBP = next_const_value
+      JPG = 0x00000001
+      PNG = 0x00000002
+      TIF = 0x00000004
+      WEBP =0x00000008
+      ALL = JPG|PNG|TIF|WEBP
     end
     enum :init_flags, INIT.flatten_consts
 
