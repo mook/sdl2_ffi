@@ -101,20 +101,18 @@ module SDL2
     
     # Get the RGB components (array) from a pixel value
     def get_rgb(pixel)
-      ptr = Hash.new(){TypedPointer::UInt8.new}
-      SDL2.get_rgb(pixel, self, ptr[:r], ptr[:g], ptr[:b])
-      result = []
-      ptr.each_value{|s|result << s[:value]}
+      ptr = 3.times.map{TypedPointer::UInt8.new}
+      SDL2.get_rgb(pixel, self, *ptr)
+      result = ptr.map{|s|s[:value]}
       ptr.each(&:free)
       return result
     end
 
     # Get the RGBA components (array) from a pixel value
     def get_rgba(pixel)
-      ptr = Hash.new(){TypedPointer::UInt8.new}
-      SDL2.get_rgba(pixel, self, ptr[:r], ptr[:g], ptr[:b], ptr[:a])
-      result = []
-      ptr.each_value{|s|result << s[:value]}
+      ptr = 4.times.map{TypedPointer::UInt8.new}
+      SDL2.get_rgba(pixel, self, *ptr)
+      result = ptr.map{|s|s[:value]}
       ptr.each(&:free)
       return result
     end
